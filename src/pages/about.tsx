@@ -1,10 +1,9 @@
 import Head from 'next/head';
-import { Heading } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/react';
 
 import { Header } from '../components/Header';
 
-export default function Home() {
+export default function About() {
   alert(
     '⚠️ Página ainda em construção. Alguns recursos podem não estar disponíveis ou otimizados. ⚠️'
   );
