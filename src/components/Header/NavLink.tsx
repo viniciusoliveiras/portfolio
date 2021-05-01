@@ -3,7 +3,7 @@ import {
   Link as ChakraLink,
   LinkProps as ChakraLinkProps,
 } from '@chakra-ui/react';
-import { ActiveLink } from './ActiveLink';
+import { ActiveLink } from '../ActiveLink';
 
 interface NavLinkProps extends ChakraLinkProps {
   children: string;

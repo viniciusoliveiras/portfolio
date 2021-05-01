@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>viniciusoliveiras</title>
+        <title>Vinicius Rei Delas</title>
       </Head>
 
       <Header />
