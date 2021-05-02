@@ -10,6 +10,7 @@ import {
   useBreakpointValue,
   Flex,
   Box,
+  Heading,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 
@@ -25,8 +26,11 @@ export function Header() {
   if (isDrawerHeader) {
     return (
       <>
-        <Flex w='100%' justify='flex-end'>
-          <Box mr='4' mt='4'>
+        <Flex w='100%' justify='space-between' mt='4' align='center'>
+          <Heading color='red.400' mx='4'>
+            VO
+          </Heading>
+          <Box mr='4'>
             <button onClick={onOpen}>
               <HamburgerIcon fontSize='3xl' />
             </button>
@@ -47,5 +51,14 @@ export function Header() {
       </>
     );
   }
-  return <HeaderNav />;
+  return (
+    <>
+      <Flex w='100%' justify='space-between' align='center' mt='8'>
+        <Heading color='red.400' ml='14'>
+          VO
+        </Heading>
+        <HeaderNav />
+      </Flex>
+    </>
+  );
 }

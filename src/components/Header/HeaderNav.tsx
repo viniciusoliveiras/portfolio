@@ -14,7 +14,6 @@ export function HeaderNav() {
           as='header'
           w='100%'
           align='center'
-          mt='6'
           justify='flex-end'
           fontWeight='medium'
           fontSize={{ sm: 'lg', lg: 'xl' }}
