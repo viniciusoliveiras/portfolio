@@ -19,14 +19,12 @@ export default function About() {
 
       <Header />
 
-      <Skeleton height='20px' mx='auto' mt='10' w='90%' />
-      <Skeleton height='20px' mx='auto' mt='4' w='90%' />
-      <Skeleton height='20px' mx='auto' mt='4' w='90%' />
-      <Skeleton height='20px' mx='auto' mt='4' w='90%' />
-      <Skeleton height='20px' mx='auto' mt='4' w='90%' />
-      <Skeleton height='20px' mx='auto' mt='4' w='90%' />
-      <Skeleton height='20px' mx='auto' mt='4' w='90%' />
-      <Skeleton height='20px' mx='auto' mt='4' w='90%' />
+      <Skeleton height='4rem' mx='auto' mt='10' w='90%' />
+      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
+      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
+      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
+      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
+      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
     </>
   );
 }
