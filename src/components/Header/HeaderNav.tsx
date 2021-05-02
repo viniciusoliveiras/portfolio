@@ -4,7 +4,7 @@ import { NavLink } from './NavLink';
 
 export function HeaderNav() {
   const isWideVersion = useBreakpointValue({
-    base: false,
+    xs: false,
     lg: true,
   });
   return (
@@ -40,7 +40,7 @@ export function HeaderNav() {
           align='center'
           mt='6'
           fontWeight='medium'
-          fontSize={{ sm: 'lg', lg: 'xl' }}
+          fontSize='lg'
           flexDirection='column'
         >
           <NavLink href='/home' mt='10'>

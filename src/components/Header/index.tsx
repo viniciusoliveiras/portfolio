@@ -19,7 +19,8 @@ import { HeaderNav } from './HeaderNav';
 export function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isDrawerHeader = useBreakpointValue({
-    base: true,
+    xs: true,
+    md: true,
     lg: false,
   });
 

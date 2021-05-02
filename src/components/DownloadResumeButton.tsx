@@ -10,7 +10,6 @@ export function DownloadResumeButton() {
       w='min'
       h='3rem'
       color='white'
-      mt='12'
     >
       <Box
         as='button'
