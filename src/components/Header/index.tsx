@@ -20,6 +20,7 @@ export function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isDrawerHeader = useBreakpointValue({
     xs: true,
+    sm: true,
     md: true,
     lg: false,
   });

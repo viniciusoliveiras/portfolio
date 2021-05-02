@@ -5,6 +5,7 @@ import { DownloadResumeButton } from './DownloadResumeButton';
 export function AboutMe() {
   const isWideVersion = useBreakpointValue({
     xs: false,
+    sm: false,
     md: true,
   });
 
