@@ -7,13 +7,16 @@ import {
   Tooltip,
   Box,
   useBreakpointValue,
+  Link as ChakraLink,
 } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { format, formatDistanceToNowStrict } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 interface Repository {
   name: string;
   updated_at: string;
   description: string;
+  html_url: string;
 }
 
 interface RepoSliceProps {
@@ -37,7 +40,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
           bgColor='#EDF7FA'
           flexDirection='column'
         >
-          <Flex justify='space-between' align='center' flex='1' mt='4'>
+          <Flex justify='space-between' align='center' flex='1' mt='6'>
             <Text fontSize='xl'>Projetos recentes</Text>
             <Link href='/projects'>
               <Text color='cyan.500'>Ver todos</Text>
@@ -48,11 +51,12 @@ export function RecentProjects({ repos }: RepoSliceProps) {
             {repos.map((repo) => {
               return (
                 <Flex
-                  bgColor='white'
-                  flexDirection='column'
+                  h='100%'
                   p='6'
-                  key={repo.name}
+                  flexDirection='column'
                   justify='center'
+                  bgColor='white'
+                  key={repo.name}
                 >
                   <Text fontSize='2xl' fontWeight='bold'>
                     {repo.name}
@@ -74,10 +78,17 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                         atrás
                       </Text>
                     </Tooltip>
-                    <Text></Text>
                   </Flex>
 
-                  <Text fontSize='lg'>{repo.description}</Text>
+                  <Text fontSize='lg' h={{ md: '48', lg: '36', xl: '28' }}>
+                    {repo.description}
+                  </Text>
+
+                  <ChakraLink href={repo.html_url} isExternal mt='8'>
+                    <Text color='red.400'>
+                      Acessar <ExternalLinkIcon mx='2px' />
+                    </Text>
+                  </ChakraLink>
                 </Flex>
               );
             })}
@@ -128,6 +139,12 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                   </Flex>
 
                   <Text fontSize='md'>{repo.description}</Text>
+
+                  <ChakraLink href={repo.html_url} isExternal mt='8'>
+                    <Text color='red.400'>
+                      Acessar <ExternalLinkIcon mx='2px' />
+                    </Text>
+                  </ChakraLink>
                 </Flex>
               );
             })}

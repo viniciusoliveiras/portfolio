@@ -9,6 +9,7 @@ interface Repository {
   name: string;
   updated_at: string;
   description: string;
+  html_url: string;
 }
 
 interface HomeProps {

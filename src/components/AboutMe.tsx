@@ -27,7 +27,7 @@ export function AboutMe() {
           align='center'
           justify='center'
         >
-          <Flex flexDirection='column' align='left'>
+          <Flex flexDirection='column' align='left' justify='center'>
             <Text
               fontSize={{ md: '3xl', lg: '4xl', xl: '5xl' }}
               fontWeight='bold'
@@ -49,7 +49,7 @@ export function AboutMe() {
             </Text>
             <DownloadResumeButton />
           </Flex>
-          <Flex flexDirection='column' align='center'>
+          <Flex flexDirection='column' align='center' justify='center'>
             <Image
               src='https://avatars.githubusercontent.com/u/64497059?v=4'
               borderRadius='full'
