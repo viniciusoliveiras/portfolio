@@ -7,48 +7,33 @@ export default function Custom404() {
     <>
       <Header />
       <Flex
-        align='center'
-        justify='center'
-        mt={{ xs: '4', md: '10', lg: '12' }}
+        flex='1'
+        h='80vh'
         flexDirection='column'
-        p={{ md: '0', lg: '6' }}
+        align='center'
+        justify='space-evenly'
+        mt={{ xs: '4', md: '10', lg: '12' }}
+        p='8'
       >
-        <Heading fontSize={{ xs: '7xl', md: '8xl' }} textAlign='center'>
-          😳
-        </Heading>
+        <Box>
+          <Heading fontSize={{ xs: '7xl', md: '8xl' }} textAlign='center'>
+            😳
+          </Heading>
 
-        <Heading
-          fontSize={{ xs: '5xl', md: '7xl' }}
-          mt={{ xs: '2', md: '4', lg: '6' }}
-          textAlign='center'
-        >
-          Whoops!
-        </Heading>
+          <Heading fontSize={{ xs: '5xl', md: '7xl' }} textAlign='center'>
+            Whoops!
+          </Heading>
 
-        <Text
-          fontSize={{ xs: '2xl', md: '3xl' }}
-          mt={{ xs: '6', md: '10', lg: '12' }}
-          textAlign='center'
-        >
-          404 | Página não encontrada
-        </Text>
+          <Text mt='8' fontSize={{ xs: '2xl', md: '3xl' }} textAlign='center'>
+            404 | Página não encontrada
+          </Text>
+        </Box>
 
-        <Text
-          fontSize={{ xs: 'xl', md: '2xl' }}
-          mt={{ xs: '6', md: '6', lg: '12' }}
-          textAlign='center'
-        >
+        <Text fontSize={{ xs: 'xl', md: '2xl' }} textAlign='center'>
           Parece que esta página é tímida e não quer aparecer no portfólio
         </Text>
 
-        <Link
-          href='/home'
-          textDecoration='none'
-          w='min'
-          h='3rem'
-          color='white'
-          mt={{ xs: '10', md: '10', lg: '20' }}
-        >
+        <Link href='/home' textDecoration='none' w='min' h='3rem' color='white'>
           <Box
             as='button'
             bgColor='red.400'
