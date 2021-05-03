@@ -1,9 +1,26 @@
 import Link from 'next/link';
 import { Flex, Text, Grid } from '@chakra-ui/react';
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+interface Repository {
+  name: string;
+  updated_at: string;
+  description: string;
+}
 
-export function RecentProjects() {
+interface RepoSliceProps {
+  repos: Repository[];
+}
+
+export function RecentProjects({ repos }: RepoSliceProps) {
   return (
-    <Flex mt='24' px='36' flex='1' bgColor='#EDF7FA' flexDirection='column' >
+    <Flex
+      mt='24'
+      px={{ md: '16', lg: '36' }}
+      flex='1'
+      bgColor='#EDF7FA'
+      flexDirection='column'
+    >
       <Flex justify='space-between' flex='1' mt='4'>
         <Text fontSize='xl'>Recent projects</Text>
         <Link href='/projects'>
@@ -12,34 +29,39 @@ export function RecentProjects() {
       </Flex>
 
       <Grid templateColumns='repeat(2, 1fr)' mt='4' gap={5} mb='6'>
-        <Flex bgColor='white' flexDirection='column' p='6'>
-          <Text fontSize='2xl' fontWeight='bold'>
-            portfolio
-          </Text>
+        {repos.map((repo) => {
+          return (
+            <Flex
+              bgColor='white'
+              flexDirection='column'
+              p='6'
+              key={repo.name}
+              justify='center'
+            >
+              <Text fontSize='2xl' fontWeight='bold'>
+                {repo.name}
+              </Text>
 
-          <Flex my='4' flexDirection='column'>
-            <Text as='i'>Last update</Text>
-            <Text as='i'>2 de mai. de 2021 - 14:24 BRT</Text>
-          </Flex>
+              <Flex my='6' flexDirection='column' fontSize='md'>
+                <Text as='i'>
+                  Última atualização há {''}
+                  {formatDistanceToNow(new Date(repo.updated_at), {
+                    locale: ptBR,
+                  })}{' '}
+                  atrás
+                </Text>
+                <Text as='i'>
+                  {format(new Date(repo.updated_at), 'PP - H:m', {
+                    locale: ptBR,
+                  })}{' '}
+                  BRL
+                </Text>
+              </Flex>
 
-          <Text>Personal website builded with React.js</Text>
-        </Flex>
-
-        <Flex bgColor='white' flexDirection='column' p='6'>
-          <Text fontSize='2xl' fontWeight='bold'>
-            uni-TI
-          </Text>
-
-          <Flex my='4' flexDirection='column'>
-            <Text as='i'>Last update</Text>
-            <Text as='i'>30 de abr. de 2021 - 21:18 BRT</Text>
-          </Flex>
-
-          <Text>
-            Repositório para armazenamento e colaboração de atividades dos
-            cursos de TI da Unicarioca.
-          </Text>
-        </Flex>
+              <Text fontSize='lg'>{repo.description}</Text>
+            </Flex>
+          );
+        })}
       </Grid>
     </Flex>
   );
