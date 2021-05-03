@@ -4,7 +4,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Vinicius Rei Delas</title>
+        <title>VO - Portfolio</title>
       </Head>
     </>
   );

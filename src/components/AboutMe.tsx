@@ -14,7 +14,7 @@ export function AboutMe() {
       {isWideVersion && (
         <Grid
           templateColumns='repeat(2, 1fr)'
-          mt={{ md: '20', lg: '28', xl: '36' }}
+          mt={{ md: '24', lg: '32', xl: '36' }}
           mx={{ md: '16', lg: '24', xl: '32' }}
           gap={16}
           align='center'

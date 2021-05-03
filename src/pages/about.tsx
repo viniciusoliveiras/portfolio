@@ -14,7 +14,7 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>Vinicius Rei Delas</title>
+        <title>VO - Portfolio</title>
       </Head>
 
       <Header />
