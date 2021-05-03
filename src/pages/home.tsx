@@ -25,7 +25,7 @@ export default function Home({ repos }: HomeProps) {
   return (
     <>
       <Head>
-        <title>VO - Portfolio</title>
+        <title>VO - Portfólio</title>
       </Head>
 
       <Header />

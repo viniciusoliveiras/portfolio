@@ -86,7 +86,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
       )}
 
       {!isWideVersion && (
-        <Flex mt='16' px='10' flex='1' bgColor='#EDF7FA' flexDirection='column'>
+        <Flex mt='10' px='10' flex='1' bgColor='#EDF7FA' flexDirection='column'>
           <Flex justify='space-between' align='center' flex='1' mt='4'>
             <Text fontSize='xl'>Projetos recentes</Text>
             <Link href='/projects'>

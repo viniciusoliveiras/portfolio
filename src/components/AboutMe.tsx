@@ -1,4 +1,11 @@
-import { Flex, Grid, Image, Text, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Grid,
+  Image,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import React from 'react';
 import { DownloadResumeButton } from './DownloadResumeButton';
 
@@ -53,30 +60,26 @@ export function AboutMe() {
       )}
 
       {!isWideVersion && (
-        <Grid mt='10' mx='12' gap={16} align='center' justify='center'>
-          <Flex flexDirection='column' align='center'>
-            <Image
-              src='https://avatars.githubusercontent.com/u/64497059?v=4'
-              borderRadius='full'
-              boxSize={{ xs: '200', sm: '250' }}
-            />
-          </Flex>
-          <Flex flexDirection='column' align='center'>
-            <Text
-              fontSize={{ xs: '2xl', sm: '3xl' }}
-              fontWeight='bold'
-              w='100%'
-            >
-              Hi, I am Vinícius, <br />
-              IT Student
+        <Grid mt='8' px='2' gap={16} align='center' justify='space-around'>
+          <Image
+            src='https://avatars.githubusercontent.com/u/64497059?v=4'
+            borderRadius='full'
+            boxSize={{ xs: '200', sm: '250' }}
+          />
+          <Box>
+            <Text fontSize='3xl' fontWeight='bold' w='100%'>
+              Olá, eu sou Vinícius, <br />
+              Estudante de TI
             </Text>
-            <Text fontSize={{ xs: 'sm', sm: 'md' }} mt='6' mb='10'>
+            <Text fontSize='lg' mt='6'>
               Amet minim mollit non deserunt ullamco est sit aliqua dolor do
               amet sint. Velit officia consequat duis enim velit mollit.
               Exercitation veniam consequat sunt nostrud amet.
             </Text>
+          </Box>
+          <Box>
             <DownloadResumeButton />
-          </Flex>
+          </Box>
         </Grid>
       )}
     </>
