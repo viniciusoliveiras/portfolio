@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import { NavLink } from './NavLink';
-import { FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaInstagram, FaLinkedin, FaRocket } from 'react-icons/fa';
 import { Link } from '@chakra-ui/react';
 
 export function HeaderNav() {
@@ -73,6 +73,13 @@ export function HeaderNav() {
 
             <Link href='https://www.instagram.com/svini.oliveira/' isExternal>
               <FaInstagram fontSize='1.5rem' />
+            </Link>
+
+            <Link
+              href='https://app.rocketseat.com.br/me/viniciusoliveiras'
+              isExternal
+            >
+              <FaRocket fontSize='1.5rem' />
             </Link>
           </Flex>
         </Flex>
