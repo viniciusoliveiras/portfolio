@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 
 import { api } from '../services/api';
@@ -22,10 +21,6 @@ interface HomeProps {
 export default function Home({ repos, userBio }: HomeProps) {
   return (
     <>
-      <Head>
-        <title>VO - Portfólio</title>
-      </Head>
-
       <WarningAlertDialog />
 
       <Header />

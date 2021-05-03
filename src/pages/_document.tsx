@@ -15,6 +15,43 @@ export default class MyDocument extends Document {
             href='images/favicon.svg'
             type='image/svg'
           />
+
+          {/* Primary Meta Tags  */}
+          <title>Vinícius Oliveira - Portfólio</title>
+          <meta name='title' content='Vinícius Oliveira - Portfólio' />
+          <meta
+            name='description'
+            content='Portfólio pessoal construído com React.js'
+          />
+
+          {/* Open Graph / Facebook */}
+          <meta property='og:type' content='website' />
+          <meta
+            property='og:url'
+            content='https://portfolio-viniciusoliveiras.vercel.app/'
+          />
+          <meta property='og:title' content='Vinícius Oliveira - Portfólio' />
+          <meta
+            property='og:description'
+            content='Portfólio pessoal construído com React.js'
+          />
+          <meta property='og:image' content='/images/banner-tags.jpg' />
+
+          {/* Twitter  */}
+          <meta property='twitter:card' content='summary_large_image' />
+          <meta
+            property='twitter:url'
+            content='https://portfolio-viniciusoliveiras.vercel.app/'
+          />
+          <meta
+            property='twitter:title'
+            content='Vinícius Oliveira - Portfólio'
+          />
+          <meta
+            property='twitter:description'
+            content='Portfólio pessoal construído com React.js'
+          />
+          <meta property='twitter:image' content='/images/banner-tags.jpg' />
         </Head>
         <body>
           <Main />
