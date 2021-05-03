@@ -21,7 +21,7 @@ export function DownloadResumeButton() {
         borderRadius='4'
         _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
       >
-        Download Resume
+        Baixar Currículo
       </Box>
     </Link>
   );

@@ -27,8 +27,8 @@ export function AboutMe() {
               textAlign='left'
               w='100%'
             >
-              Hi, I am Vinícius, <br />
-              IT Student
+              Olá, eu sou Vinícius, <br />
+              Estudante de TI
             </Text>
             <Text
               textAlign='justify'

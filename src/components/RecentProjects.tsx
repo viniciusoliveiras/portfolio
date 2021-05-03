@@ -22,9 +22,9 @@ export function RecentProjects({ repos }: RepoSliceProps) {
       flexDirection='column'
     >
       <Flex justify='space-between' flex='1' mt='4'>
-        <Text fontSize='xl'>Recent projects</Text>
+        <Text fontSize='xl'>Projetos recentes</Text>
         <Link href='/projects'>
-          <Text color='cyan.500'>View all</Text>
+          <Text color='cyan.500'>Ver todos</Text>
         </Link>
       </Flex>
 
