@@ -35,7 +35,7 @@ export default class MyDocument extends Document {
             property='og:description'
             content='Portfólio pessoal construído com React.js'
           />
-          <meta property='og:image' content='/images/banner-tags.jpg' />
+          <meta property='og:image' content='https://i.imgur.com/oSNgyWg.jpg' />
 
           {/* Twitter  */}
           <meta property='twitter:card' content='summary_large_image' />
@@ -51,7 +51,10 @@ export default class MyDocument extends Document {
             property='twitter:description'
             content='Portfólio pessoal construído com React.js'
           />
-          <meta property='twitter:image' content='/images/banner-tags.jpg' />
+          <meta
+            property='twitter:image'
+            content='https://i.imgur.com/oSNgyWg.jpg'
+          />
         </Head>
         <body>
           <Main />
