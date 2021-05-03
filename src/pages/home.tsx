@@ -2,13 +2,14 @@ import Head from 'next/head';
 import { useEffect } from 'react';
 import { AboutMe } from '../components/AboutMe';
 import { Header } from '../components/Header';
+import { RecentProjects } from '../components/RecentProjects';
 
 export default function Home() {
-  useEffect(() => {
-    alert(
-      '⚠️ Página ainda em construção. Alguns recursos podem não estar disponíveis ou otimizados. ⚠️'
-    );
-  }, []);
+  // useEffect(() => {
+  //   alert(
+  //     '⚠️ Página ainda em construção. Alguns recursos podem não estar disponíveis ou otimizados. ⚠️'
+  //   );
+  // }, []);
 
   return (
     <>
@@ -19,6 +20,8 @@ export default function Home() {
       <Header />
 
       <AboutMe />
+
+      <RecentProjects />
     </>
   );
 }
