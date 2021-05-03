@@ -1,6 +1,7 @@
+import React from 'react';
 import Link from 'next/link';
-import { Flex, Text, Grid } from '@chakra-ui/react';
-import { format, formatDistanceToNow } from 'date-fns';
+import { Flex, Text, Grid, Tooltip, Box } from '@chakra-ui/react';
+import { format, formatDistanceToNowStrict } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 interface Repository {
   name: string;
@@ -43,19 +44,22 @@ export function RecentProjects({ repos }: RepoSliceProps) {
               </Text>
 
               <Flex my='6' flexDirection='column' fontSize='md'>
-                <Text as='i'>
-                  Última atualização há {''}
-                  {formatDistanceToNow(new Date(repo.updated_at), {
+                <Tooltip
+                  label={`${format(new Date(repo.updated_at), 'PP HH:mm', {
                     locale: ptBR,
-                  })}{' '}
-                  atrás
-                </Text>
-                <Text as='i'>
-                  {format(new Date(repo.updated_at), 'PP - H:m', {
-                    locale: ptBR,
-                  })}{' '}
-                  BRL
-                </Text>
+                  })} BRL`}
+                  aria-label='A tooltip'
+                  placement='bottom'
+                >
+                  <Text>
+                    Atualizado há {''}
+                    {formatDistanceToNowStrict(new Date(repo.updated_at), {
+                      locale: ptBR,
+                    })}{' '}
+                    atrás
+                  </Text>
+                </Tooltip>
+                <Text></Text>
               </Flex>
 
               <Text fontSize='lg'>{repo.description}</Text>
