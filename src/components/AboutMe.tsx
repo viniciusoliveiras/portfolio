@@ -9,7 +9,11 @@ import {
 import React from 'react';
 import { DownloadResumeButton } from './DownloadResumeButton';
 
-export function AboutMe() {
+interface AboutMeProps {
+  bio: string;
+}
+
+export function AboutMe({ bio }: AboutMeProps) {
   const isWideVersion = useBreakpointValue({
     xs: false,
     sm: false,
@@ -38,14 +42,12 @@ export function AboutMe() {
               Estudante de TI
             </Text>
             <Text
-              textAlign='justify'
+              textAlign='left'
               fontSize={{ md: 'sm', lg: 'md', xl: 'md' }}
               mt='10'
               mb='12'
             >
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
-              Exercitation veniam consequat sunt nostrud amet.
+              {bio}
             </Text>
             <DownloadResumeButton />
           </Flex>
@@ -72,9 +74,7 @@ export function AboutMe() {
               Estudante de TI
             </Text>
             <Text fontSize='lg' mt='6'>
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
-              Exercitation veniam consequat sunt nostrud amet.
+              {bio}
             </Text>
           </Box>
           <Box>

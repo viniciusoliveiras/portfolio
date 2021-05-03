@@ -16,20 +16,21 @@ interface Repository {
 
 interface HomeProps {
   repos: Repository[];
+  userBio: string;
 }
 
-export default function Home({ repos }: HomeProps) {
+export default function Home({ repos, userBio }: HomeProps) {
   return (
     <>
       <Head>
         <title>VO - Portfólio</title>
       </Head>
-      
+
       <WarningAlertDialog />
 
       <Header />
 
-      <AboutMe />
+      <AboutMe bio={userBio} />
 
       <RecentProjects repos={repos} />
     </>
@@ -43,7 +44,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const repos = data.slice(0, 2);
 
+  const userResponse = await api.get('viniciusoliveiras');
+
+  const userBio = userResponse.data.bio;
+
   return {
-    props: { repos },
+    props: { repos, userBio },
   };
 };
