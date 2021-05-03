@@ -3,19 +3,16 @@ import { useEffect } from 'react';
 import { Skeleton } from '@chakra-ui/react';
 
 import { Header } from '../components/Header';
+import { WarningAlertDialog } from '../components/WarningAlertDialog';
 
 export default function About() {
-  useEffect(() => {
-    alert(
-      '⚠️ Página ainda em construção. Alguns recursos podem não estar disponíveis ou otimizados. ⚠️'
-    );
-  }, []);
-
   return (
     <>
       <Head>
         <title>VO - Portfolio</title>
       </Head>
+
+      <WarningAlertDialog />
 
       <Header />
 
