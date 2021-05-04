@@ -67,9 +67,6 @@ export function AboutMe({ bio }: AboutMeProps) {
               Olá, eu sou Vinícius, <br />
               <Typer />
             </Text>
-            <Text fontSize='lg' mt='6'>
-              {bio}
-            </Text>
           </Box>
           <Box>
             <DownloadResumeButton />

@@ -41,13 +41,13 @@ export function RecentProjects({ repos }: RepoSliceProps) {
           flexDirection='column'
         >
           <Flex justify='space-between' align='center' flex='1' mt='6'>
-            <Text fontSize='xl'>Projetos recentes</Text>
+            <Text fontSize='2xl'>Projetos recentes</Text>
             <Link href='/projects'>
               <Text color='cyan.500'>Ver todos</Text>
             </Link>
           </Flex>
 
-          <Grid templateColumns='repeat(2, 1fr)' mt='4' gap={5} mb='6'>
+          <Grid templateColumns='repeat(2, 1fr)' mt='8' gap={5} mb='6'>
             {repos.map((repo) => {
               return (
                 <Flex
