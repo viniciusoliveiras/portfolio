@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  Heading,
-  Image,
-  Text,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Flex, Grid, Image, Text, useBreakpointValue } from '@chakra-ui/react';
 
 export function AboutMe2() {
   const isWideVersion = useBreakpointValue({

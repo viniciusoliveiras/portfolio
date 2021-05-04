@@ -5,7 +5,6 @@ import {
   Text,
   Grid,
   Tooltip,
-  Box,
   useBreakpointValue,
   Link as ChakraLink,
 } from '@chakra-ui/react';

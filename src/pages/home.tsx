@@ -1,13 +1,13 @@
+import React from 'react';
 import { GetServerSideProps } from 'next';
 
 import { api } from '../services/api';
 
 import { AboutMe } from '../components/AboutMe';
+import { AboutMe2 } from '../components/AboutMe2';
 import { Header } from '../components/Header';
 import { RecentProjects } from '../components/RecentProjects';
 import { WarningAlertDialog } from '../components/WarningAlertDialog';
-import React from 'react';
-import { AboutMe2 } from '../components/AboutMe2';
 interface Repository {
   name: string;
   updated_at: string;
