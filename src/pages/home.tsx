@@ -7,7 +7,7 @@ import { Header } from '../components/Header';
 import { RecentProjects } from '../components/RecentProjects';
 import { WarningAlertDialog } from '../components/WarningAlertDialog';
 import React from 'react';
-import { About2 } from '../components/About2';
+import { AboutMe2 } from '../components/AboutMe2';
 interface Repository {
   name: string;
   updated_at: string;
@@ -31,7 +31,7 @@ export default function Home({ repos, userBio }: HomeProps) {
 
       <RecentProjects repos={repos} />
 
-      <About2 />
+      <AboutMe2 />
     </>
   );
 }

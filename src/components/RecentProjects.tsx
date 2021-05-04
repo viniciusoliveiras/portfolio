@@ -105,7 +105,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
             </Link>
           </Flex>
 
-          <Grid templateColumns='repeat(1, 1fr)' mt='4' gap={5} mb='6'>
+          <Grid templateColumns='repeat(1, 1fr)' mt='10' gap={5} mb='6'>
             {repos.map((repo) => {
               return (
                 <Flex
