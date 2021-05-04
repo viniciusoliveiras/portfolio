@@ -1,4 +1,5 @@
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import { theme } from '../styles/theme';
@@ -6,9 +7,14 @@ import '../styles/about2.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <>
+      <Head>
+        <title>Vinícius Oliveira - Portfólio</title>
+      </Head>
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </>
   );
 }
 

@@ -17,7 +17,6 @@ export default class MyDocument extends Document {
           />
 
           {/* Primary Meta Tags  */}
-          <title>Vinícius Oliveira - Portfólio</title>
           <meta name='title' content='Vinícius Oliveira - Portfólio' />
           <meta
             name='description'
