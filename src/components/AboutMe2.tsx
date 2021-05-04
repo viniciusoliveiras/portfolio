@@ -72,8 +72,9 @@ export function AboutMe2() {
           flex='1'
           flexDirection='column'
           justify='space-around'
+          align='center'
         >
-          <Text fontSize='2xl'>Um pouco sobre mim</Text>
+          <Text fontSize='xl'>Um pouco sobre mim</Text>
           <Grid
             templateColumns='repeat(1, 1fr)'
             mt='10'
@@ -85,7 +86,7 @@ export function AboutMe2() {
               flexDirection='column'
               justify='space-evenly'
               textAlign='left'
-              fontSize='xl'
+              fontSize='lg'
             >
               <Text>
                 Desde criança sempre gostei muito de computadores e entrei no

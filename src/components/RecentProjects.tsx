@@ -97,14 +97,11 @@ export function RecentProjects({ repos }: RepoSliceProps) {
 
       {!isWideVersion && (
         <Flex mt='10' px='10' flex='1' bgColor='#EDF7FA' flexDirection='column'>
-          <Flex justify='space-between' align='center' flex='1' mt='4'>
+          <Flex justify='center' align='center' flex='1' mt='4'>
             <Text fontSize='xl'>Projetos recentes</Text>
-            <Link href='/projects'>
-              <Text color='cyan.500'>Ver todos</Text>
-            </Link>
           </Flex>
 
-          <Grid templateColumns='repeat(1, 1fr)' mt='10' gap={5} mb='6'>
+          <Grid templateColumns='repeat(1, 1fr)' mt='6' gap={5} mb='6'>
             {repos.map((repo) => {
               return (
                 <Flex
@@ -148,6 +145,11 @@ export function RecentProjects({ repos }: RepoSliceProps) {
               );
             })}
           </Grid>
+          <Flex justify='center' align='center' flex='1' mb='4'>
+            <Link href='/projects'>
+              <Text color='cyan.500'>Ver todos</Text>
+            </Link>
+          </Flex>
         </Flex>
       )}
     </>

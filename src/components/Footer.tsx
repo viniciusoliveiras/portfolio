@@ -19,7 +19,7 @@ export function Footer() {
 
   return (
     <Flex flexDirection='column' align='center' px='8'>
-      <Flex mt='24' justify='space-between' w='60'>
+      <Flex mt='16' justify='space-between' w='60'>
         <Link href='https://github.com/viniciusoliveiras' isExternal>
           <Icon as={FaGithub} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
