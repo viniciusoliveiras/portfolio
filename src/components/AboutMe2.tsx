@@ -1,4 +1,5 @@
 import { Flex, Grid, Image, Text, useBreakpointValue } from '@chakra-ui/react';
+import Tilt from 'react-parallax-tilt';
 
 export function AboutMe2() {
   const isWideVersion = useBreakpointValue({
@@ -58,7 +59,9 @@ export function AboutMe2() {
             </Flex>
 
             <Flex align='center' justify='center'>
-              <Image src='images/avatar.svg' boxSize='350' />
+              <Tilt>
+                <Image src='images/avatar.svg' boxSize='350' />
+              </Tilt>
             </Flex>
           </Grid>
         </Flex>
@@ -113,7 +116,9 @@ export function AboutMe2() {
             </Flex>
 
             <Flex align='center' justify='center'>
-              <Image src='images/avatar.svg' boxSize='250' />
+              <Tilt gyroscope={true}>
+                <Image src='images/avatar.svg' boxSize='250' />
+              </Tilt>
             </Flex>
           </Grid>
         </Flex>
