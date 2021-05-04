@@ -8,6 +8,7 @@ import { AboutMe2 } from '../components/AboutMe2';
 import { Header } from '../components/Header';
 import { RecentProjects } from '../components/RecentProjects';
 import { WarningAlertDialog } from '../components/WarningAlertDialog';
+import { Footer } from '../components/Footer';
 interface Repository {
   name: string;
   updated_at: string;
@@ -32,6 +33,8 @@ export default function Home({ repos, userBio }: HomeProps) {
       <RecentProjects repos={repos} />
 
       <AboutMe2 />
+
+      <Footer />
     </>
   );
 }
