@@ -24,8 +24,6 @@ interface HomeProps {
 export default function Home({ repos, userBio }: HomeProps) {
   return (
     <>
-      <WarningAlertDialog />
-
       <Header />
 
       <AboutMe bio={userBio} />
