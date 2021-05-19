@@ -36,19 +36,19 @@ export function HeaderNav() {
       )}
 
       {!isWideVersion && (
-        <Flex flexDirection='column'>
+        <Flex
+          flexDirection='column'
+          justify='space-around'
+          height='75vh'
+        >
           <Flex
-            as='header'
             w='100%'
             align='center'
-            mt='6'
             fontWeight='medium'
             fontSize='lg'
             flexDirection='column'
           >
-            <NavLink href='/home' mt='10'>
-              Início
-            </NavLink>
+            <NavLink href='/home'>Início</NavLink>
             <NavLink href='/about' mt='10'>
               Sobre
             </NavLink>
@@ -59,7 +59,7 @@ export function HeaderNav() {
               Currículo
             </NavLink>
           </Flex>
-          <Flex mt='32' justify='space-evenly'>
+          <Flex justify='space-evenly'>
             <Link href='https://github.com/viniciusoliveiras' isExternal>
               <FaGithub fontSize='1.5rem' />
             </Link>
