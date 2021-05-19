@@ -3,23 +3,26 @@ import {
   Link as ChakraLink,
   LinkProps as ChakraLinkProps,
 } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 import { ActiveLink } from '../ActiveLink';
 
 interface NavLinkProps extends ChakraLinkProps {
-  children: string;
+  children?: ReactNode;
+  title: string;
   href: string;
 }
 
-export function NavLink({ children, href, ...rest }: NavLinkProps) {
+export function NavLink({ children, title, href, ...rest }: NavLinkProps) {
   return (
     <ActiveLink href={href} passHref>
       <ChakraLink
         display='flex'
-        align='center'
-        {...rest}
+        alignItems='center'
         justifyContent='center'
+        {...rest}
       >
-        <Text textAlign='center'>{children}</Text>
+        {children}
+        <Text ml='2'>{title}</Text>
       </ChakraLink>
     </ActiveLink>
   );

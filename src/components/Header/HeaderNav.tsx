@@ -1,8 +1,13 @@
 import React from 'react';
-import { Flex, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, useBreakpointValue, Link } from '@chakra-ui/react';
 import { NavLink } from './NavLink';
-import { FaGithub, FaInstagram, FaLinkedin, FaRocket } from 'react-icons/fa';
-import { Link } from '@chakra-ui/react';
+import { FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import {
+  RiHome2Line,
+  RiInformationLine,
+  RiCodeSSlashLine,
+  RiFile2Line,
+} from 'react-icons/ri';
 
 export function HeaderNav() {
   const isWideVersion = useBreakpointValue({
@@ -20,27 +25,23 @@ export function HeaderNav() {
           fontWeight='medium'
           fontSize={{ sm: 'lg', lg: 'xl' }}
         >
-          <NavLink href='/home' mr='8'>
-            Início
+          <NavLink href='/home' mr='8' title='Início'>
+            <RiHome2Line />
           </NavLink>
-          <NavLink href='/about' mr='8'>
-            Sobre
+          <NavLink href='/about' mr='8' title='Sobre'>
+            <RiInformationLine />
           </NavLink>
-          <NavLink href='/projects' mr='8'>
-            Projetos
+          <NavLink href='/projects' mr='8' title='Projetos'>
+            <RiCodeSSlashLine />
           </NavLink>
-          <NavLink href='/resume' mr='14'>
-            Currículo
+          <NavLink href='/resume' mr='14' title='Currículo'>
+            <RiFile2Line />
           </NavLink>
         </Flex>
       )}
 
       {!isWideVersion && (
-        <Flex
-          flexDirection='column'
-          justify='space-around'
-          height='75vh'
-        >
+        <Flex flexDirection='column' justify='space-around' height='75vh'>
           <Flex
             w='100%'
             align='center'
@@ -48,15 +49,17 @@ export function HeaderNav() {
             fontSize='lg'
             flexDirection='column'
           >
-            <NavLink href='/home'>Início</NavLink>
-            <NavLink href='/about' mt='10'>
-              Sobre
+            <NavLink href='/home' title='Início'>
+              <RiHome2Line />
             </NavLink>
-            <NavLink href='/projects' mt='10'>
-              Projetos
+            <NavLink href='/about' mt='10' title='Sobre'>
+              <RiInformationLine />
             </NavLink>
-            <NavLink href='/resume' mt='10'>
-              Currículo
+            <NavLink href='/projects' mt='10' title='Projetos'>
+              <RiCodeSSlashLine />
+            </NavLink>
+            <NavLink href='/resume' mt='10' title='Currículo'>
+              <RiFile2Line />
             </NavLink>
           </Flex>
           <Flex justify='space-evenly'>
