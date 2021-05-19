@@ -50,7 +50,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
             {repos.map((repo) => {
               return (
                 <Flex
-                  h='100%'
+                  // h='100%'
                   p='6'
                   flexDirection='column'
                   justify='center'
