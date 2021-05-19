@@ -1,5 +1,4 @@
 import { Flex, Grid, Image, Text, useBreakpointValue } from '@chakra-ui/react';
-import Tilt from 'react-parallax-tilt';
 
 export function AboutMe2() {
   const isWideVersion = useBreakpointValue({
@@ -20,50 +19,19 @@ export function AboutMe2() {
           justify='space-around'
         >
           <Text fontSize='2xl'>Um pouco sobre mim</Text>
-          <Grid
-            templateColumns='repeat(2, 1fr)'
-            mt='4'
-            gap={10}
-            align='center'
-            justify='center'
-            h={{ md: '85vh', lg: '65vh', xl: '50vh' }}
-          >
-            <Flex
-              flexDirection='column'
-              justify='space-evenly'
-              textAlign='left'
-              fontSize='xl'
-            >
-              <Text>
-                Desde criança sempre gostei muito de computadores e entrei no
-                universo da programação na faculdade
-              </Text>
 
-              <Text>
-                Utilizo bastante{' '}
-                <span className='highlightText'>HTML5, CSS3 e JavaScript</span>{' '}
-                nos projetos de estudo que faço
-              </Text>
+          <Flex mt='6' fontSize='xl' justify='space-between' w='80vw'>
+            <Text>
+              Desde criança sempre gostei muito de computadores e entrei no
+              universo da programação na faculdade
+            </Text>
 
-              <Text>
-                Meu foco atual é o{' '}
-                <span className='highlightText'>React.js</span> integrado com o{' '}
-                <span className='highlightText'>Next.js</span>
-              </Text>
-
-              <Text>
-                Sempre que possível, aplico tudo o que aprendo nos desafios do
-                curso e em alguns projetos, como{' '}
-                <span className='highlightText'>esse site,</span> por exemplo
-              </Text>
-            </Flex>
-
-            <Flex align='center' justify='center'>
-              <Tilt>
-                <Image src='images/avatar.svg' boxSize='350' />
-              </Tilt>
-            </Flex>
-          </Grid>
+            <Text>
+              Sempre que possível, aplico tudo o que aprendo nos desafios do
+              curso e em alguns projetos, como{' '}
+              <span className='highlightText'>esse site,</span> por exemplo
+            </Text>
+          </Flex>
         </Flex>
       )}
 
@@ -97,28 +65,10 @@ export function AboutMe2() {
               </Text>
 
               <Text mt='8'>
-                Utilizo bastante{' '}
-                <span className='highlightText'>HTML5, CSS3 e JavaScript</span>{' '}
-                nos projetos de estudo que faço
-              </Text>
-
-              <Text mt='8'>
-                Meu foco atual é o{' '}
-                <span className='highlightText'>React.js</span> integrado com o{' '}
-                <span className='highlightText'>Next.js</span>
-              </Text>
-
-              <Text mt='8'>
                 Sempre que possível, aplico tudo o que aprendo nos desafios do
                 curso e em alguns projetos, como{' '}
                 <span className='highlightText'>esse site,</span> por exemplo
               </Text>
-            </Flex>
-
-            <Flex align='center' justify='center'>
-              <Tilt gyroscope={true}>
-                <Image src='images/avatar.svg' boxSize='250' />
-              </Tilt>
             </Flex>
           </Grid>
         </Flex>

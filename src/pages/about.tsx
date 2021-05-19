@@ -1,6 +1,7 @@
-import { Skeleton } from '@chakra-ui/react';
+import React from 'react';
 
 import { Header } from '../components/Header';
+import { KnowWhoIAm } from '../components/KnowWhoIAm';
 import { WarningAlertDialog } from '../components/WarningAlertDialog';
 
 export default function About() {
@@ -10,12 +11,7 @@ export default function About() {
 
       <Header />
 
-      <Skeleton height='4rem' mx='auto' mt='10' w='90%' />
-      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
-      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
-      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
-      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
-      <Skeleton height='4rem' mx='auto' mt='4' w='90%' />
+      <KnowWhoIAm />
     </>
   );
 }
