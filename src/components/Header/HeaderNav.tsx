@@ -74,13 +74,6 @@ export function HeaderNav() {
             <Link href='https://www.instagram.com/svini.oliveira/' isExternal>
               <FaInstagram fontSize='1.5rem' />
             </Link>
-
-            <Link
-              href='https://app.rocketseat.com.br/me/viniciusoliveiras'
-              isExternal
-            >
-              <FaRocket fontSize='1.5rem' />
-            </Link>
           </Flex>
         </Flex>
       )}

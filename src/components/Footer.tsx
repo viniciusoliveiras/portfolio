@@ -34,13 +34,6 @@ export function Footer() {
         <Link href='https://www.instagram.com/svini.oliveira/' isExternal>
           <Icon as={FaInstagram} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
-
-        <Link
-          href='https://app.rocketseat.com.br/me/viniciusoliveiras'
-          isExternal
-        >
-          <Icon as={FaRocket} fontSize={{ xs: '1.5rem', md: '2rem' }} />
-        </Link>
       </Flex>
       <Flex align='center' justify='center' my='6'>
         {isWideVersion && (
