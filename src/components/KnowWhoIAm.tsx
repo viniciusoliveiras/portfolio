@@ -56,7 +56,7 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
             </Flex>
           </Flex>
 
-          {/* <TechAndToolStacks /> */}
+          <TechAndToolStacks />
 
           <GithubCalendar />
 
@@ -65,36 +65,38 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
       )}
 
       {!isWideVersion && (
-        <Flex mt='10' mx='8' flexDirection='column' align='center'>
-          <Text fontSize='3xl' color='red.400'>
+        <Flex mt='10' mx='8' flexDirection='column'>
+          <Text fontSize='2xl' color='red.400'>
             Saiba quem sou eu
           </Text>
 
-          <Flex mt='6'>
-            <Tilt>
-              <Image
-                src='images/avatar.svg'
-                boxSize={{ xs: '200', sm: '250' }}
-              />
-            </Tilt>
+          <Flex flexDirection='column' align='center'>
+            <Flex mt='6'>
+              <Tilt>
+                <Image
+                  src='images/avatar.svg'
+                  boxSize={{ xs: '200', sm: '250' }}
+                />
+              </Tilt>
+            </Flex>
+
+            <Text
+              mt='10'
+              flexDirection='column'
+              justify='center'
+              textAlign='left'
+              fontSize='lg'
+            >
+              Olá, eu sou o Vinícius, sou do Rio de Janeiro, Brasil. {bio}.
+              Utilizo bastante{' '}
+              <span className='highlightText'>HTML5, CSS3 e JavaScript</span>{' '}
+              nos projetos de estudo que faço. Meu foco atual é o{' '}
+              <span className='highlightText'>React.js</span> integrado com o{' '}
+              <span className='highlightText'>Next.js</span>
+            </Text>
           </Flex>
 
-          <Text
-            mt='10'
-            flexDirection='column'
-            justify='center'
-            textAlign='left'
-            fontSize='lg'
-          >
-            Olá, eu sou o Vinícius, sou do Rio de Janeiro, Brasil. {bio}.
-            Utilizo bastante{' '}
-            <span className='highlightText'>HTML5, CSS3 e JavaScript</span> nos
-            projetos de estudo que faço. Meu foco atual é o{' '}
-            <span className='highlightText'>React.js</span> integrado com o{' '}
-            <span className='highlightText'>Next.js</span>
-          </Text>
-
-          {/* <TechAndToolStacks /> */}
+          <TechAndToolStacks />
 
           {/* <GithubCalendar /> */}
 
