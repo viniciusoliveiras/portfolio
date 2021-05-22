@@ -1,12 +1,6 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  Image,
-  Text,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Box, Flex, Grid, Image, Text, GridItem } from '@chakra-ui/react';
 import Tilt from 'react-parallax-tilt';
+import { Tech } from './Tech';
 
 export function KnowWhoIAm() {
   return (
@@ -54,65 +48,19 @@ export function KnowWhoIAm() {
           Tecnologias que utilizo
         </Text>
 
-        <Flex justify='center'>
+        <Flex>
           <Grid
-            templateColumns='repeat(5, 1fr)'
-            w='100%'
+            templateColumns='repeat(3, 1fr)'
             mt='4'
-            gap={{ xs: 4, lg: 6, xl: 8 }}
-            align='center'
-            justify='center'
+            gap={{ xs: 4, lg: 6, xl: 12 }}
             p='6'
           >
-            <Box
-              border='2px solid #FF6464'
-              borderRadius='12'
-              boxSize={{ xs: 24, lg: 32, xl: 40 }}
-              p='6'
-              bgColor='white'
-            >
-              <Image src='https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-plain.svg' />
-            </Box>
-
-            <Box
-              border='2px solid #FF6464'
-              borderRadius='12'
-              boxSize={{ xs: 24, lg: 32, xl: 40 }}
-              p='6'
-              bgColor='white'
-            >
-              <Image src='https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg' />
-            </Box>
-
-            <Box
-              border='2px solid #FF6464'
-              borderRadius='12'
-              boxSize={{ xs: 24, lg: 32, xl: 40 }}
-              p='6'
-              bgColor='white'
-            >
-              <Image src='https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg' />
-            </Box>
-
-            <Box
-              border='2px solid #FF6464'
-              borderRadius='12'
-              boxSize={{ xs: 24, lg: 32, xl: 40 }}
-              p='6'
-              bgColor='white'
-            >
-              <Image src='https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg' />
-            </Box>
-
-            <Box
-              border='2px solid #FF6464'
-              borderRadius='12'
-              boxSize={{ xs: 24, lg: 32, xl: 40 }}
-              p='6'
-              bgColor='white'
-            >
-              <Image src='https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg' />
-            </Box>
+            <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-plain.svg' />
+            <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg' />
+            <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg' />
+            <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg' />
+            <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg' />
+            <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg' />
           </Grid>
         </Flex>
       </Flex>
