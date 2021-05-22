@@ -1,13 +1,22 @@
-import { Flex, Grid, Image, Text, GridItem } from '@chakra-ui/react';
+import { Flex, Grid, Image, Text, GridItem, Divider } from '@chakra-ui/react';
+import React from 'react';
 import Tilt from 'react-parallax-tilt';
 import { Footer } from './Footer';
 import { GithubCalendar } from './GithubCalendar';
 import { Tech } from './Tech';
 
-export function KnowWhoIAm() {
+type KnowWhoIAmProps = {
+  bio: string;
+};
+
+export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
   return (
     <>
-      <Flex mt='14' mx={{ xs: '12', xl: '16' }} flexDirection='column'>
+      <Flex
+        mt={{ sm: 2, lg: 14 }}
+        mx={{ xs: '12', xl: '16' }}
+        flexDirection='column'
+      >
         <Flex align='center' justify='space-around' flex='1'>
           <Flex>
             <Tilt>
@@ -27,9 +36,8 @@ export function KnowWhoIAm() {
               fontSize='xl'
               w='60vw'
             >
-              Olá, eu sou o Vinícius, sou do Rio de Janeiro, Brasil. Estou
-              cursando o 3º período de Análise e Desenvolvimento de Sistemas na
-              Unicarioca. Utilizo bastante{' '}
+              Olá, eu sou o Vinícius, sou do Rio de Janeiro, Brasil. {bio}.
+              Utilizo bastante{' '}
               <span className='highlightText'>HTML5, CSS3 e JavaScript</span>{' '}
               nos projetos de estudo que faço. Meu foco atual é o{' '}
               <span className='highlightText'>React.js</span> integrado com o{' '}
@@ -38,13 +46,13 @@ export function KnowWhoIAm() {
           </Flex>
         </Flex>
 
-        <Grid templateColumns='repeat(2, 1fr)' gap={{ xs: 4, lg: 6, xl: 12 }}>
+        <Grid
+          templateColumns='repeat(3, 1fr)'
+          gap={{ xs: 4, lg: 6, xl: 12 }}
+          mt='16'
+        >
           <GridItem>
-            <Text
-              fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }}
-              mt='16'
-              color='red.400'
-            >
+            <Text fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }} color='red.400'>
               Tech Stack
             </Text>
 
@@ -83,12 +91,12 @@ export function KnowWhoIAm() {
             </Flex>
           </GridItem>
 
+          <Flex justify='center'>
+            <Divider orientation='vertical' borderColor='red.400' />
+          </Flex>
+
           <GridItem>
-            <Text
-              fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }}
-              mt='16'
-              color='red.400'
-            >
+            <Text fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }} color='red.400'>
               Ferramentas que utilizo
             </Text>
 
