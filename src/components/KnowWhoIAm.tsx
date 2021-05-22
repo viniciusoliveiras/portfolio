@@ -98,7 +98,7 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
 
           <TechAndToolStacks />
 
-          {/* <GithubCalendar /> */}
+          <GithubCalendar />
 
           <Footer />
         </Flex>
