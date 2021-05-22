@@ -55,12 +55,30 @@ export function KnowWhoIAm() {
                 gap={{ xs: 4, lg: 6, xl: 12 }}
                 p={{ xl: 6 }}
               >
-                <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-plain.svg' />
-                <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg' />
-                <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg' />
-                <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg' />
-                <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg' />
-                <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg' />
+                <Tech
+                  imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-plain.svg'
+                  techName='HTML5'
+                />
+                <Tech
+                  imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg'
+                  techName='CSS3'
+                />
+                <Tech
+                  imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg'
+                  techName='JavaScript'
+                />
+                <Tech
+                  imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg'
+                  techName='React'
+                />
+                <Tech
+                  imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg'
+                  techName='Next.js'
+                />
+                <Tech
+                  imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg'
+                  techName='TypeScript'
+                />
               </Grid>
             </Flex>
           </GridItem>
@@ -81,9 +99,18 @@ export function KnowWhoIAm() {
                 gap={{ xs: 4, lg: 6, xl: 12 }}
                 p={{ xl: 6 }}
               >
-                <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/ubuntu/ubuntu-plain.svg' />
-                <Tech imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/visualstudio/visualstudio-plain.svg' />
-                <Tech imageSRC='images/vercel-icon-dark.svg' />
+                <Tech
+                  imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/ubuntu/ubuntu-plain.svg'
+                  techName='Ubuntu'
+                />
+                <Tech
+                  imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/visualstudio/visualstudio-plain.svg'
+                  techName='VS Code'
+                />
+                <Tech
+                  imageSRC='images/vercel-icon-dark.svg'
+                  techName='Vercel'
+                />
               </Grid>
             </Flex>
           </GridItem>
