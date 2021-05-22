@@ -106,7 +106,11 @@ export function TechAndToolStacks() {
             </Text>
 
             <Flex>
-              <Grid templateColumns='repeat(3, 1fr)' mt='4' gap='6'>
+              <Grid
+                templateColumns='repeat(3, 1fr)'
+                mt='4'
+                gap={{ xs: 2, sm: 6 }}
+              >
                 <Tech
                   imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-plain.svg'
                   techName='HTML5'
@@ -141,7 +145,11 @@ export function TechAndToolStacks() {
             </Text>
 
             <Flex>
-              <Grid templateColumns='repeat(3, 1fr)' mt='4' gap='6'>
+              <Grid
+                templateColumns='repeat(3, 1fr)'
+                mt='4'
+                gap={{ xs: 2, sm: 6 }}
+              >
                 <Tech
                   imageSRC='https://raw.githubusercontent.com/devicons/devicon/master/icons/ubuntu/ubuntu-plain.svg'
                   techName='Ubuntu'

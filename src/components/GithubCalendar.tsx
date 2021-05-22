@@ -17,7 +17,7 @@ export function GithubCalendar() {
         </Text>
 
         {isWideVersion && (
-          <Flex flexDirection='column' mt='6' align='center' bgColor='aqua'>
+          <Flex flexDirection='column' mt='6' align='center'>
             <GitHubCalendar
               username='viniciusoliveiras'
               color='#00A8CC' //  #FF6464
@@ -31,11 +31,7 @@ export function GithubCalendar() {
         )}
 
         {!isWideVersion && (
-          <Flex
-            flexDirection='column'
-            mt='4'
-            align='center'
-          >
+          <Flex flexDirection='column' mt='4' align='center'>
             <GitHubCalendar
               username='viniciusoliveiras'
               color='#00A8CC' //  #FF6464

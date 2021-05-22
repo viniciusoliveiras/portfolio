@@ -65,7 +65,7 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
       )}
 
       {!isWideVersion && (
-        <Flex mt='10' mx='8' flexDirection='column'>
+        <Flex mt='10' mx={[4, 2, 8]} flexDirection='column' flex='1'>
           <Text fontSize='2xl' color='red.400'>
             Saiba quem sou eu
           </Text>
