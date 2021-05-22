@@ -7,6 +7,7 @@ import {
   Icon,
   Link,
   useBreakpointValue,
+  Divider,
 } from '@chakra-ui/react';
 import { FaGithub, FaInstagram, FaLinkedin, FaRocket } from 'react-icons/fa';
 
@@ -18,8 +19,13 @@ export function Footer() {
   });
 
   return (
-    <Flex flexDirection='column' align='center' px='8'>
-      <Flex mt='16' justify='space-between' w='60'>
+    <Flex flexDirection='column' align='center' px='4' mt='12'>
+
+      <Flex justify='center' bgColor='green.200'  w='60%'>
+        <Divider borderColor='gray.900' />
+      </Flex>
+
+      <Flex mt='8' justify='space-between' w='60'>
         <Link href='https://github.com/viniciusoliveiras' isExternal>
           <Icon as={FaGithub} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
