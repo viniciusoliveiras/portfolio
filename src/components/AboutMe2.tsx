@@ -1,4 +1,5 @@
 import { Flex, Grid, Image, Text, useBreakpointValue } from '@chakra-ui/react';
+import Link from 'next/link';
 
 export function AboutMe2() {
   const isWideVersion = useBreakpointValue({
@@ -18,7 +19,12 @@ export function AboutMe2() {
           flexDirection='column'
           justify='space-around'
         >
-          <Text fontSize='2xl'>Um pouco sobre mim</Text>
+          <Flex justify='space-between' align='center' flex='1'>
+            <Text fontSize='2xl'>Um pouco sobre mim</Text>
+            <Link href='/about'>
+              <Text color='cyan.500'>Ver mais</Text>
+            </Link>
+          </Flex>
 
           <Flex mt='6' fontSize='xl' justify='space-between' w='80vw'>
             <Text>
@@ -46,6 +52,7 @@ export function AboutMe2() {
           align='center'
         >
           <Text fontSize='xl'>Um pouco sobre mim</Text>
+
           <Grid
             templateColumns='repeat(1, 1fr)'
             mt='10'
@@ -71,6 +78,12 @@ export function AboutMe2() {
               </Text>
             </Flex>
           </Grid>
+
+          <Flex justify='center' align='center' flex='1' mt='8'>
+            <Link href='/about'>
+              <Text color='cyan.500'>Ver mais</Text>
+            </Link>
+          </Flex>
         </Flex>
       )}
     </>
