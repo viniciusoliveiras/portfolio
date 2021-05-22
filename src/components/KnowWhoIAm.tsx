@@ -1,5 +1,7 @@
-import { Box, Flex, Grid, Image, Text, GridItem } from '@chakra-ui/react';
+import { Flex, Grid, Image, Text, GridItem } from '@chakra-ui/react';
 import Tilt from 'react-parallax-tilt';
+import { Footer } from './Footer';
+import { GithubCalendar } from './GithubCalendar';
 import { Tech } from './Tech';
 
 export function KnowWhoIAm() {
@@ -86,6 +88,10 @@ export function KnowWhoIAm() {
             </Flex>
           </GridItem>
         </Grid>
+
+        <GithubCalendar />
+
+        <Footer />
       </Flex>
     </>
   );
