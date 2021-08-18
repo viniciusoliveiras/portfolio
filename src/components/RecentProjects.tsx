@@ -1,5 +1,5 @@
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
 import {
   Flex,
   Text,
@@ -7,10 +7,10 @@ import {
   Tooltip,
   useBreakpointValue,
   Link as ChakraLink,
-} from '@chakra-ui/react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { format, formatDistanceToNowStrict } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
+} from "@chakra-ui/react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { format, formatDistanceToNowStrict } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 interface Repository {
   name: string;
   updated_at: string;
@@ -33,59 +33,59 @@ export function RecentProjects({ repos }: RepoSliceProps) {
     <>
       {isWideVersion && (
         <Flex
-          mt='24'
-          px={{ md: '16', lg: '36' }}
-          flex='1'
-          bgColor='#EDF7FA'
-          flexDirection='column'
+          mt="12"
+          px={{ md: "16", lg: "36" }}
+          bgColor="gray.700"
+          flexDirection="column"
+          // w="82%"
+          alignSelf="center"
+          borderRadius="12"
         >
-          <Flex justify='space-between' align='center' flex='1' mt='6'>
-            <Text fontSize='2xl'>Projetos recentes</Text>
-            <Link href='/projects'>
-              <Text color='cyan.500'>Ver todos</Text>
+          <Flex justify="space-between" align="center" flex="1" mt="4">
+            <Text fontSize="2xl">Projetos recentes</Text>
+            <Link href="/projects">
+              <Text color="yellow.400">Ver todos</Text>
             </Link>
           </Flex>
 
-          <Grid templateColumns='repeat(2, 1fr)' mt='8' gap={5} mb='6'>
+          <Grid templateColumns="repeat(2, 1fr)" mt="6" gap={5} mb="6">
             {repos.map((repo) => {
               return (
                 <Flex
-                  // h='100%'
-                  p='6'
-                  flexDirection='column'
-                  justify='center'
-                  bgColor='white'
+                  p="6"
+                  flexDirection="column"
+                  justify="center"
+                  bgColor="gray.900"
                   key={repo.name}
+                  borderRadius="12"
                 >
-                  <Text fontSize='2xl' fontWeight='bold'>
+                  <Text fontSize="2xl" fontWeight="bold">
                     {repo.name}
                   </Text>
 
-                  <Flex my='6' flexDirection='column' fontSize='md'>
+                  <Flex my="6" flexDirection="column" fontSize="md">
                     <Tooltip
-                      label={`${format(new Date(repo.updated_at), 'PP HH:mm', {
+                      label={`${format(new Date(repo.updated_at), "PP HH:mm", {
                         locale: ptBR,
                       })} BRL`}
-                      aria-label='A tooltip'
-                      placement='bottom'
+                      aria-label="A tooltip"
+                      placement="bottom"
                     >
                       <Text>
-                        Atualizado há {''}
+                        Atualizado há {""}
                         {formatDistanceToNowStrict(new Date(repo.updated_at), {
                           locale: ptBR,
-                        })}{' '}
+                        })}{" "}
                         atrás
                       </Text>
                     </Tooltip>
                   </Flex>
 
-                  <Text fontSize='lg' h={{ md: '48', lg: '36', xl: '28' }}>
-                    {repo.description}
-                  </Text>
+                  <Text fontSize="lg">{repo.description}</Text>
 
-                  <ChakraLink href={repo.html_url} isExternal mt='8'>
-                    <Text color='red.400'>
-                      Acessar <ExternalLinkIcon mx='2px' />
+                  <ChakraLink href={repo.html_url} isExternal mt="8">
+                    <Text color="yellow.400">
+                      Acessar <ExternalLinkIcon mx="2px" />
                     </Text>
                   </ChakraLink>
                 </Flex>
@@ -96,58 +96,58 @@ export function RecentProjects({ repos }: RepoSliceProps) {
       )}
 
       {!isWideVersion && (
-        <Flex mt='10' px='10' flex='1' bgColor='#EDF7FA' flexDirection='column'>
-          <Flex justify='center' align='center' flex='1' mt='4'>
-            <Text fontSize='xl'>Projetos recentes</Text>
+        <Flex mt="10" px="10" flex="1" bgColor="#EDF7FA" flexDirection="column">
+          <Flex justify="center" align="center" flex="1" mt="4">
+            <Text fontSize="xl">Projetos recentes</Text>
           </Flex>
 
-          <Grid templateColumns='repeat(1, 1fr)' mt='6' gap={5} mb='6'>
+          <Grid templateColumns="repeat(1, 1fr)" mt="6" gap={5} mb="6">
             {repos.map((repo) => {
               return (
                 <Flex
-                  bgColor='white'
-                  flexDirection='column'
-                  p='6'
+                  bgColor="white"
+                  flexDirection="column"
+                  p="6"
                   key={repo.name}
-                  justify='center'
+                  justify="center"
                 >
-                  <Text fontSize='xl' fontWeight='bold'>
+                  <Text fontSize="xl" fontWeight="bold">
                     {repo.name}
                   </Text>
 
-                  <Flex my='6' flexDirection='column' fontSize='sm'>
+                  <Flex my="6" flexDirection="column" fontSize="sm">
                     <Tooltip
-                      label={`${format(new Date(repo.updated_at), 'PP HH:mm', {
+                      label={`${format(new Date(repo.updated_at), "PP HH:mm", {
                         locale: ptBR,
                       })} BRL`}
-                      aria-label='A tooltip'
-                      placement='bottom'
+                      aria-label="A tooltip"
+                      placement="bottom"
                     >
                       <Text>
-                        Atualizado há {''}
+                        Atualizado há {""}
                         {formatDistanceToNowStrict(new Date(repo.updated_at), {
                           locale: ptBR,
-                        })}{' '}
+                        })}{" "}
                         atrás
                       </Text>
                     </Tooltip>
                     <Text></Text>
                   </Flex>
 
-                  <Text fontSize='md'>{repo.description}</Text>
+                  <Text fontSize="md">{repo.description}</Text>
 
-                  <ChakraLink href={repo.html_url} isExternal mt='8'>
-                    <Text color='red.400'>
-                      Acessar <ExternalLinkIcon mx='2px' />
+                  <ChakraLink href={repo.html_url} isExternal mt="8">
+                    <Text color="red.400">
+                      Acessar <ExternalLinkIcon mx="2px" />
                     </Text>
                   </ChakraLink>
                 </Flex>
               );
             })}
           </Grid>
-          <Flex justify='center' align='center' flex='1' mb='4'>
-            <Link href='/projects'>
-              <Text color='cyan.500'>Ver todos</Text>
+          <Flex justify="center" align="center" flex="1" mb="4">
+            <Link href="/projects">
+              <Text color="cyan.500">Ver todos</Text>
             </Link>
           </Flex>
         </Flex>

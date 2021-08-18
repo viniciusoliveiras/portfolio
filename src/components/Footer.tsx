@@ -19,11 +19,11 @@ export function Footer() {
   });
 
   return (
-    <Flex flexDirection='column' align='center' px='4' mt='12'>
+    <Flex flexDirection='column' align='center' px='4' mt='4'>
 
-      <Flex justify='center' bgColor='green.200'  w='60%'>
+      {/* <Flex justify='center' bgColor='green.200'  w='60%'>
         <Divider borderColor='gray.900' />
-      </Flex>
+      </Flex> */}
 
       <Flex mt='8' justify='space-between' w='60'>
         <Link href='https://github.com/viniciusoliveiras' isExternal>

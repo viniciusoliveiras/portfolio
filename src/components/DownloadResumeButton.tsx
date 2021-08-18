@@ -9,11 +9,11 @@ export function DownloadResumeButton() {
       textDecoration='none'
       w='min'
       h='3rem'
-      color='white'
+      color='gray.900'
     >
       <Box
         as='button'
-        bgColor='red.400'
+        bgColor='yellow.400'
         w='max'
         p='2'
         fontWeight='medium'

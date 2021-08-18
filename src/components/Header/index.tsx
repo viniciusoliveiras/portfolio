@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Drawer,
   DrawerBody,
@@ -11,10 +11,10 @@ import {
   Flex,
   Box,
   Heading,
-} from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
+} from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
-import { HeaderNav } from './HeaderNav';
+import { HeaderNav } from "./HeaderNav";
 
 export function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,20 +28,18 @@ export function Header() {
   if (isDrawerHeader) {
     return (
       <>
-        <Flex w='100%' justify='space-between' mt='4' align='center'>
-          <Heading color='red.400' mx='4'>
-            VO
-          </Heading>
-          <Box mr='4'>
+        <Flex w="100%" justify="space-between" mt="4" align="center">
+          <Heading color="yellow.400">VO</Heading>
+          <Box mr="4">
             <button onClick={onOpen}>
-              <HamburgerIcon fontSize='3xl' />
+              <HamburgerIcon fontSize="3xl" />
             </button>
           </Box>
         </Flex>
-        <Drawer isOpen={isOpen} onClose={onClose} placement='right' size='full'>
+        <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="full">
           <DrawerOverlay>
-            <DrawerContent p='4'>
-              <DrawerCloseButton mt='6' />
+            <DrawerContent p="4">
+              <DrawerCloseButton mt="6" />
               <DrawerHeader>MENU</DrawerHeader>
 
               <DrawerBody>
@@ -55,10 +53,8 @@ export function Header() {
   }
   return (
     <>
-      <Flex w='100%' justify='space-between' align='center' mt='8'>
-        <Heading color='red.400' ml='14'>
-          VO
-        </Heading>
+      <Flex w="100%" justify="space-between" align="center" mt="8">
+        <Heading color="yellow.400">VO</Heading>
         <HeaderNav />
       </Flex>
     </>
