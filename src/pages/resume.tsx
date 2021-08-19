@@ -10,7 +10,6 @@ export default function Resumen() {
     <>
       <Header />
       <Flex
-        // minHeight="100vh"
         flexDirection="column"
         mx={{ base: '4', sm: '8', md: '14', lg: '16', xl: '32' }}
         mt={{ base: '20', md: '14' }}

@@ -3,7 +3,6 @@ import { Flex, Grid } from '@chakra-ui/react';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { ProjectCard } from '../components/Projects/ProjectCard';
-import { WarningAlertDialog } from '../components/WarningAlertDialog';
 
 export default function Projects() {
   return (
@@ -16,8 +15,6 @@ export default function Projects() {
         mt={{ base: '16', md: '14' }}
         justifyContent="space-between"
       >
-        <WarningAlertDialog />
-
         <Grid
           templateColumns={{
             base: 'repeat(1, 1fr)',
