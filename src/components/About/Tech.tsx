@@ -10,11 +10,11 @@ export function Tech({ imageSRC, techName }: TechsProps) {
     <>
       <a data-tip={techName}>
         <Box
-          border="2px solid #FF6464"
+          border="2px solid #FFD369"
           borderRadius="12"
-          boxSize={{ xs: 24, lg: 32, xl: 40 }}
+          boxSize={{ base: 24, lg: 24, xl: 32 }}
           p="6"
-          bgColor="white"
+          bgColor="gray.700"
         >
           <Image src={imageSRC} />
         </Box>

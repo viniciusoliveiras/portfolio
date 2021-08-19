@@ -24,7 +24,10 @@ export function TechAndToolStacks() {
           mt="16"
         >
           <GridItem>
-            <Text fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }} color="red.400">
+            <Text
+              fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }}
+              color="yellow.400"
+            >
               Tech Stack
             </Text>
 
@@ -64,11 +67,14 @@ export function TechAndToolStacks() {
           </GridItem>
 
           <Flex justify="center">
-            <Divider orientation="vertical" borderColor="red.400" />
+            <Divider orientation="vertical" borderColor="yellow.400" />
           </Flex>
 
           <GridItem>
-            <Text fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }} color="red.400">
+            <Text
+              fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }}
+              color="yellow.400"
+            >
               Ferramentas que utilizo
             </Text>
 

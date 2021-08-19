@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 
 import { GithubCalendar } from '../components/About/GithubCalendar';
@@ -14,7 +15,11 @@ interface AboutProps {
 
 export default function About({ userBio }: AboutProps) {
   return (
-    <>
+    <Flex
+      flexDirection="column"
+      mx={{ base: '4', sm: '8', md: '14', lg: '24', xl: '32' }}
+      justifyContent="space-between"
+    >
       <WarningAlertDialog />
 
       <Header />
@@ -26,7 +31,7 @@ export default function About({ userBio }: AboutProps) {
       <GithubCalendar />
 
       <Footer />
-    </>
+    </Flex>
   );
 }
 

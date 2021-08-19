@@ -26,7 +26,7 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
             <Flex flexDirection="column" ml="4">
               <Text
                 fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }}
-                color="red.400"
+                color="yellow.400"
               >
                 Saiba quem sou eu
               </Text>
@@ -52,7 +52,7 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
 
       {!isWideVersion && (
         <Flex mt="10" mx={[4, 2, 8]} flexDirection="column" flex="1">
-          <Text fontSize="2xl" color="red.400">
+          <Text fontSize="2xl" color="yellow.400">
             Saiba quem sou eu
           </Text>
 

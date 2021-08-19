@@ -9,10 +9,20 @@ export function GithubCalendar() {
     md: true,
   });
 
+  const colorTheme = {
+    background: 'transparent',
+    text: '#ffffff',
+    grade4: '#FFD369',
+    grade3: '#ffda83e3',
+    grade2: '#ffe3a0e3',
+    grade1: '#fdecc4e3',
+    grade0: '#fffbf0e3',
+  };
+
   return (
     <>
       <Flex flexDirection="column" mt="14">
-        <Text fontSize={{ xs: '2xl', md: '3xl' }} color="red.400">
+        <Text fontSize={{ xs: '2xl', md: '3xl' }} color="yellow.400">
           Contribuições no Github
         </Text>
 
@@ -20,10 +30,11 @@ export function GithubCalendar() {
           <Flex flexDirection="column" mt="6" align="center">
             <GitHubCalendar
               username="viniciusoliveiras"
-              color="#00A8CC" //  #FF6464
+              color="#FFD369"
               blockSize={20}
               blockMargin={5}
               fontSize={18}
+              theme={colorTheme}
             >
               <ReactTooltip delayShow={50} html />
             </GitHubCalendar>
