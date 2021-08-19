@@ -30,7 +30,6 @@ export function GithubCalendar() {
           <Flex flexDirection="column" mt="6" align="center">
             <GitHubCalendar
               username="viniciusoliveiras"
-              color="#FFD369"
               blockSize={20}
               blockMargin={5}
               fontSize={18}
@@ -45,7 +44,7 @@ export function GithubCalendar() {
           <Flex flexDirection="column" mt="4" align="center">
             <GitHubCalendar
               username="viniciusoliveiras"
-              color="#00A8CC" //  #FF6464
+              theme={colorTheme}
               blockSize={30}
               blockMargin={5}
               fontSize={16}

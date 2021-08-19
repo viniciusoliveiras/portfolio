@@ -22,7 +22,7 @@ export function AboutMe() {
       {isWideVersion && (
         <Grid
           templateColumns="repeat(2, 1fr)"
-          mt={{ md: '20' }}
+          mt={{ md: '28' }}
           gap={16}
           align="center"
           justify="center"
@@ -53,7 +53,7 @@ export function AboutMe() {
       )}
 
       {!isWideVersion && (
-        <Grid mt="8" px="2" gap={16} align="center" justify="center">
+        <Grid mt="24" px="2" gap={16} align="center" justify="center">
           <Box flexDirection="column">
             <Image
               src="https://avatars.githubusercontent.com/u/64497059?v=4"

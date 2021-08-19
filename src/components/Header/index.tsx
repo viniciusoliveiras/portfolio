@@ -29,10 +29,16 @@ export function Header() {
       <>
         <Flex
           w="100%"
+          h="16"
           justify="space-between"
-          mt="4"
           align="center"
+          position="fixed"
+          top="0"
+          left="0"
+          zIndex="2"
+          boxShadow="rgb(28, 28, 30) 0px 1rem 2rem"
           bgColor="gray.900"
+          px={{ base: '4', sm: '8', md: '14', lg: '16', xl: '32' }}
         >
           <Heading color="yellow.400">VO</Heading>
           <Box>
@@ -58,7 +64,19 @@ export function Header() {
   }
   return (
     <>
-      <Flex w="100%" justify="space-between" align="center" mt="8">
+      <Flex
+        w="100%"
+        h="20"
+        justify="space-between"
+        align="center"
+        position="fixed"
+        top="0"
+        left="0"
+        zIndex="2"
+        boxShadow="rgb(28, 28, 30) 0px 1rem 2rem"
+        bgColor="gray.900"
+        px={{ base: '4', sm: '8', md: '14', lg: '16', xl: '32' }}
+      >
         <Heading color="yellow.400">VO</Heading>
         <HeaderNav />
       </Flex>

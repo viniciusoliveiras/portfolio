@@ -20,20 +20,21 @@ interface HomeProps {
 
 export default function Home({ repos }: HomeProps) {
   return (
-    <Flex
-      height="100vh"
-      flexDirection="column"
-      mx={{ base: '4', sm: '8', md: '14', lg: '16', xl: '32' }}
-      justifyContent="space-between"
-    >
+    <>
       <Header />
+      <Flex
+        minHeight="100vh"
+        flexDirection="column"
+        mx={{ base: '4', sm: '8', md: '14', lg: '16', xl: '32' }}
+        justifyContent="space-between"
+      >
+        <AboutMe />
 
-      <AboutMe />
+        <RecentProjects repos={repos} />
 
-      <RecentProjects repos={repos} />
-
-      <Footer />
-    </Flex>
+        <Footer />
+      </Flex>
+    </>
   );
 }
 
