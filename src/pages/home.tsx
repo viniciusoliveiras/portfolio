@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
@@ -37,7 +37,7 @@ export default function Home({ repos }: HomeProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const { data } = await api.get(
     'viniciusoliveiras/repos?sort=updated&direction=desc'
   );
@@ -46,5 +46,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: { repos },
+    revalidate: 604800, //  1 week
   };
 };

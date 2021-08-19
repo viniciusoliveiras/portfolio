@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 
 import { GithubCalendar } from '../components/About/GithubCalendar';
 import { KnowWhoIAm } from '../components/About/KnowWhoIAm';
@@ -32,12 +32,13 @@ export default function About({ userBio }: AboutProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const { data } = await api.get('viniciusoliveiras');
 
   const userBio = data.bio;
 
   return {
     props: { userBio },
+    revalidate: 604800, //  1 week
   };
 };
