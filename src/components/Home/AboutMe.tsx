@@ -7,7 +7,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 
-import { DownloadResumeButton } from './DownloadResumeButton';
+import { DownloadResumeButton } from '../DownloadResumeButton';
 import { Typer } from './Typer';
 
 export function AboutMe() {

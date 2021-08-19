@@ -2,10 +2,6 @@ import Tilt from 'react-parallax-tilt';
 
 import { Flex, Image, Text, useBreakpointValue } from '@chakra-ui/react';
 
-import { Footer } from './Footer';
-import { GithubCalendar } from './GithubCalendar';
-import { TechAndToolStacks } from './TechAndToolStacks';
-
 type KnowWhoIAmProps = {
   bio: string;
 };
@@ -19,11 +15,7 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
   return (
     <>
       {isWideVersion && (
-        <Flex
-          mt={{ sm: 2, lg: 14 }}
-          mx={{ xs: '12', xl: '16' }}
-          flexDirection="column"
-        >
+        <Flex mt={{ sm: 2, lg: 14 }} flexDirection="column">
           <Flex align="center" justify="space-around" flex="1">
             <Flex>
               <Tilt>
@@ -55,12 +47,6 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
               </Text>
             </Flex>
           </Flex>
-
-          <TechAndToolStacks />
-
-          <GithubCalendar />
-
-          <Footer />
         </Flex>
       )}
 
@@ -95,12 +81,6 @@ export function KnowWhoIAm({ bio }: KnowWhoIAmProps) {
               <span className="highlightText">Next.js</span>
             </Text>
           </Flex>
-
-          <TechAndToolStacks />
-
-          <GithubCalendar />
-
-          <Footer />
         </Flex>
       )}
     </>

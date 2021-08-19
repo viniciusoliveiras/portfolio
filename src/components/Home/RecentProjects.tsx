@@ -72,7 +72,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                       placement="bottom"
                     >
                       <Text>
-                        Atualizado há
+                        Atualizado há{' '}
                         {formatDistanceToNowStrict(new Date(repo.updated_at), {
                           locale: ptBR,
                         })}{' '}
@@ -132,7 +132,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                       placement="bottom"
                     >
                       <Text>
-                        Atualizado há
+                        Atualizado há{' '}
                         {formatDistanceToNowStrict(new Date(repo.updated_at), {
                           locale: ptBR,
                         })}{' '}

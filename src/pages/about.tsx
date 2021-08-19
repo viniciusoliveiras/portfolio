@@ -1,7 +1,10 @@
 import { GetServerSideProps } from 'next';
 
+import { GithubCalendar } from '../components/About/GithubCalendar';
+import { KnowWhoIAm } from '../components/About/KnowWhoIAm';
+import { TechAndToolStacks } from '../components/About/TechAndToolStacks';
+import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
-import { KnowWhoIAm } from '../components/KnowWhoIAm';
 import { WarningAlertDialog } from '../components/WarningAlertDialog';
 import { api } from '../services/api';
 
@@ -17,6 +20,12 @@ export default function About({ userBio }: AboutProps) {
       <Header />
 
       <KnowWhoIAm bio={userBio} />
+
+      <TechAndToolStacks />
+
+      <GithubCalendar />
+
+      <Footer />
     </>
   );
 }

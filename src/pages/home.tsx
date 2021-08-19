@@ -1,10 +1,10 @@
 import { Flex } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 
-import { AboutMe } from '../components/AboutMe';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
-import { RecentProjects } from '../components/RecentProjects';
+import { AboutMe } from '../components/Home/AboutMe';
+import { RecentProjects } from '../components/Home/RecentProjects';
 import { api } from '../services/api';
 
 interface Repository {
