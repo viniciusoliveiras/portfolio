@@ -1,5 +1,4 @@
-import React from "react";
-import Link from "next/link";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Text,
@@ -8,9 +7,10 @@ import {
   useBreakpointValue,
   Link as ChakraLink,
 } from "@chakra-ui/react";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import Link from "next/link";
+
 interface Repository {
   name: string;
   updated_at: string;
@@ -72,7 +72,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                       placement="bottom"
                     >
                       <Text>
-                        Atualizado há {""}
+                        Atualizado há
                         {formatDistanceToNowStrict(new Date(repo.updated_at), {
                           locale: ptBR,
                         })}{" "}
@@ -132,7 +132,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                       placement="bottom"
                     >
                       <Text>
-                        Atualizado há {""}
+                        Atualizado há
                         {formatDistanceToNowStrict(new Date(repo.updated_at), {
                           locale: ptBR,
                         })}{" "}

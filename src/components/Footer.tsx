@@ -1,15 +1,6 @@
-import React from "react";
-import {
-  Flex,
-  Text,
-  Grid,
-  Tooltip,
-  Icon,
-  Link,
-  useBreakpointValue,
-  Divider,
-} from "@chakra-ui/react";
 import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
+
+import { Flex, Text, Icon, Link, useBreakpointValue } from "@chakra-ui/react";
 
 export function Footer() {
   const isWideVersion = useBreakpointValue({

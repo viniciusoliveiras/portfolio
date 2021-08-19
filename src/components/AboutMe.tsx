@@ -6,16 +6,11 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import React from "react";
+
 import { DownloadResumeButton } from "./DownloadResumeButton";
 import { Typer } from "./Typer";
-import Typewriter from "typewriter-effect";
 
-interface AboutMeProps {
-  bio: string;
-}
-
-export function AboutMe({ bio }: AboutMeProps) {
+export function AboutMe() {
   const isWideVersion = useBreakpointValue({
     xs: false,
     sm: false,

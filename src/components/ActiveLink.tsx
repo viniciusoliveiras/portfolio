@@ -1,6 +1,7 @@
-import { useRouter } from 'next/dist/client/router';
-import Link, { LinkProps } from 'next/link';
-import { cloneElement, ReactElement } from 'react';
+import { cloneElement, ReactElement } from "react";
+
+import { useRouter } from "next/dist/client/router";
+import Link, { LinkProps } from "next/link";
 
 interface ActiveLinkProps extends LinkProps {
   children: ReactElement;
@@ -28,7 +29,7 @@ export function ActiveLink({
 
   return (
     <Link {...rest}>
-      {cloneElement(children, { color: isActive ? 'yellow.400' : 'gray.100' })}
+      {cloneElement(children, { color: isActive ? "yellow.400" : "gray.100" })}
     </Link>
   );
 }

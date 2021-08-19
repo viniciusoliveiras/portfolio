@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogBody,
@@ -6,8 +8,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Button,
-} from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
+} from "@chakra-ui/react";
 
 export function WarningAlertDialog() {
   const [isOpen, setIsOpen] = useState(true);
@@ -23,7 +24,7 @@ export function WarningAlertDialog() {
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Atenção
             </AlertDialogHeader>
 
@@ -33,7 +34,7 @@ export function WarningAlertDialog() {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button colorScheme='blue' onClick={onClose} ml={3}>
+              <Button colorScheme="blue" onClick={onClose} ml={3}>
                 OK
               </Button>
             </AlertDialogFooter>

@@ -1,4 +1,4 @@
-import React from "react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Drawer,
   DrawerBody,
@@ -11,10 +11,8 @@ import {
   Flex,
   Box,
   Heading,
-  DrawerFooter,
-  Link,
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+
 import { HeaderNav } from "./HeaderNav";
 
 export function Header() {
@@ -38,7 +36,7 @@ export function Header() {
         >
           <Heading color="yellow.400">VO</Heading>
           <Box>
-            <button onClick={onOpen}>
+            <button type="button" onClick={onOpen}>
               <HamburgerIcon fontSize="3xl" />
             </button>
           </Box>

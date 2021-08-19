@@ -1,14 +1,14 @@
-import React from "react";
-import { Flex, useBreakpointValue, Link } from "@chakra-ui/react";
-import { NavLink } from "./NavLink";
 import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
-
 import {
   RiHome2Line,
   RiInformationLine,
   RiCodeSSlashLine,
   RiFile2Line,
 } from "react-icons/ri";
+
+import { Flex, useBreakpointValue, Link } from "@chakra-ui/react";
+
+import { NavLink } from "./NavLink";
 
 export function HeaderNav() {
   const isWideVersion = useBreakpointValue({

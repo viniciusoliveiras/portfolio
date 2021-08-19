@@ -1,7 +1,7 @@
-import React from 'react';
-import GitHubCalendar from 'react-github-calendar';
-import ReactTooltip from 'react-tooltip';
-import { Flex, Text, useBreakpointValue } from '@chakra-ui/react';
+import GitHubCalendar from "react-github-calendar";
+import ReactTooltip from "react-tooltip";
+
+import { Flex, Text, useBreakpointValue } from "@chakra-ui/react";
 
 export function GithubCalendar() {
   const isWideVersion = useBreakpointValue({
@@ -11,16 +11,16 @@ export function GithubCalendar() {
 
   return (
     <>
-      <Flex flexDirection='column' mt='14'>
-        <Text fontSize={{ xs: '2xl', md: '3xl' }} color='red.400'>
+      <Flex flexDirection="column" mt="14">
+        <Text fontSize={{ xs: "2xl", md: "3xl" }} color="red.400">
           Contribuições no Github
         </Text>
 
         {isWideVersion && (
-          <Flex flexDirection='column' mt='6' align='center'>
+          <Flex flexDirection="column" mt="6" align="center">
             <GitHubCalendar
-              username='viniciusoliveiras'
-              color='#00A8CC' //  #FF6464
+              username="viniciusoliveiras"
+              color="#00A8CC" //  #FF6464
               blockSize={20}
               blockMargin={5}
               fontSize={18}
@@ -31,10 +31,10 @@ export function GithubCalendar() {
         )}
 
         {!isWideVersion && (
-          <Flex flexDirection='column' mt='4' align='center'>
+          <Flex flexDirection="column" mt="4" align="center">
             <GitHubCalendar
-              username='viniciusoliveiras'
-              color='#00A8CC' //  #FF6464
+              username="viniciusoliveiras"
+              color="#00A8CC" //  #FF6464
               blockSize={30}
               blockMargin={5}
               fontSize={16}
