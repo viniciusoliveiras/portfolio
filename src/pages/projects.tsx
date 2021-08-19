@@ -10,7 +10,7 @@ export default function Projects() {
     <Flex
       minH="100vh"
       flexDirection="column"
-      mx={{ base: '4', sm: '8', md: '14', lg: '24', xl: '32' }}
+      mx={{ base: '4', sm: '8', md: '14', lg: '16', xl: '32' }}
       justifyContent="space-between"
     >
       <WarningAlertDialog />
@@ -41,6 +41,13 @@ export default function Projects() {
         />
 
         <ProjectCard
+          imageURL="https://geocreed.sirv.com/viniciusoliveiras-portfolio/spacetraveling.png"
+          title="spacetraveling"
+          description="O Spacetraveling é um blog construído com React.js que utiliza o CMS Prismic para criação dos posts e faz chamadas a API do CMS para listagem dos posts e exibição destes."
+          repositoryURL="https://github.com/viniciusoliveiras/spacetraveling"
+        />
+
+        <ProjectCard
           imageURL="https://geocreed.sirv.com/viniciusoliveiras-portfolio/review.it.png"
           title="review.it"
           description="Aplicação para solicitação e envio de code review para devs."
@@ -54,13 +61,6 @@ export default function Projects() {
           description="Aplicação para Q&A com a possibilidade de votação em perguntas, para que as mais votadas tenham prioridade de resposta."
           appURL="https://letmeask-978ba.web.app/"
           repositoryURL="https://github.com/viniciusoliveiras/NLW-6"
-        />
-
-        <ProjectCard
-          imageURL="https://geocreed.sirv.com/viniciusoliveiras-portfolio/spacetraveling.png"
-          title="spacetraveling"
-          description="O Spacetraveling é um blog construído com React.js que utiliza o CMS Prismic para criação dos posts e faz chamadas a API do CMS para listagem dos posts e exibição destes."
-          repositoryURL="https://github.com/viniciusoliveiras/spacetraveling"
         />
 
         <ProjectCard

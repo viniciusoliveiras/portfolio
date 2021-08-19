@@ -16,7 +16,7 @@ export default function About({ userBio }: AboutProps) {
   return (
     <Flex
       flexDirection="column"
-      mx={{ base: '4', sm: '8', md: '14', lg: '24', xl: '32' }}
+      mx={{ base: '4', sm: '8', md: '14', lg: '16', xl: '32' }}
       justifyContent="space-between"
     >
       <Header />
