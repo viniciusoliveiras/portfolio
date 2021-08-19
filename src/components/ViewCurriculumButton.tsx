@@ -1,9 +1,9 @@
 import { Box, Link } from '@chakra-ui/react';
 
-export function DownloadResumeButton() {
+export function ViewCurriculumButton() {
   return (
     <Link
-      href="https://drive.google.com/file/d/1Dvy_sokJymNN5AaTF3Doy4biK6Fp-fXW/view?usp=sharing"
+      href="https://my.indeed.com/p/viniciuss-8n5573x"
       isExternal
       textDecoration="none"
       w="min"
@@ -20,7 +20,7 @@ export function DownloadResumeButton() {
         borderRadius="4"
         _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
       >
-        Baixar Currículo
+        Ver Currículo
       </Box>
     </Link>
   );

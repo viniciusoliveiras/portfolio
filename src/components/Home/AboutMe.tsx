@@ -7,7 +7,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 
-import { DownloadResumeButton } from '../DownloadResumeButton';
+import { ViewCurriculumButton } from '../ViewCurriculumButton';
 import { Typer } from './Typer';
 
 export function AboutMe() {
@@ -39,7 +39,7 @@ export function AboutMe() {
               <Typer />
             </Text>
 
-            <DownloadResumeButton />
+            <ViewCurriculumButton />
           </Flex>
           <Flex flexDirection="column" align="center" justify="center">
             <Image
@@ -69,7 +69,7 @@ export function AboutMe() {
           </Box>
 
           <Box flexDirection="column">
-            <DownloadResumeButton />
+            <ViewCurriculumButton />
           </Box>
         </Grid>
       )}
