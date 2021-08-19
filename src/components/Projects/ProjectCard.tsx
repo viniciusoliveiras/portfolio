@@ -18,21 +18,21 @@ export function ProjectCard({
 }: ProjectCardProps) {
   return (
     <Flex
-      w="100%"
       flex="1"
-      height="lg"
-      backgroundColor="gray.700"
-      borderRadius="14"
       flexDirection="column"
-      px="4"
       justifyContent="space-around"
       alignItems="center"
+      w="100%"
+      height={{ base: 'sm', md: 'lg', lg: 'xl' }}
+      backgroundColor="gray.700"
+      borderRadius="14"
+      px="4"
     >
-      <Image src={imageURL} w={{ md: '270', xl: '320' }} borderRadius="12" />
+      <Image src={imageURL} borderRadius="12" />
 
-      <Text fontSize={{ md: 'xl', lg: '2xl' }}>{title}</Text>
+      <Text fontSize={{ base: 'md', md: 'xl', lg: '2xl' }}>{title}</Text>
 
-      <Text fontSize={{ md: 'lg', lg: 'xl' }}>{description}</Text>
+      <Text fontSize={{ base: 'sm', md: 'lg', lg: 'xl' }}>{description}</Text>
 
       {appURL ? (
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -44,7 +44,7 @@ export function ProjectCard({
               w="max"
               p="2"
               fontWeight="medium"
-              fontSize="lg"
+              fontSize={{ base: 'sm', lg: 'md', xl: 'lg' }}
               borderRadius="4"
               _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
             >
@@ -60,7 +60,7 @@ export function ProjectCard({
               w="max"
               p="2"
               fontWeight="medium"
-              fontSize="lg"
+              fontSize={{ base: 'sm', lg: 'md', xl: 'lg' }}
               borderRadius="4"
               _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
             >
@@ -77,7 +77,7 @@ export function ProjectCard({
             w="max"
             p="2"
             fontWeight="medium"
-            fontSize="lg"
+            fontSize={{ base: 'sm', lg: 'md', xl: 'lg' }}
             borderRadius="4"
             _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
           >

@@ -18,11 +18,15 @@ export default function Projects() {
       <Header />
 
       <Grid
-        templateColumns="repeat(3, 1fr) "
+        templateColumns={{
+          base: 'repeat(1, 1fr)',
+          md: 'repeat(2, 1fr)',
+          lg: 'repeat(3, 1fr)',
+        }}
         gap={4}
         align="center"
         justify="center"
-        mt={{ md: '16' }}
+        mt={{ base: '8', md: '12', lg: '16' }}
       >
         <ProjectCard
           imageURL="https://geocreed.sirv.com/viniciusoliveiras-portfolio/shape.it.png"
@@ -43,7 +47,7 @@ export default function Projects() {
         <ProjectCard
           imageURL="https://geocreed.sirv.com/viniciusoliveiras-portfolio/spacetraveling.png"
           title="spacetraveling"
-          description="O Spacetraveling é um blog construído com React.js que utiliza o CMS Prismic para criação dos posts e faz chamadas a API do CMS para listagem dos posts e exibição destes."
+          description="Blog construído com React.js que utiliza o CMS Prismic para criação, listagem e exibição dos posts."
           repositoryURL="https://github.com/viniciusoliveiras/spacetraveling"
         />
 
