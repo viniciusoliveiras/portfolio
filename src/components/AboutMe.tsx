@@ -32,11 +32,11 @@ export function AboutMe({ bio }: AboutMeProps) {
           align="center"
           justify="center"
         >
-          <Flex flexDirection="column" align="left" justify="space-around">
+          <Flex flexDirection="column" align="center" justify="space-around">
             <Text
               fontSize={{ md: "3xl", lg: "4xl", xl: "5xl" }}
               fontWeight="bold"
-              textAlign="left"
+              textAlign="center"
               w="100%"
               as="span"
             >

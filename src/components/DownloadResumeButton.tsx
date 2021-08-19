@@ -8,14 +8,14 @@ export function DownloadResumeButton() {
       isExternal
       textDecoration='none'
       w='min'
-      h='3rem'
+      h='12'
       color='gray.900'
     >
       <Box
         as='button'
         bgColor='yellow.400'
         w='max'
-        p='2'
+        p='3.5'
         fontWeight='medium'
         fontSize='lg'
         borderRadius='4'
