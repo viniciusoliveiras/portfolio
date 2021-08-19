@@ -28,7 +28,13 @@ export function Header() {
   if (isDrawerHeader) {
     return (
       <>
-        <Flex w="100%" justify="space-between" mt="4" align="center">
+        <Flex
+          w="100%"
+          justify="space-between"
+          mt="4"
+          align="center"
+          bgColor="gray.900"
+        >
           <Heading color="yellow.400">VO</Heading>
           <Box>
             <button onClick={onOpen}>
@@ -38,7 +44,7 @@ export function Header() {
         </Flex>
         <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="full">
           <DrawerOverlay>
-            <DrawerContent p="4">
+            <DrawerContent p="4" bgColor="gray.900">
               <DrawerCloseButton mt="6" />
               <DrawerHeader>MENU</DrawerHeader>
 
