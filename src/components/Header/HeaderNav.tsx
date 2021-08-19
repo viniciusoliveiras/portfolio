@@ -1,6 +1,7 @@
 import React from "react";
 import { Flex, useBreakpointValue, Link } from "@chakra-ui/react";
 import { NavLink } from "./NavLink";
+import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 import {
   RiHome2Line,
@@ -41,7 +42,12 @@ export function HeaderNav() {
       )}
 
       {!isWideVersion && (
-        <Flex flexDirection="column" justify="space-around" height="60vh">
+        <Flex
+          flexDirection="column"
+          justify="space-between"
+          height="70vh"
+          marginTop="12"
+        >
           <Flex
             w="100%"
             align="center"
@@ -61,6 +67,27 @@ export function HeaderNav() {
             <NavLink href="/resume" mt="10" title="Currículo">
               <RiFile2Line />
             </NavLink>
+          </Flex>
+
+          <Flex justify="space-evenly" w="100%">
+            <Link href="https://github.com/viniciusoliveiras" isExternal>
+              <FaGithub fontSize="1.5rem" />
+            </Link>
+
+            <Link
+              href="https://www.linkedin.com/in/viniciusoliveiras-01532/"
+              isExternal
+            >
+              <FaLinkedin fontSize="1.5rem" />
+            </Link>
+
+            <Link href="mailto: vinitag190@gmail.com" isExternal>
+              <FaEnvelope fontSize="1.5rem" />
+            </Link>
+
+            <Link href="https://www.instagram.com/svini.oliveira/" isExternal>
+              <FaInstagram fontSize="1.5rem" />
+            </Link>
           </Flex>
         </Flex>
       )}

@@ -15,7 +15,6 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { HeaderNav } from "./HeaderNav";
 
 export function Header() {
@@ -53,32 +52,6 @@ export function Header() {
               <DrawerBody>
                 <HeaderNav />
               </DrawerBody>
-
-              <DrawerFooter>
-                <Flex justify="space-evenly" w="100%">
-                  <Link href="https://github.com/viniciusoliveiras" isExternal>
-                    <FaGithub fontSize="1.5rem" />
-                  </Link>
-
-                  <Link
-                    href="https://www.linkedin.com/in/viniciusoliveiras-01532/"
-                    isExternal
-                  >
-                    <FaLinkedin fontSize="1.5rem" />
-                  </Link>
-
-                  <Link href="mailto: vinitag190@gmail.com" isExternal>
-                    <FaEnvelope fontSize="1.5rem" />
-                  </Link>
-
-                  <Link
-                    href="https://www.instagram.com/svini.oliveira/"
-                    isExternal
-                  >
-                    <FaInstagram fontSize="1.5rem" />
-                  </Link>
-                </Flex>
-              </DrawerFooter>
             </DrawerContent>
           </DrawerOverlay>
         </Drawer>
