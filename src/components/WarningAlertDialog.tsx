@@ -23,7 +23,7 @@ export function WarningAlertDialog() {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
+          <AlertDialogContent bgColor="gray.900">
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Atenção
             </AlertDialogHeader>
@@ -34,7 +34,7 @@ export function WarningAlertDialog() {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button colorScheme="blue" onClick={onClose} ml={3}>
+              <Button colorScheme="yellow" onClick={onClose} ml={3}>
                 OK
               </Button>
             </AlertDialogFooter>
