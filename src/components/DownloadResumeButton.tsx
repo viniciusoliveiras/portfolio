@@ -1,4 +1,4 @@
-import { Box, Link } from "@chakra-ui/react";
+import { Box, Link } from '@chakra-ui/react';
 
 export function DownloadResumeButton() {
   return (
@@ -18,7 +18,7 @@ export function DownloadResumeButton() {
         fontWeight="medium"
         fontSize="lg"
         borderRadius="4"
-        _hover={{ transition: 0.2, filter: "brightness(0.9)" }}
+        _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
       >
         Baixar Currículo
       </Box>

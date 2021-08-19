@@ -5,10 +5,10 @@ import {
   Image,
   Text,
   useBreakpointValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { DownloadResumeButton } from "./DownloadResumeButton";
-import { Typer } from "./Typer";
+import { DownloadResumeButton } from './DownloadResumeButton';
+import { Typer } from './Typer';
 
 export function AboutMe() {
   const isWideVersion = useBreakpointValue({
@@ -22,14 +22,14 @@ export function AboutMe() {
       {isWideVersion && (
         <Grid
           templateColumns="repeat(2, 1fr)"
-          mt={{ md: "20" }}
+          mt={{ md: '20' }}
           gap={16}
           align="center"
           justify="center"
         >
           <Flex flexDirection="column" align="center" justify="space-around">
             <Text
-              fontSize={{ md: "3xl", lg: "4xl", xl: "5xl" }}
+              fontSize={{ md: '3xl', lg: '4xl', xl: '5xl' }}
               fontWeight="bold"
               textAlign="center"
               w="100%"
@@ -45,7 +45,7 @@ export function AboutMe() {
             <Image
               src="https://avatars.githubusercontent.com/u/64497059?v=4"
               borderRadius="full"
-              boxSize={{ md: "270", lg: "270", xl: "320" }}
+              boxSize={{ md: '270', lg: '270', xl: '320' }}
             />
           </Flex>
         </Grid>
@@ -57,7 +57,7 @@ export function AboutMe() {
             <Image
               src="https://avatars.githubusercontent.com/u/64497059?v=4"
               borderRadius="full"
-              boxSize={{ xs: "200", sm: "250" }}
+              boxSize={{ xs: '200', sm: '250' }}
             />
           </Box>
 

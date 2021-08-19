@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Text,
@@ -6,10 +6,10 @@ import {
   Tooltip,
   useBreakpointValue,
   Link as ChakraLink,
-} from "@chakra-ui/react";
-import { format, formatDistanceToNowStrict } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
-import Link from "next/link";
+} from '@chakra-ui/react';
+import { format, formatDistanceToNowStrict } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+import Link from 'next/link';
 
 interface Repository {
   name: string;
@@ -34,7 +34,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
       {isWideVersion && (
         <Flex
           mt="12"
-          px={{ md: "16", lg: "20" }}
+          px={{ md: '16', lg: '20' }}
           bgColor="gray.700"
           flexDirection="column"
           alignSelf="center"
@@ -49,7 +49,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
           </Flex>
 
           <Grid templateColumns="repeat(2, 1fr)" mt="6" gap={5} mb="6">
-            {repos.map((repo) => {
+            {repos.map(repo => {
               return (
                 <Flex
                   p="6"
@@ -65,7 +65,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
 
                   <Flex my="6" flexDirection="column" fontSize="md">
                     <Tooltip
-                      label={`${format(new Date(repo.updated_at), "PP HH:mm", {
+                      label={`${format(new Date(repo.updated_at), 'PP HH:mm', {
                         locale: ptBR,
                       })} BRL`}
                       aria-label="A tooltip"
@@ -75,7 +75,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                         Atualizado há
                         {formatDistanceToNowStrict(new Date(repo.updated_at), {
                           locale: ptBR,
-                        })}{" "}
+                        })}{' '}
                         atrás
                       </Text>
                     </Tooltip>
@@ -109,7 +109,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
           </Flex>
 
           <Grid templateColumns="repeat(1, 1fr)" mt="6" gap={5} mb="6">
-            {repos.map((repo) => {
+            {repos.map(repo => {
               return (
                 <Flex
                   bgColor="gray.900"
@@ -125,7 +125,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
 
                   <Flex my="6" flexDirection="column" fontSize="sm">
                     <Tooltip
-                      label={`${format(new Date(repo.updated_at), "PP HH:mm", {
+                      label={`${format(new Date(repo.updated_at), 'PP HH:mm', {
                         locale: ptBR,
                       })} BRL`}
                       aria-label="A tooltip"
@@ -135,7 +135,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                         Atualizado há
                         {formatDistanceToNowStrict(new Date(repo.updated_at), {
                           locale: ptBR,
-                        })}{" "}
+                        })}{' '}
                         atrás
                       </Text>
                     </Tooltip>

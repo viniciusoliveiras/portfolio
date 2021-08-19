@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 
 import {
   AlertDialog,
@@ -8,7 +8,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Button,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export function WarningAlertDialog() {
   const [isOpen, setIsOpen] = useState(true);

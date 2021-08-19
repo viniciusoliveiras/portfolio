@@ -1,5 +1,5 @@
-import { Flex, Grid, Text, useBreakpointValue } from "@chakra-ui/react";
-import Link from "next/link";
+import { Flex, Grid, Text, useBreakpointValue } from '@chakra-ui/react';
+import Link from 'next/link';
 
 export function AboutMe2() {
   const isWideVersion = useBreakpointValue({
@@ -14,7 +14,7 @@ export function AboutMe2() {
         <Flex
           mt="8"
           mb="8"
-          px={{ md: "16", lg: "36" }}
+          px={{ md: '16', lg: '36' }}
           flex="1"
           flexDirection="column"
           justify="space-around"
@@ -34,7 +34,7 @@ export function AboutMe2() {
 
             <Text>
               Sempre que possível, aplico tudo o que aprendo nos desafios do
-              curso e em alguns projetos, como{" "}
+              curso e em alguns projetos, como{' '}
               <span className="highlightText">esse site,</span> por exemplo
             </Text>
           </Flex>
@@ -73,7 +73,7 @@ export function AboutMe2() {
 
               <Text mt="8">
                 Sempre que possível, aplico tudo o que aprendo nos desafios do
-                curso e em alguns projetos, como{" "}
+                curso e em alguns projetos, como{' '}
                 <span className="highlightText">esse site,</span> por exemplo
               </Text>
             </Flex>

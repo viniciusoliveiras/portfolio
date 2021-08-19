@@ -1,7 +1,7 @@
-import GitHubCalendar from "react-github-calendar";
-import ReactTooltip from "react-tooltip";
+import GitHubCalendar from 'react-github-calendar';
+import ReactTooltip from 'react-tooltip';
 
-import { Flex, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Flex, Text, useBreakpointValue } from '@chakra-ui/react';
 
 export function GithubCalendar() {
   const isWideVersion = useBreakpointValue({
@@ -12,7 +12,7 @@ export function GithubCalendar() {
   return (
     <>
       <Flex flexDirection="column" mt="14">
-        <Text fontSize={{ xs: "2xl", md: "3xl" }} color="red.400">
+        <Text fontSize={{ xs: '2xl', md: '3xl' }} color="red.400">
           Contribuições no Github
         </Text>
 

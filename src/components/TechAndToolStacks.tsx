@@ -5,9 +5,9 @@ import {
   GridItem,
   Divider,
   useBreakpointValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { Tech } from "./Tech";
+import { Tech } from './Tech';
 
 export function TechAndToolStacks() {
   const isWideVersion = useBreakpointValue({
@@ -24,7 +24,7 @@ export function TechAndToolStacks() {
           mt="16"
         >
           <GridItem>
-            <Text fontSize={{ sm: "xl", xs: "2xl", md: "3xl" }} color="red.400">
+            <Text fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }} color="red.400">
               Tech Stack
             </Text>
 
@@ -68,7 +68,7 @@ export function TechAndToolStacks() {
           </Flex>
 
           <GridItem>
-            <Text fontSize={{ sm: "xl", xs: "2xl", md: "3xl" }} color="red.400">
+            <Text fontSize={{ sm: 'xl', xs: '2xl', md: '3xl' }} color="red.400">
               Ferramentas que utilizo
             </Text>
 

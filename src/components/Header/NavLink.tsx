@@ -1,12 +1,12 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 import {
   Text,
   Link as ChakraLink,
   LinkProps as ChakraLinkProps,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { ActiveLink } from "../ActiveLink";
+import { ActiveLink } from '../ActiveLink';
 
 interface NavLinkProps extends ChakraLinkProps {
   children?: ReactNode;

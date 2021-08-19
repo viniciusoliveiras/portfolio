@@ -1,4 +1,4 @@
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Drawer,
   DrawerBody,
@@ -11,9 +11,9 @@ import {
   Flex,
   Box,
   Heading,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { HeaderNav } from "./HeaderNav";
+import { HeaderNav } from './HeaderNav';
 
 export function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();

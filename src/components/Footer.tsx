@@ -1,6 +1,6 @@
-import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
-import { Flex, Text, Icon, Link, useBreakpointValue } from "@chakra-ui/react";
+import { Flex, Text, Icon, Link, useBreakpointValue } from '@chakra-ui/react';
 
 export function Footer() {
   const isWideVersion = useBreakpointValue({
@@ -13,22 +13,22 @@ export function Footer() {
     <Flex flexDirection="column" align="center" px="4" mt="4">
       <Flex mt="8" justify="space-between" w="60">
         <Link href="https://github.com/viniciusoliveiras" isExternal>
-          <Icon as={FaGithub} fontSize={{ xs: "1.5rem", md: "2rem" }} />
+          <Icon as={FaGithub} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
 
         <Link
           href="https://www.linkedin.com/in/viniciusoliveiras-01532/"
           isExternal
         >
-          <Icon as={FaLinkedin} fontSize={{ xs: "1.5rem", md: "2rem" }} />
+          <Icon as={FaLinkedin} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
 
         <Link href="mailto: vinitag190@gmail.com" isExternal>
-          <Icon as={FaEnvelope} fontSize={{ xs: "1.5rem", md: "2rem" }} />
+          <Icon as={FaEnvelope} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
 
         <Link href="https://www.instagram.com/svini.oliveira/" isExternal>
-          <Icon as={FaInstagram} fontSize={{ xs: "1.5rem", md: "2rem" }} />
+          <Icon as={FaInstagram} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
       </Flex>
       <Flex align="center" justify="center" my="6">

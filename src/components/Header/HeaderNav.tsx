@@ -1,14 +1,14 @@
-import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import {
   RiHome2Line,
   RiInformationLine,
   RiCodeSSlashLine,
   RiFile2Line,
-} from "react-icons/ri";
+} from 'react-icons/ri';
 
-import { Flex, useBreakpointValue, Link } from "@chakra-ui/react";
+import { Flex, useBreakpointValue, Link } from '@chakra-ui/react';
 
-import { NavLink } from "./NavLink";
+import { NavLink } from './NavLink';
 
 export function HeaderNav() {
   const isWideVersion = useBreakpointValue({
@@ -24,7 +24,7 @@ export function HeaderNav() {
           align="center"
           justify="flex-end"
           fontWeight="medium"
-          fontSize={{ sm: "lg", lg: "xl" }}
+          fontSize={{ sm: 'lg', lg: 'xl' }}
         >
           <NavLink href="/home" mr="8" title="Início">
             <RiHome2Line />
