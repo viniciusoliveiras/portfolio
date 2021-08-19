@@ -23,7 +23,7 @@ export function Footer() {
           <Icon as={FaLinkedin} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
 
-        <Link href="mailto: vinitag190@gmail.com" isExternal>
+        <Link href="mailto:vinitag190@gmail.com" isExternal>
           <Icon as={FaEnvelope} fontSize={{ xs: '1.5rem', md: '2rem' }} />
         </Link>
 

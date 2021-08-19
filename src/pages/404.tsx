@@ -5,16 +5,20 @@ import { Header } from '../components/Header';
 
 export default function Custom404() {
   return (
-    <>
+    <Flex
+      flexDirection="column"
+      mx={{ base: '4', sm: '8', md: '14', lg: '24', xl: '32' }}
+      justifyContent="space-between"
+      h="100vh"
+    >
       <Header />
       <Flex
         flex="1"
-        h="80vh"
         flexDirection="column"
         align="center"
         justify="space-evenly"
         mt={{ xs: '4', md: '10', lg: '12' }}
-        p="8"
+        py="2"
       >
         <Box>
           <Heading fontSize={{ xs: '7xl', md: '8xl' }} textAlign="center">
@@ -37,7 +41,8 @@ export default function Custom404() {
         <Link href="/home" textDecoration="none" w="min" h="3rem" color="white">
           <Box
             as="button"
-            bgColor="red.400"
+            bgColor="yellow.400"
+            color="gray.900"
             w="max"
             p="2"
             fontWeight="medium"
@@ -49,6 +54,6 @@ export default function Custom404() {
           </Box>
         </Link>
       </Flex>
-    </>
+    </Flex>
   );
 }
