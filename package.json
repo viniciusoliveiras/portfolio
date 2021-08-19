@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "buildanalyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
@@ -14,6 +15,7 @@
     "@chakra-ui/theme-tools": "^1.1.9",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
+    "@next/bundle-analyzer": "^11.1.0",
     "axios": "^0.21.1",
     "date-fns": "^2.21.1",
     "framer-motion": "^4.1.11",
@@ -33,6 +35,7 @@
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
