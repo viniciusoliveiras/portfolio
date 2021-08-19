@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { DownloadResumeButton } from "./DownloadResumeButton";
 import { Typer } from "./Typer";
+import Typewriter from "typewriter-effect";
 
 interface AboutMeProps {
   bio: string;
@@ -56,19 +57,23 @@ export function AboutMe({ bio }: AboutMeProps) {
       )}
 
       {!isWideVersion && (
-        <Grid mt="8" px="2" gap={16} align="center" justify="space-around">
-          <Image
-            src="https://avatars.githubusercontent.com/u/64497059?v=4"
-            borderRadius="full"
-            boxSize={{ xs: "200", sm: "250" }}
-          />
-          <Box>
-            <Text fontSize="3xl" fontWeight="bold" w="100%">
-              Olá, eu sou Vinícius, <br />
+        <Grid mt="8" px="2" gap={16} align="center" justify="center">
+          <Box flexDirection="column">
+            <Image
+              src="https://avatars.githubusercontent.com/u/64497059?v=4"
+              borderRadius="full"
+              boxSize={{ xs: "200", sm: "250" }}
+            />
+          </Box>
+
+          <Box flexDirection="column">
+            <Text fontSize="3xl" fontWeight="bold" w="100%" as="span">
+              Olá, eu sou Vinícius,
               <Typer />
             </Text>
           </Box>
-          <Box>
+
+          <Box flexDirection="column">
             <DownloadResumeButton />
           </Box>
         </Grid>

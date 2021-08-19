@@ -34,12 +34,12 @@ export function RecentProjects({ repos }: RepoSliceProps) {
       {isWideVersion && (
         <Flex
           mt="12"
-          px={{ md: "16", lg: "36" }}
+          px={{ md: "16", lg: "20" }}
           bgColor="gray.700"
           flexDirection="column"
-          // w="82%"
           alignSelf="center"
           borderRadius="12"
+          w="100%"
         >
           <Flex justify="space-between" align="center" flex="1" mt="4">
             <Text fontSize="2xl">Projetos recentes</Text>
@@ -56,8 +56,8 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                   flexDirection="column"
                   justify="center"
                   bgColor="gray.900"
-                  key={repo.name}
                   borderRadius="12"
+                  key={repo.name}
                 >
                   <Text fontSize="2xl" fontWeight="bold">
                     {repo.name}
@@ -96,7 +96,14 @@ export function RecentProjects({ repos }: RepoSliceProps) {
       )}
 
       {!isWideVersion && (
-        <Flex mt="10" px="10" flex="1" bgColor="#EDF7FA" flexDirection="column">
+        <Flex
+          mt="10"
+          px="10"
+          bgColor="gray.700"
+          flexDirection="column"
+          alignSelf="center"
+          borderRadius="12"
+        >
           <Flex justify="center" align="center" flex="1" mt="4">
             <Text fontSize="xl">Projetos recentes</Text>
           </Flex>
@@ -105,7 +112,8 @@ export function RecentProjects({ repos }: RepoSliceProps) {
             {repos.map((repo) => {
               return (
                 <Flex
-                  bgColor="white"
+                  bgColor="gray.900"
+                  borderRadius="12"
                   flexDirection="column"
                   p="6"
                   key={repo.name}
@@ -131,13 +139,12 @@ export function RecentProjects({ repos }: RepoSliceProps) {
                         atrás
                       </Text>
                     </Tooltip>
-                    <Text></Text>
                   </Flex>
 
                   <Text fontSize="md">{repo.description}</Text>
 
                   <ChakraLink href={repo.html_url} isExternal mt="8">
-                    <Text color="red.400">
+                    <Text color="gray.100">
                       Acessar <ExternalLinkIcon mx="2px" />
                     </Text>
                   </ChakraLink>
@@ -147,7 +154,7 @@ export function RecentProjects({ repos }: RepoSliceProps) {
           </Grid>
           <Flex justify="center" align="center" flex="1" mb="4">
             <Link href="/projects">
-              <Text color="cyan.500">Ver todos</Text>
+              <Text color="yellow.400">Ver todos</Text>
             </Link>
           </Flex>
         </Flex>

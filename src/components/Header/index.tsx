@@ -30,7 +30,7 @@ export function Header() {
       <>
         <Flex w="100%" justify="space-between" mt="4" align="center">
           <Heading color="yellow.400">VO</Heading>
-          <Box mr="4">
+          <Box>
             <button onClick={onOpen}>
               <HamburgerIcon fontSize="3xl" />
             </button>
