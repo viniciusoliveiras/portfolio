@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.11.0/devicon.min.css"
         />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <ChakraProvider theme={theme}>
         <Component {...pageProps} />

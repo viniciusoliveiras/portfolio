@@ -54,6 +54,10 @@ export default class MyDocument extends Document {
             property="twitter:image"
             content="https://i.imgur.com/oSNgyWg.jpg"
           />
+
+          <link rel="apple-touch-icon" href="/icons/maskable_icon_x192.png" />
+
+          <meta name="theme-color" content="#FFD369" />
         </Head>
         <body>
           <Main />

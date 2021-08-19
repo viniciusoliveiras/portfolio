@@ -46,6 +46,7 @@ export function AboutMe() {
               src="https://avatars.githubusercontent.com/u/64497059?v=4"
               borderRadius="full"
               boxSize={{ md: '270', lg: '270', xl: '320' }}
+              alt="Foto de perfil Vínicius"
             />
           </Flex>
         </Grid>
@@ -58,6 +59,7 @@ export function AboutMe() {
               src="https://avatars.githubusercontent.com/u/64497059?v=4"
               borderRadius="full"
               boxSize={{ xs: '200', sm: '250' }}
+              alt="Foto de perfil Vínicius"
             />
           </Box>
 
