@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Box, Link } from '@chakra-ui/react';
 
 export function ViewCurriculumButton() {
@@ -20,7 +21,7 @@ export function ViewCurriculumButton() {
         borderRadius="4"
         _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
       >
-        Ver Currículo
+        Ver Currículo <ExternalLinkIcon mx="2px" />
       </Box>
     </Link>
   );

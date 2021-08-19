@@ -1,0 +1,20 @@
+span.highlightText {
+  color: #ffd369;
+  font-weight: bold;
+}
+
+div.resume-item {
+  position: relative;
+}
+
+div.resume-item::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  left: -10px;
+  top: 0;
+  background: #ffd369;
+  border: 2px solid #ffd369;
+}
