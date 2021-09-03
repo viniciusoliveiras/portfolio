@@ -239,6 +239,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chakra-ui/color-mode@npm:1.1.12":
+  version: 1.1.12
+  resolution: "@chakra-ui/color-mode@npm:1.1.12"
+  dependencies:
+    "@chakra-ui/hooks": 1.6.0
+    "@chakra-ui/utils": 1.8.2
+  peerDependencies:
+    react: ">=16.8.6"
+  checksum: 9c0f9f84b82f60b57ae23d36222cffc9a2cd25f8c889709e4144c8b18bc198e004eb9513af5b83d55ff9c7e7ed11b299e688987bd453bbb48bdaf4724bd2f31d
+  languageName: node
+  linkType: hard
+
 "@chakra-ui/color-mode@npm:1.1.7":
   version: 1.1.7
   resolution: "@chakra-ui/color-mode@npm:1.1.7"
@@ -378,6 +390,20 @@ __metadata:
   peerDependencies:
     react: ">=16.8.6"
   checksum: d42e8c89330afddc553dbaa4084a25fd7ed6e9b7cfd5093b1a510e16a4db22be19978121c0c64bd97a8a8211173287299769385881b3ce646c8d56c44fae3aab
+  languageName: node
+  linkType: hard
+
+"@chakra-ui/hooks@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@chakra-ui/hooks@npm:1.6.0"
+  dependencies:
+    "@chakra-ui/react-utils": 1.1.2
+    "@chakra-ui/utils": 1.8.2
+    compute-scroll-into-view: 1.0.14
+    copy-to-clipboard: 3.3.1
+  peerDependencies:
+    react: ">=16.8.6"
+  checksum: 792e3e7c86d49c43f6ad567d9031927f17a75d5ae66d2070f82fc7920588f250a468656dbb51bc841c9f9292fb18e4afc7bb954714ac90e437d23a2e0f4e6e57
   languageName: node
   linkType: hard
 
@@ -776,6 +802,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chakra-ui/styled-system@npm:1.12.2":
+  version: 1.12.2
+  resolution: "@chakra-ui/styled-system@npm:1.12.2"
+  dependencies:
+    "@chakra-ui/utils": 1.8.2
+    csstype: ^3.0.6
+  checksum: 862ca358f6e65926b9f8db234c1bba5f2fcb416c41859f6a8be88a3f39e19304295639f946bfead5cdfdb2286cc16939cfb7828b2db5ba38c92d3b92026d1a92
+  languageName: node
+  linkType: hard
+
 "@chakra-ui/switch@npm:1.2.4":
   version: 1.2.4
   resolution: "@chakra-ui/switch@npm:1.2.4"
@@ -803,6 +839,23 @@ __metadata:
     "@emotion/styled": ^11.0.0
     react: ">=16.8.6"
   checksum: d60738722d6f668023ffac48db7958cb1d60d535d68f176389018b481405f991bb45444c3fc84d683452a7f664511128b3885368b93a9d0ee262cc3246e4ac51
+  languageName: node
+  linkType: hard
+
+"@chakra-ui/system@npm:^1.7.3":
+  version: 1.7.3
+  resolution: "@chakra-ui/system@npm:1.7.3"
+  dependencies:
+    "@chakra-ui/color-mode": 1.1.12
+    "@chakra-ui/react-utils": 1.1.2
+    "@chakra-ui/styled-system": 1.12.2
+    "@chakra-ui/utils": 1.8.2
+    react-fast-compare: 3.2.0
+  peerDependencies:
+    "@emotion/react": ^11.0.0
+    "@emotion/styled": ^11.0.0
+    react: ">=16.8.6"
+  checksum: e8c628992479febcb0ed28951d7cfd9b217c61387a0de5078db0ba831f0fca8b92a817995d93e5d3b747e5c250dd3a0cf7886822cee3b65c1ff0bf57bea2fba0
   languageName: node
   linkType: hard
 
@@ -1018,6 +1071,13 @@ __metadata:
     "@emotion/weak-memoize": ^0.2.5
     stylis: ^4.0.3
   checksum: 09a7ddde3f7bcc9adb0694f1432cc740fab80f5069cceb773baa64961e83e5cd4549bb7b9ec2acd9ff0a80b437d82cf7e382881de5fff827a8ede959b7ffd90a
+  languageName: node
+  linkType: hard
+
+"@emotion/core@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "@emotion/core@npm:11.0.0"
+  checksum: d9beeff0c120ec4d3cd89aa74e1ee3ff658976f27d14820e4e8f8e9981b4461b4a78c9e9c0853397ba09dff36b4e19357858ac8773ee5eb72bfd4b185926b5f3
   languageName: node
   linkType: hard
 
@@ -3057,6 +3117,13 @@ __metadata:
   version: 2.1.0
   resolution: "emojis-list@npm:2.1.0"
   checksum: fb61fa6356dfcc9fbe6db8e334c29da365a34d3d82a915cb59621883d3023d804fd5edad5acd42b8eec016936e81d3b38e2faf921b32e073758374253afe1272
+  languageName: node
+  linkType: hard
+
+"emotion-theming@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "emotion-theming@npm:11.0.0"
+  checksum: d823a50c4d3df3d9a4c21574c354cdbddbe06ad1d07b7fc2807cdc2eaf5d765ea1486d9d3292ea1855d9fb18b29edd39a7e3a784da4afa54ef5f1c02970142ed
   languageName: node
   linkType: hard
 
@@ -5537,7 +5604,9 @@ fsevents@~2.3.1:
     "@chakra-ui/core": ^0.8.0
     "@chakra-ui/icons": ^1.0.12
     "@chakra-ui/react": ^1.6.0
+    "@chakra-ui/system": ^1.7.3
     "@chakra-ui/theme-tools": ^1.1.9
+    "@emotion/core": ^11.0.0
     "@emotion/react": ^11.1.5
     "@emotion/styled": ^11.3.0
     "@next/bundle-analyzer": ^11.1.0
@@ -5550,6 +5619,7 @@ fsevents@~2.3.1:
     axios: ^0.21.1
     cross-env: ^7.0.3
     date-fns: ^2.21.1
+    emotion-theming: ^11.0.0
     eslint: ^7.32.0
     eslint-config-airbnb: ^18.2.1
     eslint-config-prettier: ^8.3.0
