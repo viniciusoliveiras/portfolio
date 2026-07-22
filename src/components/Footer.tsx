@@ -39,7 +39,7 @@ export function Footer() {
         )}
         {!isWideVersion && (
           <Text textAlign="center">
-            © 2021 Vinícius Oliveira.
+            © {new Date().getFullYear()} Vinicius Oliveira.
             <br /> All rights reserved.
           </Text>
         )}
