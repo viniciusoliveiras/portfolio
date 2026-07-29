@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 
-import { documentLang, type Locale } from "~/config";
+import { documentLang, type Locale, localeName, localePath } from "~/config";
 
 /**
  * `/pt` ↔ `/en` is the ONLY route change on the entire site — the four bar anchors
@@ -28,7 +28,7 @@ export function LocaleSwitch({
 
 	return (
 		<Link
-			to={other === "en" ? "/en" : "/pt"}
+			to={localePath[other]}
 			hash={hash || undefined}
 			resetScroll={false}
 			hrefLang={documentLang[other]}
@@ -36,7 +36,7 @@ export function LocaleSwitch({
 			onClick={onNavigate}
 			className="font-mono text-label text-muted uppercase hover:text-ink"
 		>
-			{other === "en" ? "English" : "Português"}
+			{localeName[other]}
 		</Link>
 	);
 }

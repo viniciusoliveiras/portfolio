@@ -9,6 +9,7 @@ import { expect, test } from "@playwright/test";
  */
 
 const PHONE = { width: 390, height: 844 };
+const DESKTOP = { width: 1280, height: 900 };
 
 // The two `paper`/`ink` pairs, as the browser resolves them.
 const DARK = { paper: "rgb(26, 25, 24)", ink: "rgb(232, 230, 225)" };
@@ -159,11 +160,22 @@ test.describe("the palette follows the system theme", () => {
 		expect(resolved).toEqual(DARK);
 
 		// And the one coloured surface stays legible: the dark accent, not the light one.
-		const accent = await page
-			.locator("#contact a")
-			.first()
-			.evaluate((el) => getComputedStyle(el).color);
-		expect(accent).toBe("rgb(240, 115, 106)");
+		const link = page.locator("#contact a").first();
+		expect(await link.evaluate((el) => getComputedStyle(el).color)).toBe(
+			"rgb(240, 115, 106)",
+		);
+
+		// The underline too. `accent-link` sets its decoration colour with a
+		// `color-mix()` over the accent token, and Lightning CSS emits a STATICALLY
+		// RESOLVED light-mode literal ahead of it as a fallback for engines without
+		// `color-mix()`. The later rule must be the one that wins, or the underline
+		// keeps its light value on dark paper — the same failure shape as `@theme
+		// inline`, one property down.
+		const decoration = await link.evaluate(
+			(el) => getComputedStyle(el).textDecorationColor,
+		);
+		expect(decoration).not.toContain("179");
+		expect(decoration).toMatch(/240|oklab|color-mix/);
 
 		await context.close();
 	});
@@ -246,7 +258,7 @@ test.describe("the rail", () => {
 	test("travels with its section and is released at the section's end", async ({
 		page,
 	}) => {
-		await page.setViewportSize({ width: 1280, height: 900 });
+		await page.setViewportSize(DESKTOP);
 		await page.goto("/pt");
 
 		const label = page.locator("#experience p").first();
@@ -271,7 +283,7 @@ test.describe("the rail", () => {
 	});
 
 	test("is not navigation — no rail label is a link", async ({ page }) => {
-		await page.setViewportSize({ width: 1280, height: 900 });
+		await page.setViewportSize(DESKTOP);
 		await page.goto("/pt");
 		for (const id of ["summary", "experience", "work", "skills", "contact"]) {
 			await expect(
@@ -285,7 +297,7 @@ test.describe("anchored jumps", () => {
 	// `scroll-margin-top` of the bar height plus 1rem, so a jumped-to heading does not
 	// land underneath the sticky bar.
 	test("do not land the section under the sticky bar", async ({ page }) => {
-		await page.setViewportSize({ width: 1280, height: 900 });
+		await page.setViewportSize(DESKTOP);
 		await page.goto("/pt");
 
 		await page.locator('header > div > nav a[href="#work"]').click();
@@ -306,7 +318,7 @@ test.describe("the locale switch", () => {
 	test("crosses to the other locale and holds the reader's section", async ({
 		page,
 	}) => {
-		await page.setViewportSize({ width: 1280, height: 900 });
+		await page.setViewportSize(DESKTOP);
 		await page.goto("/pt#skills");
 		await page.waitForTimeout(300);
 

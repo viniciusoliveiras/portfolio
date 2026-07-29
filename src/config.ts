@@ -30,3 +30,25 @@ export const documentLang: Record<Locale, string> = {
 	pt: "pt-BR",
 	en: "en",
 };
+
+/** The Open Graph form of each locale, which is neither the URL segment nor `lang`. */
+export const ogLocale: Record<Locale, string> = {
+	pt: "pt_BR",
+	en: "en_US",
+};
+
+/**
+ * What the language switcher CALLS the other locale — each name written in the
+ * language it leads to, which is the whole convention of a language switcher.
+ *
+ * These three maps replace what were ternaries on `Locale` scattered across the
+ * switcher, the head builder and the shell. Anything that varies by locale and is not
+ * copy belongs beside them.
+ */
+export const localeName: Record<Locale, string> = {
+	pt: "Português",
+	en: "English",
+};
+
+/** The route path for a locale, kept literal so `Link`'s `to` stays type-checked. */
+export const localePath = { pt: "/pt", en: "/en" } as const;

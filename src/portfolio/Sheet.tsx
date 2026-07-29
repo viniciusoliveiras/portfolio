@@ -25,9 +25,23 @@ import { LocaleSwitch } from "./LocaleSwitch";
  * mobile-only primitive lives, and a sheet with no visible backdrop has no "outside"
  * to tap.
  *
- * One accepted wart, recorded rather than overlooked: `close()` restores focus to the
- * trigger while native hash navigation only scrolls, so a keyboard user who picks a
- * section lands visually at it with focus back on the menu button in the bar.
+ * TWO accepted warts, recorded rather than overlooked.
+ *
+ * 1. `close()` restores focus to the trigger while native hash navigation only
+ *    scrolls, so a keyboard user who picks a section lands visually at it with focus
+ *    back on the menu button in the bar. Fixing it means imperative focus management
+ *    on the target heading, which is more machinery than the wart costs.
+ *
+ * 2. Crossing `md` while the sheet is open leaves the `open` attribute set on an
+ *    element the breakpoint has hidden — reachable on a phone, because rotating a
+ *    390px portrait screen to 844px landscape crosses the breakpoint. MEASURED, and
+ *    the page does not break: the sheet stops rendering, everything behind it stays
+ *    visible and clickable rather than inert, and `Escape` still clears the attribute.
+ *    The one visible consequence is that rotating BACK re-reveals the sheet unasked.
+ *    Not fixed, because the only fix is a `matchMedia` listener calling `close()` —
+ *    the first effect in the tree, in the one component the spec keeps free of state,
+ *    to tidy a recoverable cosmetic glitch after a double rotation. Left for the
+ *    author to rule on rather than decided here.
  */
 export function Sheet({
 	locale,
@@ -120,10 +134,11 @@ export function Sheet({
 					</button>
 				</div>
 
-				<nav
-					aria-label={nav.menuLabel}
-					className="flex flex-col gap-6 px-4 py-8"
-				>
+				{/* No `aria-label` here: the sheet spec assigns `nav.menuLabel` to the
+				    `<dialog>` and to nothing else, and the dialog already carries it —
+				    labelling this nav too makes a screen reader announce the same name
+				    twice on entering one overlay. */}
+				<nav className="flex flex-col gap-6 px-4 py-8">
 					{SHEET_ANCHORS.map((key) => (
 						// Every anchor closes the sheet. Without this the visitor jumps to
 						// the section and stares at the sheet still covering it.

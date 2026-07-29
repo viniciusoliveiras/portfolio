@@ -86,8 +86,17 @@ export const pt = {
 			"Os cargos abaixo são no mesmo grupo de empresas — Devex Soluções e Inovasensor —, cujas equipes de engenharia atuam de forma conjunta entre os produtos.",
 		] as Segment[],
 
-		// Keyed, not positional, on facts.ts's own precedent: an array would let
-		// English silently ship three roles against Portuguese's four.
+		/**
+		 * Keyed, not positional, on facts.ts's own precedent: an array would let English
+		 * silently ship three roles against Portuguese's four.
+		 *
+		 * Every `period` below uses a HYPHEN, where the site copy writes an en dash.
+		 * The section layouts §6 supersede it: "Date ranges did move to hyphens, where
+		 * the rule is typographically right anyway." That is a general statement about
+		 * date ranges, and the same document's own Education line — `2020 - 2022 ·
+		 * concluído` — is written with a hyphen, so applying it to only one of the two
+		 * kinds of date line would leave the page inconsistent with itself.
+		 */
 		roles: {
 			lead: {
 				period: "abril de 2026 - presente",
@@ -155,6 +164,11 @@ export const pt = {
 			// is suppressed when this lockup is present, or the page says
 			// "TanStack Start · TanStack Query" twice, eight lines apart.
 			lockup: { values: terms.bpoStack, label: "Arquitetura escolhida" },
+			// The closing sentence — `Este site roda na mesma escolha.` — is **(voice)**:
+			// the fact is true and traceable, but the decision to point at it is a
+			// rhetorical one, so it can be rewritten without checking a source. It turns
+			// "the site itself is the one live craft demo" from a claim the reader takes
+			// on trust into one they are currently standing inside.
 			prose:
 				"Defino a arquitetura de frontend da plataforma. Escolhi TanStack Start, com TanStack Query cuidando de estado de servidor, cache e estados de carregamento e erro — em vez de uma biblioteca de estado de cliente, porque o produto é orientado a API. Também contribuo com o backend em Node.js, dentro de um monorepo que abriga a camada de IA proprietária do produto. Este site roda na mesma escolha.",
 		},

@@ -56,6 +56,8 @@ export const en = {
 			"The roles below are within one company group — Devex Soluções and Inovasensor — whose engineering teams operate jointly across products.",
 		] as Segment[],
 
+		// Hyphens, not the en dashes the site copy writes — see the note on the pt
+		// module's `roles`.
 		roles: {
 			lead: {
 				period: "April 2026 - Present",

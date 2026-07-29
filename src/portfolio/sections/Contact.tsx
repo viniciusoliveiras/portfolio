@@ -24,10 +24,7 @@ export function Contact({ copy }: { copy: Messages["contact"] }) {
 								{link.label}
 							</dt>
 							<dd className="mt-1 sm:mt-0">
-								<a
-									href={link.href}
-									className="text-body text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
-								>
+								<a href={link.href} className="text-body accent-link">
 									{link.value}
 								</a>
 							</dd>

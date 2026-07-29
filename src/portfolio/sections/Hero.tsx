@@ -23,16 +23,10 @@ export function Hero({ copy }: { copy: Messages["hero"] }) {
 			<h1 className="mt-3 text-hero optical-60">{AUTHOR_NAME}</h1>
 			<p className="mt-8 text-lede">{copy.lede}</p>
 			<p className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
-				<a
-					href={copy.actions.contact.href}
-					className="text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
-				>
+				<a href={copy.actions.contact.href} className="accent-link">
 					{copy.actions.contact.label}
 				</a>
-				<a
-					href={copy.actions.resume.href}
-					className="text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
-				>
+				<a href={copy.actions.resume.href} className="accent-link">
 					{copy.actions.resume.label}
 				</a>
 			</p>

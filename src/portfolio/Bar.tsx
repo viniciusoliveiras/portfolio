@@ -19,15 +19,16 @@ import { Sheet } from "./Sheet";
 export function Bar({ locale, nav }: { locale: Locale; nav: Messages["nav"] }) {
 	return (
 		<header className="sticky top-0 z-40 border-b border-rule-strong bg-paper">
-			<div className="mx-auto flex h-14 w-full max-w-[min(calc(65ch_+_10.5rem),100%-2rem)] items-center justify-between text-body">
+			<div className="measure-rail flex h-14 w-full items-center justify-between text-body">
 				{/* The name, not a link: this is a running head, and a self-link on a
 				    single-page site is noise. */}
 				<span className="text-body-sm text-ink optical-16">{AUTHOR_NAME}</span>
 
-				<nav
-					aria-label={nav.menuLabel}
-					className="hidden items-center gap-6 md:flex"
-				>
+				{/* No `aria-label`: `nav.menuLabel` names THE SHEET, and borrowing it
+				    here would tell a screen reader that the bar is the mobile menu. Only
+				    one of the two navs is ever reachable — the other is `display: none` —
+				    so there are never two nav landmarks to tell apart. */}
+				<nav className="hidden items-center gap-6 md:flex">
 					{BAR_ANCHORS.map((key) => (
 						<a
 							key={key}

@@ -17,7 +17,7 @@ import { pt } from "~/content/pt";
  */
 export function NotFound() {
 	return (
-		<main className="mx-auto w-full max-w-[min(65ch,100%-2rem)] py-16 text-body lg:py-24">
+		<main className="measure w-full py-16 text-body lg:py-24">
 			<p className="font-mono text-label text-muted uppercase">
 				{pt.notFound.whoops}
 			</p>
@@ -25,10 +25,7 @@ export function NotFound() {
 			<h1 className="mt-3 text-entry">{pt.notFound.title}</h1>
 			<p className="mt-3 text-body">{pt.notFound.message}</p>
 			<p className="mt-3">
-				<a
-					href="/pt"
-					className="text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
-				>
+				<a href="/pt" className="accent-link">
 					{pt.notFound.back}
 				</a>
 			</p>
@@ -37,10 +34,7 @@ export function NotFound() {
 				<h2 className="text-entry">{en.notFound.title}</h2>
 				<p className="mt-3 text-body">{en.notFound.message}</p>
 				<p className="mt-3">
-					<a
-						href="/en"
-						className="text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
-					>
+					<a href="/en" className="accent-link">
 						{en.notFound.back}
 					</a>
 				</p>

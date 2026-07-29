@@ -114,6 +114,44 @@
 	color: var(--color-on-accent);
 }
 
+/* The centred measure, and the same measure with the rail's column beside it
+   (8rem rail + 2.5rem gutter = 10.5rem). Bound here rather than repeated as a
+   class list because three components need one of the two, and the literal had
+   already drifted once while it was copied between them. Widening the measure is
+   now one edit in the layer that owns the value.
+
+   `ch` resolves against the element's OWN font size, so anything taking these
+   must also be at `text-body` or the measure is not the 65ch the brief fixes. */
+@utility measure {
+	max-width: min(65ch, 100% - 2rem);
+	margin-inline: auto;
+}
+
+@utility measure-rail {
+	max-width: min(calc(65ch + 10.5rem), 100% - 2rem);
+	margin-inline: auto;
+}
+
+/* The one link treatment on the page: accent, underlined at 40% rising to full
+   on hover inside the base layer's 150ms transition. NOT a filled button — fills
+   are a UI convention that fights the editorial frame, and the underline is the
+   affordance. Bound into a utility because it has six callers and the offset had
+   already drifted to two different values across them. */
+@utility accent-link {
+	color: var(--color-accent);
+	text-decoration-line: underline;
+	text-decoration-color: color-mix(
+		in oklab,
+		var(--color-accent) 40%,
+		transparent
+	);
+	text-underline-offset: 4px;
+
+	&:hover {
+		text-decoration-color: var(--color-accent);
+	}
+}
+
 /* ----------------------------------------------------------------- base */
 
 @layer base {

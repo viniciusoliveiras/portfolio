@@ -16,11 +16,7 @@ export function Segments({ segments }: { segments: Segment[] }) {
 				typeof segment === "string" ? (
 					segment
 				) : (
-					<a
-						key={segment.href}
-						href={segment.href}
-						className="text-accent underline decoration-accent/40 underline-offset-2 hover:decoration-accent"
-					>
+					<a key={segment.href} href={segment.href} className="accent-link">
 						{segment.text}
 					</a>
 				),

@@ -26,10 +26,11 @@ export function Work({ copy }: { copy: Messages["work"] }) {
 			<article>
 				<h3 className="text-entry">{copy.erp.title}</h3>
 
-				{/* Display figures: set large ABOVE the prose, so a skimmer reads them
-				    first. With no public code the metrics ARE the argument, so
+				{/* DISPLAY FIGURES: set large ABOVE the prose, so a skimmer reads them
+				    first. With no public code the display figures ARE the argument, so
 				    skimmability beats editorial purity — and a number never appears
-				    inside a sentence here. */}
+				    inside a sentence here. The placement is the decision, not the
+				    styling. */}
 				{/* `items-start`, NOT the `items-end` the section layouts and the token
 				    layer both hand over. Their stated purpose is "so figures share a
 				    baseline across differing digit counts", and rendered, `items-end`

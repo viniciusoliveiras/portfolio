@@ -36,6 +36,14 @@ const notFound = read("404.html");
 const LOCALES = ["pt", "en"] as const;
 type Locale = (typeof LOCALES)[number];
 const messages = { pt, en };
+
+/**
+ * Restated here rather than imported from `~/config`, deliberately, and the split from
+ * `facts`/`pt`/`en` above is the point: those are CONTENT, and importing them proves
+ * the shipped copy reached the page. `pt` → `pt-BR` is a CONTRACT, and a test that
+ * imports the value it is checking can only prove the page echoed whatever `config`
+ * said — it could never catch `config` being wrong. An independent literal can.
+ */
 const DOC_LANG = { pt: "pt-BR", en: "en" };
 
 /** HTML attribute names are case-insensitive, and React emits `charSet`/`hrefLang`. */

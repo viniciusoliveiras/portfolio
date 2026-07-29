@@ -1,4 +1,10 @@
-import { AUTHOR_NAME, documentLang, type Locale, SITE_ORIGIN } from "./config";
+import {
+	AUTHOR_NAME,
+	documentLang,
+	type Locale,
+	ogLocale,
+	SITE_ORIGIN,
+} from "./config";
 import type { Messages } from "./content/pt";
 
 /**
@@ -43,10 +49,10 @@ export function localeHead(locale: Locale, m: Messages) {
 			{ property: "og:title", content: m.meta.title },
 			{ property: "og:description", content: m.meta.description },
 			{ property: "og:url", content: url },
-			{ property: "og:locale", content: locale === "en" ? "en_US" : "pt_BR" },
+			{ property: "og:locale", content: ogLocale[locale] },
 			{
 				property: "og:locale:alternate",
-				content: locale === "en" ? "pt_BR" : "en_US",
+				content: ogLocale[locale === "en" ? "pt" : "en"],
 			},
 			// `name`, not `property` — the Twitter/X card spec says `name`, and since
 			// the dedupe key is `m.name ?? m.property`, mixing the two forms across

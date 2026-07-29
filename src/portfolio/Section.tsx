@@ -30,8 +30,8 @@ export function Section({
 		<section id={id}>
 			<div
 				className={[
-					"mx-auto w-full max-w-[min(65ch,100%-2rem)] py-16 text-body",
-					"lg:grid lg:max-w-[min(calc(65ch_+_10.5rem),100%-2rem)] lg:grid-cols-[8rem_2.5rem_minmax(0,1fr)] lg:py-24",
+					"measure w-full py-16 text-body",
+					"lg:measure-rail lg:grid lg:grid-cols-[8rem_2.5rem_minmax(0,1fr)] lg:py-24",
 					rule ? "border-t border-rule" : "",
 				].join(" ")}
 			>
