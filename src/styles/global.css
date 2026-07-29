@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------- fonts */
+/* Two files, not three: the italic face is not built and not shipped — nothing
+   across the seven sections is italic. If italic prose is ever introduced, the
+   fix is to restore that face and its @font-face block, not to accept the
+   browser's mechanical slant of the roman. Both faces here are preloaded from
+   the root route, so total payload and preload path are the same 92.8 KB.
+
+   Both files are UNHASHED and cached `immutable` for a year by vercel.json, so
+   CHANGING A FONT MEANS CHANGING ITS FILENAME — `roman.woff2` becomes
+   `roman-2.woff2`, updating this `src` and the preload link together. A swapped
+   font under an unchanged name is invisible in a fresh browser and permanent in
+   a warm one. */
+
+@font-face {
+	font-family: "Source Serif 4";
+	font-style: normal;
+	font-weight: 400 600;
+	font-display: swap;
+	src: url("/fonts/roman.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-weight: 500; /* static instance — not a range. Declaring a range here
+	                     would let the browser synthesise weights that the
+	                     instanced file does not contain. */
+	font-display: swap;
+	src: url("/fonts/mono.woff2") format("woff2");
+}
+
+/* ---------------------------------------------------------------- theme */
+/* NEVER `@theme inline` here — measured: it inlines the values into the
+   utilities, `.bg-paper` compiles to a literal `#FAF9F7`, and the dark override
+   below silently stops working. No error, no warning; the site simply never
+   goes dark. */
+
+@theme {
+	--color-*: initial;
+	--text-*: initial;
+
+	/* light is canonical; dark overrides the same custom properties below */
+	--color-paper: #faf9f7;
+	--color-ink: #1a1a1a;
+	--color-muted: #545454;
+	--color-rule: #e2e0dc;
+	--color-rule-strong: #8e8b86;
+	--color-accent: #b3261e;
+	--color-on-accent: #ffffff;
+
+	--font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+	--font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+	--text-label: 0.75rem; /* 12 */
+	--text-label--line-height: 1.4;
+	--text-label--font-weight: 500;
+	--text-label--letter-spacing: 0.08em;
+
+	--text-body-sm: 0.9375rem; /* 15 */
+	--text-body-sm--line-height: 1.6;
+	--text-body-sm--font-weight: 400;
+
+	--text-body: 1.125rem; /* 18 — body size, NOT the root size */
+	--text-body--line-height: 1.65;
+	--text-body--font-weight: 400;
+
+	--text-lede: 1.375rem; /* 22 */
+	--text-lede--line-height: 1.55;
+	--text-lede--font-weight: 400;
+
+	--text-entry: 1.5rem; /* 24 */
+	--text-entry--line-height: 1.3;
+	--text-entry--font-weight: 600;
+
+	--text-figure: 2.75rem; /* 44 */
+	--text-figure--line-height: 1;
+	--text-figure--font-weight: 600;
+
+	--text-hero: clamp(2.5rem, 6vw, 4rem);
+	--text-hero--line-height: 1.05;
+	--text-hero--font-weight: 400;
+}
+
+/* ------------------------------------------------------- dark overrides */
+/* Plain custom properties, unlayered, outside @theme — @theme forbids media
+   queries, and unlayered rules beat @layer theme unconditionally, which makes
+   this robust against source order and against Tailwind reordering its layers. */
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-paper: #1a1918;
+		--color-ink: #e8e6e1;
+		--color-muted: #ada9a0;
+		--color-rule: #33312e;
+		--color-rule-strong: #6a6862;
+		--color-accent: #f0736a;
+		--color-on-accent: #1a1918; /* FLIPS — white here is 2.85:1 and fails */
+	}
+}
+
+/* ------------------------------------------------------------ utilities */
+
+@utility optical-* {
+	font-variation-settings: "opsz" --value(number);
+}
+
+/* accent fill + its correct foreground, bound together so the mode flip cannot
+   be applied half-way. `bg-accent` still exists for non-text fills, but every
+   accent fill CARRYING TEXT uses this. */
+@utility accent-surface {
+	background-color: var(--color-accent);
+	color: var(--color-on-accent);
+}
+
+/* ----------------------------------------------------------------- base */
+
+@layer base {
+	html {
+		/* no font-size here on purpose: Tailwind's spacing scale is rem-based, so an
+		   18px root rescales it by 12.5% and the brief's 96/64/32/12px stop landing
+		   on the scale — and it would override the reader's own browser setting on a
+		   page whose smallest text is a load-bearing 12px label. The 18px is a BODY
+		   size and lives in `--text-body`. */
+		font-family: var(--font-serif);
+		color: var(--color-ink);
+		background-color: var(--color-paper);
+		scroll-behavior: smooth;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	section[id] {
+		scroll-margin-top: 4.5rem; /* 56px bar + 1rem */
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	/* The brief's 150ms hover. Base, not a utility, for the same reason as the
+	   focus ring: ~20 interactive elements must not each remember it.
+	   Hand-written rather than `@apply transition-colors` on purpose — the stock
+	   utility's property list includes `outline-color`, which would make any
+	   future change to the focus outline's colour FADE the focus indicator in.
+	   The two `var()`s are load-bearing: these theme vars are pruned when
+	   nothing references them, and this rule is what keeps them in the output. */
+	a,
+	button {
+		transition-property: color, background-color, text-decoration-color;
+		transition-duration: var(--default-transition-duration); /* 150ms */
+		transition-timing-function: var(--default-transition-timing-function);
+	}
+
+	/* Locale switch cross-fade, retimed from the UA's 0.25s to match the sheet.
+	   Targets the GROUP, not old/new: the UA puts `animation-duration` on
+	   `::view-transition-group(*)` and gives image-pair/old/new
+	   `animation-duration: inherit`, so one selector retimes the whole tree. */
+	::view-transition-group(*) {
+		animation-duration: 200ms;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+		/* 1ms, not `animation: none` — removing the animations leaves both
+		   snapshots stacked at full opacity with nothing to end the transition. */
+		::view-transition-group(*) {
+			animation-duration: 1ms;
+		}
+	}
+}

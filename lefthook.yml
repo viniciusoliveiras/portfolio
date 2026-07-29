@@ -1,0 +1,10 @@
+# The commit is the only enforcement point that always happens: a meaningful share
+# of this codebase is authored by agents, and format-on-save is an editor event that
+# never fires for an agent-written file. See ADR-0002 §"Where it runs".
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome
+      glob: "*.{js,ts,cjs,mjs,jsx,tsx,json,jsonc,css}"
+      run: pnpm exec biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true

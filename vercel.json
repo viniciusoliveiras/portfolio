@@ -1,0 +1,33 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"framework": null,
+	"outputDirectory": "dist/client",
+	"cleanUrls": true,
+	"installCommand": "npm i -g pnpm@11 && pnpm install --frozen-lockfile",
+	"redirects": [
+		{
+			"source": "/",
+			"has": [
+				{ "type": "header", "key": "accept-language", "value": { "pre": "en" } }
+			],
+			"destination": "/en",
+			"permanent": false
+		},
+		{ "source": "/", "destination": "/pt", "permanent": false },
+		{ "source": "/home", "destination": "/", "permanent": true },
+		{ "source": "/about", "destination": "/", "permanent": true },
+		{ "source": "/projects", "destination": "/", "permanent": true },
+		{ "source": "/resume", "destination": "/", "permanent": true }
+	],
+	"headers": [
+		{
+			"source": "/fonts/(.*)",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=31536000, immutable"
+				}
+			]
+		}
+	]
+}

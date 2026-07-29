@@ -1,0 +1,45 @@
+{
+	"name": "portfolio",
+	"private": true,
+	"type": "module",
+	"engines": {
+		"node": ">=22.13.0"
+	},
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": ">=11.0.0 <12.0.0",
+			"onFail": "download"
+		}
+	},
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build && tsc --noEmit",
+		"preview": "vite preview",
+		"check": "biome check",
+		"check:write": "biome check --write",
+		"typecheck": "tsc --noEmit",
+		"test": "node --import ./tests/extensionless-ts.ts --test tests/prerendered-output.test.ts && playwright test",
+		"prepare": "lefthook install"
+	},
+	"dependencies": {
+		"@tanstack/react-router": "1.170.18",
+		"@tanstack/react-start": "1.168.32",
+		"react": "19.2.8",
+		"react-dom": "19.2.8"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.5.5",
+		"@playwright/test": "1.62.0",
+		"@tailwindcss/vite": "4.3.3",
+		"@types/node": "24.13.3",
+		"@types/react": "19.2.17",
+		"@types/react-dom": "19.2.3",
+		"@typescript/native": "npm:typescript@^7.0.2",
+		"@vitejs/plugin-react": "6.0.4",
+		"lefthook": "2.1.10",
+		"tailwindcss": "4.3.3",
+		"typescript": "npm:@typescript/typescript6@^6.0.2",
+		"vite": "8.1.5"
+	}
+}

@@ -1,0 +1,25 @@
+# Every pnpm setting lives here, camelCase — NOT in an `.npmrc`, which pnpm reads
+# only for auth and registry. This repo deliberately has no `.npmrc`. See ADR-0003.
+strictPeerDependencies: true
+
+# The one exemption `strictPeerDependencies` needs, scoped to the exact parent rather
+# than switched off globally — the point of being strict is that an override is
+# DOCUMENTED instead of hidden.
+#
+# `@rolldown/binding-wasm32-wasi` is Rolldown's WASM FALLBACK binding, reached through
+# Vite 8. It declares `@napi-rs/wasm-runtime`, which in turn wants `@emnapi/*` at an
+# unreleased `^2.0.0-alpha.3` while only `1.x` is published. On any platform with a
+# native Rolldown binding — every platform this project builds on, locally and on both
+# CI and Vercel — that package is never loaded, so the unmet peer has no runtime.
+# Pinning `@emnapi/*` forward via `overrides` would mean shipping an alpha to satisfy a
+# dependency that does not execute. Remove this block when `@emnapi/2` ships.
+peerDependencyRules:
+  allowedVersions:
+    "@napi-rs/wasm-runtime>@emnapi/core": "1"
+    "@napi-rs/wasm-runtime>@emnapi/runtime": "1"
+
+# Load-bearing: `lefthook` ships a binary-fetching `postinstall`, and pnpm 11's
+# `strictDepBuilds` defaults to true — so without this entry `pnpm install` fails
+# outright on a fresh clone. `onlyBuiltDependencies` was removed in pnpm 11.
+allowBuilds:
+  lefthook: true

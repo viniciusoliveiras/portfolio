@@ -1,0 +1,25 @@
+# dependencies
+node_modules
+
+# build output
+.output
+.nitro
+.tanstack
+dist
+
+# test output
+playwright-report
+test-results
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel

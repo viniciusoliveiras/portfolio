@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint and typecheck
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      # pnpm MUST come before setup-node: `cache: pnpm` resolves the store
+      # path by invoking pnpm, so the binary has to exist already.
+      # `version` is REQUIRED — this action reads the `packageManager` field
+      # and never `devEngines.packageManager`, which is the one this repo uses.
+      # Installing "any pnpm 11" is deliberate: devEngines + pmOnFail:download
+      # then corrects to the pinned 11.17.0, keeping one source of truth.
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          version: 11
+
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      # No --ignore-scripts, deliberately: this is the fresh-clone install canary.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm exec biome ci
+
+      # !cancelled() so a lint failure cannot mask a type error.
+      - name: Typecheck
+        if: ${{ !cancelled() }}
+        run: pnpm typecheck
+
+  # Additive to `verify`, which stays exactly as the CI spec wrote it. This job
+  # exists because the output-assertion seam needs an artifact to assert against:
+  # it narrows ADR-0004's "CI lints and typechecks; Vercel builds" on that ADR's
+  # own ground, which was that Vercel's build is the authoritative typecheck —
+  # not that building in CI is harmful. Keeping it a separate job is what keeps a
+  # lint failure and a test failure distinguishable.
+  output:
+    name: Build and assert the output
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          version: 11
+
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build
+        run: pnpm build
+
+      # Seam 1 — the prerendered HTML. No dependency: Node's own test runner
+      # and its native TypeScript execution.
+      - name: Assert the prerendered output
+        run: node --import ./tests/extensionless-ts.ts --test tests/prerendered-output.test.ts
+
+      # Seam 2 — the four things only a rendering engine can answer.
+      # !cancelled() for the same reason the typecheck has it.
+      - name: Browser pass against the preview server
+        if: ${{ !cancelled() }}
+        run: pnpm exec playwright test

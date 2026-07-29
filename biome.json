@@ -1,0 +1,68 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
+	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+	"files": {
+		"includes": [
+			"**",
+			"!src/routeTree.gen.ts",
+			"!.output",
+			"!.nitro",
+			"!dist",
+			"!playwright-report",
+			"!test-results",
+			"!public"
+		]
+	},
+	"formatter": { "enabled": true },
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"domains": { "react": "recommended", "test": "recommended" },
+		"rules": {
+			"preset": "recommended",
+			"a11y": { "preset": "all" },
+			"suspicious": {
+				"noUnknownAtRules": {
+					"level": "error",
+					"options": {
+						"ignore": [
+							"theme",
+							"utility",
+							"variant",
+							"custom-variant",
+							"apply",
+							"source",
+							"plugin",
+							"reference"
+						]
+					}
+				}
+			}
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							":NODE:",
+							":BLANK_LINE:",
+							":PACKAGE:",
+							":BLANK_LINE:",
+							[":ALIAS:", ":PATH:"]
+						],
+						"sortBareImports": false,
+						"identifierOrder": "natural"
+					}
+				}
+			}
+		}
+	}
+}
