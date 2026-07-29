@@ -90,7 +90,13 @@ Measured today, for the record: `.yarn/` is **735 tracked files / 78 MB**, and `
 
 ### Same Vercel project, and the settings go first
 
-A parallel project was attractive — attach the new domain, verify on the real host, leave production untouched — but one requirement rules it out. The head-and-metadata decision wants **the old `*.vercel.app` origins to keep working so existing shared links survive**. On the same project those hostnames automatically serve the new production deployment, so that comes free; a parallel project would mean keeping the old project alive purely to redirect, or letting the old links die.
+A parallel project was attractive — attach the new domain, verify on the real host, leave production untouched — but one requirement rules it out. The head-and-metadata decision wants **the old `*.vercel.app` origins to keep working so existing shared links survive**. ~~On the same project those hostnames automatically serve the new production deployment, so that comes free~~; a parallel project would mean keeping the old project alive purely to redirect, or letting the old links die.
+
+> **Corrected 2026-07-29 at cutover — it does not come free.** The conclusion (same project) still holds; the reason given for it is wrong for one of the two hosts.
+>
+> `viniciusoliveiras.vercel.app` is an attached project **domain** and does track production automatically. `portfolio-viniciusoliveiras.vercel.app` is a manually pinned **alias created 2021-08-19** which never tracked production at all: immediately after the force-push it was still serving the 2021 site — `/pt` 404, `/en` 404, `/home` 200. It had to be assigned to the new production deployment by hand via `POST /v2/deployments/{id}/aliases`.
+>
+> Vercel will not convert it to a project domain (`409 duplicate-team-registration`, since it is already registered as an alias), so **it does not follow future production deploys either.** Until that is cleaned up it needs re-pointing after each production deploy — worth resolving before Phase 4, where both `*.vercel.app` hosts are supposed to 308 into the custom domain.
 
 **The ordering is load-bearing and not obvious: settings change before any push.** Preview builds use the *project's* settings, so a preview of the rebuild branch under the auto-detected TanStack Start preset would fail — and validating that preview is the entire gate before the force-push. Changing settings first means previews build correctly. In the window between, a push to old `main` would fail to build, which is harmless: **Vercel keeps serving the last successful production deployment**, and nothing is pushed to `main` in that window anyway.
 
@@ -129,8 +135,15 @@ Section anchors were considered and rejected: `/about` has no clean counterpart,
 
 4. Framework Preset → **Other**. Vercel auto-detects TanStack Start and fills in Nitro-shaped settings, which would reintroduce exactly what ADR-0004 removes. `vercel.json`'s `framework: null` also selects this.
 5. Output Directory → **`dist/client`**.
-6. Install Command → **`npm i -g pnpm@11 && pnpm install --frozen-lockfile`**. Vercel supports pnpm 6 through 10, not 11, and falls back to pnpm 6 when nothing matches.
+6. Install Command → ~~**`npm i -g pnpm@11 && pnpm install --frozen-lockfile`**~~. Vercel supports pnpm 6 through 10, not 11, and falls back to pnpm 6 when nothing matches.
 7. Node version → **pin 24.x in Project Settings**, not in `package.json`. ADR-0003 made `engines` a floor that never needs editing; Vercel maps ranges to the newest *available* major, so an unpinned project floats to Node 26 the day it ships.
+
+> **Corrected 2026-07-29 — this phase is FIVE settings, not four, and two of the commands above are wrong.** Full reasoning and the build logs are in [ADR-0004](adr/0004-deployment-target-and-rendering-mode.md)'s correction block; the ordered steps are:
+>
+> 6. Install Command → `npm i -g pnpm@11 && P="$(npm prefix -g)/bin/pnpm" && "$P" --version && "$P" install --frozen-lockfile`. Installing pnpm 11 is not enough — the bare name `pnpm` still resolves to the build image's own copy, whose single-document YAML parser cannot read a pnpm 11 lockfile.
+> 8. **Build Command → `P="$(npm prefix -g)/bin/pnpm" && "$P" build`.** New, and not optional. This document says to leave Build Command alone; that is wrong. Vercel cannot parse the pnpm 11 lockfile, so it treats the project as npm and runs `npm run build` — and npm 11 enforces `devEngines.packageManager`, so it refuses to run anything at all.
+>
+> **Found the measured way:** this phase was performed, the branch pushed, and the first two preview builds failed — which is precisely the value the Phase 3 gate exists to deliver, since neither defect is reachable from a green local build. **A third finding softens the phase's urgency:** `vercel.json` carries `framework`, `outputDirectory`, `installCommand` and `buildCommand`, and it *overrides* the dashboard — so steps 4, 5, 6 and 8 are belt-and-braces with the branch. **Only the Node version (step 7) is expressible nowhere but the dashboard**, and it was the setting that would have failed the build outright: the project was pinned to **`14.x`**, four LTS lines below the `>=22.12` the stack requires — not merely unpinned, as ADR-0004 anticipated.
 
 ### Phase 2 — the orphan branch
 

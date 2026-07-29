@@ -38,7 +38,18 @@ So version pinning needs no Corepack, no Volta, no `pnpm/action-setup`. pnpm man
 "packageManager": "pnpm@11.17.0"
 ```
 
-The range states what the project actually requires and the exact resolved version lands in the lockfile, so patch bumps are not hand-edits. The legacy `packageManager` field is carried **alongside** as one line of insurance for hosts and bots that read it (Vercel, Renovate) — cheap to drop if [Choose the deployment target and rendering mode](https://github.com/viniciusoliveiras/portfolio/issues/9) finds nothing reads it.
+The range states what the project actually requires and the exact resolved version lands in the lockfile, so patch bumps are not hand-edits. ~~The legacy `packageManager` field is carried **alongside** as one line of insurance for hosts and bots that read it (Vercel, Renovate) — cheap to drop if [Choose the deployment target and rendering mode](https://github.com/viniciusoliveiras/portfolio/issues/9) finds nothing reads it.~~
+
+> **Corrected 2026-07-29 — `packageManager` is dropped, via this section's own escape hatch.** Carrying both fields is not free: pnpm 11 compares them, finds a range against an exact version, and warns on **every install**, twice —
+>
+> ```
+> [WARN] "packageManager" and "devEngines.packageManager" specify different versions
+> of pnpm in package.json. "packageManager" will be ignored
+> ```
+>
+> — and, as it says, ignores the field anyway. The two cannot be reconciled without giving up the range this section chose it for. The stated condition for dropping it is met on the evidence: [ADR-0004](0004-deployment-target-and-rendering-mode.md) needs an `installCommand` override *because* Vercel reads nothing usable from this manifest, and [the CI workflow](../ci-workflow.md) §3 requires `pnpm/action-setup`'s `version:` explicitly *because* that action "can read nothing from this repo's manifest". Both named consumers demonstrably do not use it.
+>
+> **A consequence this section could not have seen**, found in the first real Vercel build and recorded in full in ADR-0004: choosing `devEngines.packageManager` is what makes **`npm run build` fail outright** there. npm 11 enforces the field, and Vercel — unable to parse a pnpm 11 lockfile — defaults to npm as the runner. That is not an argument against the choice; it is the reason a `buildCommand` override is now mandatory.
 
 What still needs solving is the **bootstrap** — some pnpm must exist before pnpm can manage itself. That is a one-time, per-machine step, deliberately **outside** Node so it survives the v26 upgrade:
 

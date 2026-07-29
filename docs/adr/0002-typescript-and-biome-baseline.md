@@ -155,7 +155,7 @@ Rationale, one line each:
 | No `style` opt-ins | Biome's `style` group is far lighter than airbnb, and losing airbnb is a subtraction already being paid for by hand — the current config spends 20 lines switching airbnb rules *off*. |
 | `useFilenamingConvention` **off** (i.e. not enabled) | Named explicitly as a deliberate omission: TanStack Router's routes are `__root.tsx`, `$lang.tsx`, `index.tsx`, and the rule flags exactly those. |
 | All type-aware rules **off** | See below — the async surface is empty. |
-| `noUnknownAtRules` with an `ignore` allowlist | Biome lints CSS with no knowledge of Tailwind; unconfigured, the stylesheet fails on line 1. The allowlist doubles as documentation of which at-rules the stylesheet may use, and still catches a typo'd `@theem`, which on CSS-first Tailwind otherwise fails silently. |
+| `noUnknownAtRules` with an `ignore` allowlist | Biome lints CSS with no knowledge of Tailwind; unconfigured, the stylesheet fails on line 1. The allowlist doubles as documentation of which at-rules the stylesheet may use, and still catches a typo'd `@theem`, which on CSS-first Tailwind otherwise fails silently. **See the 2026-07-29 correction below — the allowlist alone is not sufficient.** |
 | `organizeImports` groups | Keeps the working part of the current `import-helpers` convention — third-party above local, blank line between, alphabetised — and drops two pieces that no longer earn their lines (see below). Groups match first-wins: *"Groups are always matched in order, so earlier matchers take priority."* |
 | **`sortBareImports: false`** | Stated explicitly rather than left to default: the root route's global stylesheet is a side-effect import, and moving it can change cascade order — a silent, visual-only breakage. |
 | `level: "on"` stated | Biome's docs do not state the default for `organizeImports`; a spec should not inherit an unverified one. |
@@ -164,6 +164,16 @@ Rationale, one line each:
 | Empty `formatter` block | Biome's formatting defaults are accepted wholesale: **tab indentation** (width 2), double quotes, `semicolons: "always"`, `trailingCommas: "all"`, `arrowParentheses: "always"`, `lineWidth: 80`. Tabs are Biome's default for an accessibility reason — tab width is reader-configurable, spaces are not. |
 
 Two pieces of the current import convention are dropped rather than ported. The `/^@shared/` group is **vestigial** — no `@shared` alias exists anywhere in `src/` or in any path mapping; it came from a template and was never used. The react-first group is **nearly empty by construction** under `jsx: "react-jsx"`, where `React` is never imported and only hook-using files import from `react` at all. The visible effect of dropping it is that `@tanstack/react-router` sorts above `react`, which on a TanStack-based site reads correctly.
+
+> **Corrected 2026-07-29** during implementation. Three additions this config needs against the exact pinned `@biomejs/biome@2.5.5`, none of which are optional.
+>
+> 1. **`css.parser.tailwindDirectives: true` is required, and the `noUnknownAtRules` allowlist does not stand in for it.** The allowlist is a *lint* option; the stylesheet fails at the **parser**, before any rule runs — `× Tailwind-specific syntax is disabled` on `@theme` and `@utility`, which also aborts the formatter with "Code formatting aborted due to parsing errors". So this ADR's diagnosis ("unconfigured, the stylesheet fails on line 1") was right and its remedy was addressed at the wrong layer. Both are kept: the allowlist still documents intent and still catches a typo'd `@theem`.
+>
+> 2. **`rules.recommended` is deprecated in 2.5.5** — it emits `The use of the recommended field has been deprecated, and will removed in the next major version of Biome. Use preset instead.` The config ships `"preset": "recommended"`, which is the same rule set.
+>
+> 3. **`files.includes` must exclude `public`.** With `a11y` at `preset: "all"`, Biome lints `public/favicon.svg` and reports `noSvgWithoutTitle` on it. The rule is meaningless for a browser-chrome asset, and complying would edit a file [the favicon spec](../research/favicon-and-asset-serving.md) §1.6 says must never be reformatted at all — it is 332 hand-computed bytes whose three overlapping contours break under the wrong fill rule.
+>
+> Two other departures are **not** defects in this ADR but consequences of tests coming into scope, which [the implementation issue](https://github.com/viniciusoliveiras/portfolio/issues/23) sanctioned explicitly: `domains.test` moves from `"none"` to `"recommended"` (this ADR's stated ground for `none` was that tests were out of scope, so it expires rather than being contradicted), and `types` gains `"node"` beside `"vite/client"` for the output-assertion seam.
 
 ### CSS is Biome's too
 

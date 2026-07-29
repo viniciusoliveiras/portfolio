@@ -231,7 +231,19 @@ tanstackStart({
 })
 ```
 
-`autoStaticPathsDiscovery` (default `true`) discovers `/pt`, `/en` and `/404`. Leave `crawlLinks` at its default `true` — it costs nothing here and acts as a net if a future route is ever added behind a link. `filter` is unnecessary. **No `pages` block, no locale list, no drift risk between a hand-maintained array and the route tree.**
+`autoStaticPathsDiscovery` (default `true`) discovers `/pt`, `/en` and `/404`. ~~Leave `crawlLinks` at its default `true` — it costs nothing here and acts as a net if a future route is ever added behind a link. `filter` is unnecessary.~~ **No `pages` block, no locale list, no drift risk between a hand-maintained array and the route tree.**
+
+> **Corrected 2026-07-29** during implementation. The `pages`/no-enumeration half of this section is right and unchanged. **Both claims about the other two options are wrong**, and one of them was shipping a corrupted file.
+>
+> **`filter` is necessary, not unnecessary.** The prerenderer seeds its queue with `/` whenever `pages` is empty — `let pages = startConfig.pages.length ? startConfig.pages : [{ path: "/" }]` in `prerender.js`. But [ADR-0004](../adr/0004-deployment-target-and-rendering-mode.md) deliberately makes `/` an edge 307 rather than a route, so the seed 404s and `failOnError` (default `true`) aborts the build. The build cannot succeed without:
+>
+> ```ts
+> filter: (page) => page.path !== "/",
+> ```
+>
+> **`crawlLinks` must be `false`, and its default silently corrupts the résumé PDF.** Link crawling collects every `href` beginning with `/`, which includes `/resume-en.pdf` — linked from the hero and the contact list in both locales. The crawler fetches it and writes the response **as text**: measured, the 40.6 KB PDF came back out at **71,889 bytes with every non-ASCII byte replaced by U+FFFD**, i.e. a corrupted résumé shipped over the good one, from the two most important links on the page.
+>
+> "It costs nothing here" was the error. The stated benefit — a net for a future route added behind a link — is worth nothing on this site, because **every route here is static and `autoStaticPathsDiscovery` already finds all of them**, so the net catches only things that are not pages. The suite now asserts the emitted PDF is byte-identical to the source.
 
 ---
 

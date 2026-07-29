@@ -30,6 +30,14 @@ The site currently serves from **two live origins**:
 
 Both are indexable, both serve the same pages, and **`rel="canonical"` appears nowhere in `src/`** — verified. That is duplicate content across two hosts, advertised inconsistently.
 
+> **Corrected 2026-07-29 at cutover**, on two counts, both in this table's favour and one against it.
+>
+> **"Both are indexable" was not true.** Measured at cutover, `portfolio-viniciusoliveiras.vercel.app` served `x-robots-tag: noindex` — because it was pinned to a *preview*-classified deployment (see below). So the duplicate-content exposure was smaller than this section assessed. The canonical defect it identifies was real regardless.
+>
+> **The two hosts were not one deployment, and the cutover plan's assumption that they would follow production "for free" is false.** `viniciusoliveiras.vercel.app` is an attached project **domain** and does track production. `portfolio-viniciusoliveiras.vercel.app` is a manually pinned **alias created 2021-08-19**, and after the force-push it was still serving the 2021 Next.js site — `/pt` 404, `/home` 200, `age: 208089`. It had to be assigned to the new production deployment by hand. Vercel refuses to convert it to a project domain (`409 duplicate-team-registration`), so **it will not follow future production deploys either** and needs re-pointing after each one until that is cleaned up.
+>
+> With both hosts on the new deployment, the fix this section designed works exactly as specified: both serve byte-identical output and both advertise the same `rel="canonical"` at `SITE_ORIGIN`, so the origins consolidate from launch rather than at domain-swap time.
+
 A custom domain retires the ambiguity instead of crowning one of two accidents, and ADR-0001 makes the case: the site's job is hiring signal for a working Tech Lead, and the host is the one string every reader sees.
 
 **The origin is written exactly once.** Canonical, both `hreflang` alternates, `og:url` and the JSON-LD `url`/`sameAs` all derive from it:

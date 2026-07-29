@@ -86,7 +86,9 @@ A `body-sm` group note first, carrying the two inline links (*Devex Soluções*,
 
 Each role is a mono date line, then a 1.125rem/600 title, then `·`-marked bullets. **Rules between roles**, 2.25rem of padding above each. Numbers stay **inline in the prose** here — Experience is a chronological record read as sentences, and the display-figure treatment belongs to the showcase.
 
-**Ancar Ivanhoe is a minor row**: date line plus a 1rem/400 muted title, no bullets. The weight drop does the work the copy decision asked for — present for chronological completeness, given no prose.
+**Ancar Ivanhoe is a minor row**: date line plus a ~~1rem/400~~ muted title, no bullets. The weight drop does the work the copy decision asked for — present for chronological completeness, given no prose.
+
+> **Corrected 2026-07-29.** **1rem is not on the type scale.** [The token layer](research/tailwind-token-layer.md) §2 sets `--text-*: initial`, wiping Tailwind's default sizes precisely so that "every size goes through one of the seven named roles" — and the seven are 12, 15, 18, 22, 24, 44 and the hero clamp. There is no 16px role, so 1rem is expressible only as an arbitrary value, which defeats the guardrail. This row ships at **`body-sm`** (15px/400, muted), the role whose stated job is "captions, secondary lines" — which is the weight drop this section is asking for. Recorded rather than silently resolved because the same trap applies to any future size named in prose without checking it against the scale.
 
 ### Selected work — `#work`
 
@@ -160,6 +162,12 @@ Within the measure: 32px between blocks, 12px from a label to its content.
 2. **The BPO stack lockup duplicated the entry's trailing stack line.** Both entries end with a mono stack string, so the lockup restated *TanStack Start · TanStack Query* eight lines after saying it. The lockup now suppresses the trailing line, which makes the two options structurally different rather than one being a superset.
 3. **The rail labels needed measuring**, and `TRABALHOS SELECIONADOS` would have wrapped to three lines in a 128px rail. The short form is a layout constraint, not a copy preference.
 4. **Metric labels needed a width cap.** Un-capped, `clientes corporativos` pushes its lockup wide enough to break the three-figure row onto two lines at the measure. Capped at `9ch` they wrap under their own figure.
+
+> **Corrected 2026-07-29** during implementation, by rendering it. Two of this document's figure-lockup handoffs do not survive contact with the authored copy.
+>
+> **`items-end` does the opposite of what it is for.** This document and [the token layer](research/tailwind-token-layer.md) §8 both hand over `items-end` / `flex-end` "so figures share a baseline across differing digit counts". Rendered at 1280px, it put **`15` seventeen pixels below `8` and `400+`** — because the figure sits *above* a label, `MÓDULOS` is one line while `CLIENTES CORPORATIVOS` and `USUÁRIOS ATIVOS` are two, and aligning the *bottoms* of blocks of unequal height necessarily pushes the shorter block's figure down. **`items-start` is what delivers the stated property**, and is what ships. Digit count was never the variable; label line count is.
+>
+> **The `9ch` cap alone made the labels overlap.** 9ch of 12px JetBrains Mono is ~65px, but `CORPORATIVOS` is a single unbreakable 12-character word ~98px wide, so the cap sized the box *below its own text* and the word painted over the next lockup — rendering as `CORPORATIVOSATIVOS`. The cap needs a `min-width: min-content` floor beside it: the box is then never narrower than its longest word, while the cap still stops the label going to full max-content on one line. The cap was measured against the shorter `clientes` used in [the i18n research](research/i18n-and-locale-routing.md) §8.1d's sketch; [the copy](site-copy.md) §7 authored `clientes corporativos`.
 
 ---
 

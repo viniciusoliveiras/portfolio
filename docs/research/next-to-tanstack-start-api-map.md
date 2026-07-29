@@ -41,6 +41,23 @@ The path string is "automatically written and managed by the router for you via 
 
 **`__root.tsx` is mandatory** and has no path — it is always matched and its component always renders. It is the merge point for what `_app.tsx` and `_document.tsx` do today, plus the 404.
 
+> **Corrected 2026-07-29** during implementation. **`src/router.tsx` is mandatory too, and no document in this corpus mentions it.** `@tanstack/start-plugin-core`'s `resolveStartEntryPlan` resolves a router entry with `required: true`, so the build fails before any application code runs:
+>
+> ```
+> Error: Could not resolve entry for router entry: router in /…/src
+> ```
+>
+> It must export **`getRouter`**, which is also what the generated route tree's footer imports to register `Awaited<ReturnType<typeof getRouter>>` as the app's router type — so it is where route-level type safety actually comes from, not an incidental entry point:
+>
+> ```tsx
+> // src/router.tsx
+> export function getRouter() {
+>   return createRouter({ routeTree })
+> }
+> ```
+>
+> A **factory, not a module-level instance**, for the reason [the i18n research](i18n-and-locale-routing.md) §4 gives about prerender concurrency — which is the one place the corpus does describe this shape, while never recording that the file is required or what it is called. `src` also takes `start.ts`, `client.tsx` and `server.ts` entries, all optional and none needed here.
+
 **404.** There is no not-found *route*. `src/pages/404.tsx` becomes a `notFoundComponent` option, most simply on the root route ([not-found errors](https://tanstack.com/router/latest/docs/framework/react/guide/not-found-errors), checked 2026-07-27):
 
 ```tsx

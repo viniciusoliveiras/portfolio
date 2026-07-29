@@ -18,6 +18,8 @@ The ticket asked the supply question first and "does it need to be a drawer at a
 
 A **full-bleed sheet has no visible backdrop**, so nothing invites a tap-outside — there is no outside. The requirement is removed rather than solved. Dismissal is the close button and `Escape`, both free.
 
+> **Resolved 2026-07-29 — the sheet holds SIX anchors, not seven.** The corpus stated this three ways: this document and [ADR-0005](../adr/0005-visual-direction.md) §Layout both say seven, [the i18n research](i18n-and-locale-routing.md) §9 says "the four anchors", and [the section layouts](../section-layouts.md) §3 give exactly **six** sections an `id`. Six is the only reading consistent with the sections that exist — the hero has no `id` and no anchor, so a seventh would have no destination. The bar's four are separately and unambiguously fixed, so only this list was ever in question. Read "seven anchors" throughout this document as six.
+
 Supporting facts: seven anchors and a language switcher do not need a side-anchored panel; the brief's register is editorial rather than app-like; and **the current site's drawer is already full-screen** — `src/components/Header/index.tsx:50` opens it as `placement="right" size="full"`. The side panel the ticket asked about was never what shipped.
 
 ## 3. The accessibility contract
@@ -132,6 +134,14 @@ Clicking `#experience` inside the sheet does not dismiss a dialog. Without `clos
 ### One accepted wart
 
 `close()` restores focus to the trigger, and native hash navigation only scrolls — it does not move focus. So a keyboard user who picks "Experience" from the sheet lands visually at the section but with focus back on the menu button in the bar. Fixing it means imperative focus management on the target heading, which is more machinery than the wart costs. **Accepted, not overlooked.**
+
+### A second wart, found in implementation
+
+> **Recorded 2026-07-29.** Because the sheet "exists only below `md`", the breakpoint hides its wrapper — and **crossing `md` while it is open leaves the `open` attribute set on a hidden element.** This is reachable on a phone, not just by dragging a desktop window: rotating a 390px portrait screen to 844px landscape crosses the 768px breakpoint.
+>
+> **Measured, and it does not break the page.** The sheet stops rendering, everything behind it stays visible and clickable rather than inert, and `Escape` still clears the attribute. The single consequence is that rotating *back* re-reveals the sheet unasked.
+>
+> **Not fixed, deliberately.** The only fix is a `matchMedia` listener calling `close()` — which would be the first effect in the component tree, inside the one component this document is built around holding **zero** state, to tidy a recoverable cosmetic glitch after a double rotation. Left as an open question for the author rather than decided in implementation, since it trades this document's central property against a minor one.
 
 ## 8. The class list, verified line by line
 
