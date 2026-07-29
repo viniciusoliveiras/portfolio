@@ -118,7 +118,7 @@ Verified against the Google Fonts metadata and CSS2 API, 2026-07-27:
 
 ~~**Both carry `latin-ext`**, so pt-BR diacritics are covered.~~ Rejected: Playfair Display (fashion-coded, and high-contrast strokes go thin at body-adjacent sizes), a single-serif system (data never separates from prose), and Newsreader — which was shortlisted for its optical-size axis before verification showed **Source Serif 4 has `opsz 8–60` too**.
 
-> **Corrected 2026-07-29.** The `latin-ext` inference is stale, though the fact is true. The [token layer](../research/tailwind-token-layer.md) §6 measured that **`latin-ext` is not needed**: every Portuguese diacritic sits in `U+00C0–U+00FF`, inside the `latin` range, and every proper noun in scope (Vinícius, Devex Soluções, Inovasensor, UniCarioca) is covered by `latin` alone. `latin-ext` covers Central and Eastern European letterforms this site has no copy for. Both faces still *carry* it; the subset does not take it. Font selection is unaffected — this changed the payload, not the choice.
+> **Corrected 2026-07-29.** The `latin-ext` inference is stale, though the fact is true. The [token layer](../research/tailwind-token-layer.md) §6 measured that **`latin-ext` is not needed**: every Portuguese diacritic sits in `U+00C0–U+00FF`, inside the `latin` range, and every proper noun in scope (Devex Soluções, Inovasensor, UniCarioca) is covered by `latin` alone. `latin-ext` covers Central and Eastern European letterforms this site has no copy for. Both faces still *carry* it; the subset does not take it. Font selection is unaffected — this changed the payload, not the choice.
 
 ### Use the optical-size axis
 
@@ -164,7 +164,7 @@ Below `lg` the rail collapses: the label sits above the section's content, stati
 
 ```
 ┌─ sticky top bar ──────────────────────────┐
-│ Vinícius Oliveira   exp work skills  PT|en │
+│ Vinicius Oliveira   exp work skills  PT|en │
 └────────────────────────────────────────────┘
 
 SELECTED    ERP monorepo

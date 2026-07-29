@@ -12,7 +12,7 @@ import type { Messages, Segment } from "./pt";
  */
 export const en = {
 	meta: {
-		title: "Vinícius Oliveira — Tech Lead & Full-Stack Developer", // 52
+		title: "Vinicius Oliveira — Tech Lead & Full-Stack Developer", // 52
 		// The first draft of this came out at exactly 155, sitting on the ceiling with
 		// no margin; dropping one word bought three characters of headroom.
 		description:

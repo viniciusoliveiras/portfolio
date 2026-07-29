@@ -196,7 +196,7 @@ Both match the brief's axis table. Note the brief's "Source Serif 4 v14" is *Goo
 
 ### Subsetting: `latin` is enough for pt-BR
 
-The brief specifies `latin` + `latin-ext`. **`latin-ext` is not needed.** Every Portuguese diacritic — `à á â ã ç é ê í ó ô õ ú ü` — sits in `U+00C0–U+00FF`, inside the `latin` range. `latin-ext` covers Central and Eastern European letterforms this site has no copy for. Names in scope (Vinícius, Devex Soluções, Inovasensor, UniCarioca) are all covered by `latin`.
+The brief specifies `latin` + `latin-ext`. **`latin-ext` is not needed.** Every Portuguese diacritic — `à á â ã ç é ê í ó ô õ ú ü` — sits in `U+00C0–U+00FF`, inside the `latin` range. `latin-ext` covers Central and Eastern European letterforms this site has no copy for. Names in scope (Devex Soluções, Inovasensor, UniCarioca) are all covered by `latin`.
 
 The `latin` range, taken from the Google Fonts CSS2 API response for both families (identical, checked 2026-07-27):
 

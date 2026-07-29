@@ -19,7 +19,7 @@ export type Segment = string | { text: string; href: string };
 export const pt = {
 	meta: {
 		// Budgets from head-and-metadata §5, counted by code point, not estimated.
-		title: "Vinícius Oliveira — Tech Lead e Desenvolvedor Full-Stack", // 56
+		title: "Vinicius Oliveira — Tech Lead e Desenvolvedor Full-Stack", // 56
 		description:
 			"Tech Lead no Rio de Janeiro. Lidero quatro desenvolvedores em dois produtos — um monorepo de ERP e a arquitetura de frontend de um BPO financeiro.", // 146
 	},

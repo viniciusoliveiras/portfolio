@@ -1,4 +1,4 @@
-# Portfolio — Vinícius Oliveira
+# Portfolio — Vinicius Oliveira
 
 Personal portfolio site. One page, two locales (`/pt` and `/en`), fully static, no remote data.
 

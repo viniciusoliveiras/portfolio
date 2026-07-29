@@ -35,12 +35,10 @@ Both are indexable, both serve the same pages, and **`rel="canonical"` appears n
 > **"Both are indexable" was not true.** Measured at cutover, `portfolio-viniciusoliveiras.vercel.app` served `x-robots-tag: noindex` — because it was pinned to a *preview*-classified deployment (see below). So the duplicate-content exposure was smaller than this section assessed. The canonical defect it identifies was real regardless.
 >
 > **The hosts were not one deployment, and the cutover plan's assumption that they would follow production "for free" is false.** Only `viniciusoliveiras.vercel.app` was an attached project **domain** tracking production. The others were **aliases pinned to 2021 deployments**, and after the force-push they were still serving the old Next.js site — `/pt` 404, `/home` 200, `age: 208089`.
-
-**And this table lists two origins where there are three.** `portfolio-git-main-viniciusoliveiras.vercel.app`, a legacy git-branch alias under Vercel's old naming scheme, was pinned to a 2021 deployment too. It carried `x-robots-tag: noindex`, so it never contributed to the duplicate-content defect this section identifies — but it is a third `*.vercel.app` host to account for whenever the origins consolidate.
-
-All three are now **project domains**, which is the only thing that makes a host track production — see [the cutover plan](../migration-cutover.md) §"Same Vercel project" for the mechanism and the API call, established across three production deploys after two wrong guesses. With that done, the fix this section designed works exactly as specified: every origin serves byte-identical output and every one advertises the same `rel="canonical"` at `SITE_ORIGIN`, so they consolidate from launch rather than at domain-swap time.
 >
-> With both hosts on the new deployment, the fix this section designed works exactly as specified: both serve byte-identical output and both advertise the same `rel="canonical"` at `SITE_ORIGIN`, so the origins consolidate from launch rather than at domain-swap time.
+> **And this table lists two origins where there are three.** `portfolio-git-main-viniciusoliveiras.vercel.app`, a legacy git-branch alias under Vercel's old naming scheme, was pinned to a 2021 deployment too. It carried `x-robots-tag: noindex`, so it never contributed to the duplicate-content defect this section identifies — but it is a third `*.vercel.app` host to account for whenever the origins consolidate.
+>
+> All three are now **project domains**, which is the only thing that makes a host track production — see [the cutover plan](../migration-cutover.md) §"Same Vercel project" for the mechanism and the API call, established across three production deploys after two wrong guesses. With that done, the fix this section designed works exactly as specified: every origin serves byte-identical output and every one advertises the same `rel="canonical"` at `SITE_ORIGIN`, so they consolidate from launch rather than at domain-swap time.
 
 A custom domain retires the ambiguity instead of crowning one of two accidents, and ADR-0001 makes the case: the site's job is hiring signal for a working Tech Lead, and the host is the one string every reader sees.
 
@@ -118,7 +116,7 @@ head: () => ({
     { charSet: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     { property: 'og:type', content: 'website' },
-    { property: 'og:site_name', content: 'Vinícius Oliveira' },
+    { property: 'og:site_name', content: 'Vinicius Oliveira' },
     { property: 'og:image', content: `${SITE_ORIGIN}/og.png` },
     { property: 'og:image:width', content: '1200' },
     { property: 'og:image:height', content: '630' },
@@ -207,7 +205,7 @@ Constraints handed to [the copy ticket](https://github.com/viniciusoliveiras/por
 const personLd = (locale: 'pt' | 'en') => ({
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Vinícius Oliveira',
+  name: 'Vinicius Oliveira',
   url: `${SITE_ORIGIN}/${locale}`,
   jobTitle: 'Tech Lead',
   knowsLanguage: ['pt-BR', 'en'],

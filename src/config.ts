@@ -16,7 +16,7 @@ export const SITE_ORIGIN = "https://viniciusoliveiras.vercel.app";
  * Not copy: the name is rendered as-is from the résumé's own header, so it never
  * varies by locale and does not belong in the message modules.
  */
-export const AUTHOR_NAME = "Vinícius Oliveira";
+export const AUTHOR_NAME = "Vinicius Oliveira";
 
 /** The locale tag travels as an explicit prop, never string-matched off the path. */
 export type Locale = "pt" | "en";

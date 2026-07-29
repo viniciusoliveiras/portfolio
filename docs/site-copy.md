@@ -62,20 +62,20 @@ Budgets from the head-and-metadata decision: title ≤60, description ≤155.
 ```ts
 // pt (canonical)
 meta: {
-  title: 'Vinícius Oliveira — Tech Lead e Desenvolvedor Full-Stack',   // 56
+  title: 'Vinicius Oliveira — Tech Lead e Desenvolvedor Full-Stack',   // 56
   description:
     'Tech Lead no Rio de Janeiro. Lidero quatro desenvolvedores em dois produtos — um monorepo de ERP e a arquitetura de frontend de um BPO financeiro.',  // 146
 }
 
 // en
 meta: {
-  title: 'Vinícius Oliveira — Tech Lead & Full-Stack Developer',       // 52
+  title: 'Vinicius Oliveira — Tech Lead & Full-Stack Developer',       // 52
   description:
     'Tech Lead in Rio de Janeiro. I lead four developers across two products — a modular ERP monorepo and frontend architecture for a financial BPO platform.',  // 152
 }
 ```
 
-All four lengths **counted, not estimated** — by code-point count, which matters because `Vinícius` and the em dashes are multi-byte. The English description first came out at **exactly 155**, sitting on the ceiling with no margin; dropping one word bought three characters of headroom.
+All four lengths **counted, not estimated** — by code-point count, which matters because the em dashes are multi-byte. The English description first came out at **exactly 155**, sitting on the ceiling with no margin; dropping one word bought three characters of headroom.
 
 Both titles carry the role, which the current *"Vinícius Oliveira - Portfólio"* asserts nothing about. Both descriptions replace *"Portfólio pessoal construído com React.js"*, which described the build tool rather than the person.
 
@@ -84,6 +84,14 @@ Both titles carry the role, which the current *"Vinícius Oliveira - Portfólio"
 ## 4. Hero — scope
 
 No anchor; it is the top of the page. The name and `Tech Lead | Full-Stack Developer` are rendered as-is from the résumé's own header, so they are not copy.
+
+> **Corrected 2026-07-29 — the name is `Vinicius Oliveira`, with no accent on the `i`.** Every document in this corpus wrote `Vinícius`, and the implementation carried that into `AUTHOR_NAME`, both meta titles, the JSON-LD `Person`, `og:site_name` and the OG card.
+>
+> **This section is what makes it a defect rather than a preference.** It rules that the name is "rendered as-is from the résumé's own header" — and that header reads **VINICIUS OLIVEIRA**. So the accented form was never traceable to the source this document names for it, and everything derived from it inherited an error nothing was checking. The author's own artifacts agree with the résumé throughout: `viniciusoliveiras` on GitHub and LinkedIn, `viniciusoliveiras.vercel.app` as the origin.
+>
+> **Two quotations are deliberately left with the accent** — the old site's `"Olá, eu sou o Vinícius, sou do Rio de Janeiro, Brasil"` here in §1 and its `"Vinícius Oliveira - Portfólio"` title in §3 and [head and metadata](research/head-and-metadata.md) §5. Those quote what the 2021 site actually said; rewriting a quotation to match a later correction would falsify the record rather than fix it.
+>
+> **The head budgets are unchanged, and the reason is worth keeping.** `í` is a single code point (U+00ED), so the titles are still 56 and 52 — the accent cost a *byte*, not a character. The count in this document that had to change is the reasoning in §3, which cited the name as its example of multi-byte input; `Vinicius` is now plain ASCII and only the em dashes carry that argument.
 
 **pt** — `Lidero a arquitetura de frontend de uma plataforma de BPO financeiro e respondo por um monorepo de ERP modular em produção para clientes corporativos.`
 
