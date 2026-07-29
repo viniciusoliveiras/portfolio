@@ -98,9 +98,21 @@ A parallel project was attractive — attach the new domain, verify on the real 
 >
 > Vercel refuses to add it as a project domain while it exists as an alias (`409 duplicate-team-registration`), so it was pointed at production with `POST /v2/deployments/{id}/aliases` instead.
 >
-> **Amended the same day, by testing it rather than assuming.** This block first recorded that the alias "does not follow future production deploys either" and would need re-pointing after each one. **That was wrong.** On the next production deploy it followed on its own: assigning the alias promotes it to a production-tracking project domain, and it now appears in the project's domain list beside `viniciusoliveiras.vercel.app` with a production target. The one-time repair is the whole of the work; there is no recurring chore, and nothing to clean up before Phase 4.
+> **A third host was found while checking that**, which no document names: `portfolio-git-main-viniciusoliveiras.vercel.app`, a legacy git-branch alias under Vercel's old naming scheme, was *also* pinned to the 2021 deployment and serving the old site. It carried `x-robots-tag: noindex`, so it was never an indexing problem, but it was a public URL serving the exact page this migration exists to retire. **So the count is three `*.vercel.app` hosts, not two** — which matters at Phase 4, where all three should end up 308-ing into the custom domain.
 >
-> **A third host was found while testing that**, which no document names: `portfolio-git-main-viniciusoliveiras.vercel.app`, a legacy git-branch alias under Vercel's old naming scheme, was *also* still pinned to the 2021 deployment and still serving the old site. It carried `x-robots-tag: noindex`, so it was never an indexing problem, but it was a public URL serving the exact page this migration exists to retire. Pointed at production the same way. **So the count is three `*.vercel.app` hosts, not two** — worth knowing at Phase 4, where every one of them should end up 308-ing into the custom domain.
+> ### The mechanism, established by testing across three production deploys
+>
+> Two earlier versions of this block generalised from a single observation and were each wrong. The rule is:
+>
+> **A project domain tracks production. A bare alias stays pinned wherever it was last assigned.**
+>
+> Assigning an alias with `POST /v2/deployments/{id}/aliases` is a *one-shot* operation — it does not by itself make the host follow anything. `portfolio-viniciusoliveiras.vercel.app` appeared to follow after being assigned only because it was *also* promoted to a project domain in the process; `portfolio-git-main-…`, assigned identically, stayed frozen and was still serving the previous build's copy one deploy later. The reliable operation is to add the host as a project domain:
+>
+> ```
+> POST /v10/projects/{projectId}/domains   { "name": "<host>" }
+> ```
+>
+> which returns `gitBranch: null` — i.e. targets production — and re-points the host immediately. All three hosts are now project domains, all three follow production, and **there is no recurring chore.** Verify with `GET /v9/projects/{id}/domains` (which lists only production-tracking domains) rather than `GET /v4/aliases` (which lists every alias, pinned or not); the difference between those two responses is exactly the set of hosts that will go stale.
 
 **The ordering is load-bearing and not obvious: settings change before any push.** Preview builds use the *project's* settings, so a preview of the rebuild branch under the auto-detected TanStack Start preset would fail — and validating that preview is the entire gate before the force-push. Changing settings first means previews build correctly. In the window between, a push to old `main` would fail to build, which is harmless: **Vercel keeps serving the last successful production deployment**, and nothing is pushed to `main` in that window anyway.
 
