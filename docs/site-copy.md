@@ -333,6 +333,16 @@ Most values are proper nouns that do not translate — React, Docker, n8n, Micro
 
 Both mean the PDF needs a refresh **as part of the cutover**, not after it — it is linked from the contact section of the page it disagrees with.
 
+> **Resolved 2026-07-29, and the PDF now has a source.**
+>
+> **(2) is fixed.** Go is out of `Languages` and in its own `Learning:` grouping, so the résumé follows the site rather than contradicting it — which is what this section asked for, on the ground that "the résumé is the weaker document here."
+>
+> **(1) was never a defect at launch, and this section's framing of it was wrong.** [The cutover plan](migration-cutover.md) §4 settled that `SITE_ORIGIN` starts as `viniciusoliveiras.vercel.app`, so the URL the PDF already cites is *correct* today — and the bare origin now 307s to a detected locale, so it lands on the site rather than "a redirect at best". The line changes at Phase 4, with the domain.
+>
+> **The more serious problem was one no document recorded: the PDF had no source.** It was generated once, and only the binary survived — nothing in the repo or on the author's machine could regenerate it, so neither of the two edits above had anywhere to be made. The source is now `resume/resume-en.html`, rendered by `node resume/build.mjs` with the Chromium the browser test seam already installs. That follows the [token layer](research/tailwind-token-layer.md) §6 font-vendoring precedent exactly — a one-off step producing a committed binary, no `package.json` entry, no CI job.
+>
+> Verified in the output: one page, three subsetted Liberation Sans faces, `ToUnicode` CMaps present and zero images, so the text stays selectable and machine-parseable. Phase 4's URL change is now one line in that file plus a re-render.
+
 ### 9.5 What the current site got factually wrong
 
 Recorded so no reviewer reintroduces any of it from memory: `Estudante de TI` (a Tech Lead), `Meu foco atual é o React.js integrado com o Next.js` (the stack is TanStack Start and the migration deletes Next), `Janeiro 2020 até a data atual` for a degree that ended in 2022, and an `/about` bio fetched live from the GitHub API which rendered a broken sentence.

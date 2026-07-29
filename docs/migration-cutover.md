@@ -147,6 +147,8 @@ Section anchors were considered and rejected: `/about` has no clean counterpart,
 2. **Vendor the fonts.** The one-off subset from the token layer §6, requiring `fontTools` and `brotli` on the machine that runs it. Produces **two** committed binaries in `public/fonts/`, not three — the italic face was deleted by the section-layouts decision.
 3. **Regenerate the résumé PDF** with the `Languages` grouping fix, moving Go out of the working languages and into learning, per the copy decision. **The cited site URL needs no change at this stage** — see Phase 4.
 
+> **Done 2026-07-29, and the step is now repeatable.** This phase assumed the author would regenerate the PDF in whatever produced it. Nothing had — the file was generated once and only the binary survived, so there was no source to edit anywhere. It is now authored as `resume/resume-en.html` and rendered by `node resume/build.mjs`, on the same one-off-step-producing-a-committed-binary footing as the font vendoring. Go sits in its own `Learning` grouping. **Phase 4 step 21 is therefore one line plus a re-render**, rather than a hunt for the original tool.
+
 ### Phase 1 — Vercel project settings, before any push
 
 4. Framework Preset → **Other**. Vercel auto-detects TanStack Start and fills in Nitro-shaped settings, which would reintroduce exactly what ADR-0004 removes. `vercel.json`'s `framework: null` also selects this.
