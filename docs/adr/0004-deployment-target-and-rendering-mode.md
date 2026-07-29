@@ -127,6 +127,26 @@ The override instead installs any pnpm 11 and lets `devEngines.packageManager` p
 > ```
 >
 > The `--version` is deliberate and stays: it prints which pnpm actually ran into the build log, so the next person debugging an install does not have to infer it from a YAML parser error. Everything else about the decision stands — still no Corepack, still one line, still deletable the day Vercel's table lists pnpm 11.
+>
+> **And a `buildCommand` override is required too, for a reason that belongs to neither ADR alone.** With the install fixed, the next build failed at
+>
+> ```
+> npm error EBADDEVENGINES Invalid name "pnpm" does not match "npm" for "packageManager"
+> npm error   current:  { name: 'npm',  version: '11.12.1' }
+> npm error   required: { name: 'pnpm', version: '>=11.0.0 <12.0.0', onFail: 'download' }
+> ```
+>
+> Three decisions combine to produce it. Vercel cannot parse the pnpm 11 lockfile, so it treats the project as an **npm** project and defaults the build command to `npm run build`. [ADR-0003](0003-package-manager-and-node-baseline.md) chose **`devEngines.packageManager`** over the legacy `packageManager` field because it is range-capable. And **npm 11 enforces `devEngines.packageManager`** — finding itself named as the wrong manager, it refuses to run any script at all.
+>
+> This is not a pnpm-version problem and it does not go away when Vercel supports pnpm 11; it is npm being asked to run a project that declares it must not. The fix is to never let npm be the runner:
+>
+> ```json
+> "buildCommand": "P=\"$(npm prefix -g)/bin/pnpm\" && \"$P\" build"
+> ```
+>
+> Same shape as the install command and for the same reason — the bare name `pnpm` still resolves to the image's own copy. `build` remains `vite build && tsc --noEmit`, so this ADR's "Vercel's build *is* the authoritative typecheck" is unaffected.
+>
+> **Consequence for the cutover plan:** its Phase 1 lists four Project Settings and says to leave Build Command alone. That is now five, and Build Command is not optional. Because `vercel.json` carries `framework`, `outputDirectory`, `installCommand` and now `buildCommand`, the dashboard values are belt-and-braces for all four — **the Node version remains the only one only the dashboard can express.**
 
 ### CI lints and typechecks; Vercel builds
 

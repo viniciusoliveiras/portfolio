@@ -4,6 +4,7 @@
 	"outputDirectory": "dist/client",
 	"cleanUrls": true,
 	"installCommand": "npm i -g pnpm@11 && P=\"$(npm prefix -g)/bin/pnpm\" && \"$P\" --version && \"$P\" install --frozen-lockfile",
+	"buildCommand": "P=\"$(npm prefix -g)/bin/pnpm\" && \"$P\" build",
 	"redirects": [
 		{
 			"source": "/",
