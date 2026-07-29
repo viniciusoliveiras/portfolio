@@ -111,6 +111,23 @@ The community fix is `ENABLE_EXPERIMENTAL_COREPACK=1` plus a `packageManager` fi
 
 The override instead installs any pnpm 11 and lets `devEngines.packageManager` plus `pmOnFail: download` correct to the pinned `11.17.0`. Single source of truth preserved, no Corepack, one line, **deletable the day Vercel's table lists pnpm 11**.
 
+> **Corrected 2026-07-29**, by the first real preview build of the `rebuild` branch. **The command as written above does not work**, and the reason is not the one this section anticipated: `npm i -g pnpm@11` succeeds, but the `pnpm` that then runs is *not* the one it just installed. Vercel's build image resolves `pnpm` to its own earlier-on-`PATH` copy, which fails on the pnpm 11 lockfile with
+>
+> ```
+> ERR_PNPM_BROKEN_LOCKFILE  The lockfile at "/vercel/path0/pnpm-lock.yaml" is broken:
+> expected a single document in the stream, but found more
+> ```
+>
+> — a single-document YAML parser meeting the two-document lockfile this ADR correctly predicted (`---` at lines 1 and 199; pnpm 11.18.0 reads it without complaint). Vercel's own CLI also logs `Error while parsing config file: "/vercel/path0/pnpm-lock.yaml"` one line earlier, which is the same incompatibility seen from the host's side.
+>
+> So the failure mode this section describes is real, but the mitigation was one step short: installing the right pnpm is not enough if the wrong one is what gets invoked. The command must name the binary it just installed rather than trusting `PATH`:
+>
+> ```json
+> "installCommand": "npm i -g pnpm@11 && P=\"$(npm prefix -g)/bin/pnpm\" && \"$P\" --version && \"$P\" install --frozen-lockfile"
+> ```
+>
+> The `--version` is deliberate and stays: it prints which pnpm actually ran into the build log, so the next person debugging an install does not have to infer it from a YAML parser error. Everything else about the decision stands — still no Corepack, still one line, still deletable the day Vercel's table lists pnpm 11.
+
 ### CI lints and typechecks; Vercel builds
 
 CI runs `biome check` and `tsc --noEmit`, and does not build. ADR-0003 already defined `build` as `vite build && tsc --noEmit` in that order, so Vercel's build *is* the authoritative typecheck against a freshly generated route tree, and a failed build blocks the deploy and surfaces as a failed check on the PR. CI is the fast pre-check and the net for anything that bypassed Lefthook's pre-commit hook.
