@@ -213,9 +213,31 @@ test.describe("the network", () => {
 
 		await page.goto("/pt", { waitUntil: "networkidle" });
 
+		// The origin under test, rather than a hardcoded localhost, so this means the
+		// same thing when pointed at a deployment.
+		const own = new URL(page.url()).host;
+
+		/**
+		 * Vercel injects preview-only instrumentation into PREVIEW deployments —
+		 * `vercel.live/_next-live/feedback` (the comment toolbar), `login/validate` and
+		 * `/.well-known/vercel/jwe` (preview auth). Verified as NOT ours: `vercel.live`
+		 * appears nowhere in `src/`, nowhere in `dist/client`, and nowhere in the HTML
+		 * response even when fetched with a browser user agent. It is added client-side
+		 * by the platform for previews and is absent from production.
+		 *
+		 * Allowed ONLY when this run is deliberately pointed at a preview. On a local or
+		 * production run the assertion stays absolute, so the property this site is built
+		 * around cannot quietly stop being tested.
+		 */
+		const previewNoise = process.env.PREVIEW_URL
+			? [/(^|\.)vercel\.live$/, /(^|\.)vercel-scripts\.com$/]
+			: [];
+
 		const foreign = requested.filter((u) => {
+			if (u.startsWith("data:") || u.startsWith("blob:")) return false;
 			const host = new URL(u).host;
-			return host !== "localhost:4173" && !u.startsWith("data:");
+			if (host === own) return false;
+			return !previewNoise.some((re) => re.test(host));
 		});
 		expect(foreign, `third-party requests: ${foreign.join(", ")}`).toEqual([]);
 
