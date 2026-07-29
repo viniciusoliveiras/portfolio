@@ -167,9 +167,9 @@ export const en = {
 	},
 
 	contact: {
-		// (voice)
+		// (voice) — see the note on the pt module. A counterpart, not a translation.
 		statement:
-			"I'm open to conversations about technical leadership roles. Email is the fastest route.",
+			"I'm always glad to talk about frontend architecture and technical leadership. Email is the fastest route.",
 		links: {
 			email: {
 				label: "Email",

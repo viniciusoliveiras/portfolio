@@ -225,9 +225,16 @@ export const pt = {
 	},
 
 	contact: {
-		// (voice)
+		// (voice) — rewritten 2026-07-29. This line used to claim "Estou aberto a
+		// conversas sobre posições de liderança técnica", which stopped being true.
+		// It now makes NO availability claim in either direction: neither soliciting
+		// roles nor announcing that none are wanted. Saying the latter out loud put a
+		// negative in the page's last sentence and dated the site to a passing state,
+		// which is worse than saying nothing — and nothing is what a portfolio owes a
+		// reader here. The statement itself stays, because the section layouts require
+		// a closing `lede` before the link list.
 		statement:
-			"Estou aberto a conversas sobre posições de liderança técnica. O caminho mais rápido é o e-mail.",
+			"Gosto de conversar sobre arquitetura de frontend e liderança técnica. O caminho mais rápido é o e-mail.",
 		// No form (ADR-0001), no Instagram (cut as off-message), and the résumé's
 		// phone number is NOT published — it stays on the PDF.
 		links: {

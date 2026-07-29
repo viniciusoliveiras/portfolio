@@ -267,9 +267,25 @@ This is the strongest sentence available to the site, and the reason is structur
 
 ### Contact
 
-**pt** — `Estou aberto a conversas sobre posições de liderança técnica. O caminho mais rápido é o e-mail.` **(voice)**
+~~**pt** — `Estou aberto a conversas sobre posições de liderança técnica. O caminho mais rápido é o e-mail.`~~ **(voice)**
 
-**en** — `I'm open to conversations about technical leadership roles. Email is the fastest route.` **(voice)**
+~~**en** — `I'm open to conversations about technical leadership roles. Email is the fastest route.`~~ **(voice)**
+
+> **Rewritten 2026-07-29**, at the author's instruction: he is not open to positions at present, so the original claim was false. This is exactly the change **(voice)** exists to make cheap — the line is interpretive rather than traced to the résumé, so it can be overwritten without checking a source.
+>
+> **pt** — `Gosto de conversar sobre arquitetura de frontend e liderança técnica. O caminho mais rápido é o e-mail.`
+>
+> **en** — `I'm always glad to talk about frontend architecture and technical leadership. Email is the fastest route.`
+>
+> **The line now makes no availability claim in either direction.** An explicit `Não estou buscando novas posições neste momento` was drafted first and rejected by the author: it puts a negative in the page's last sentence, and it dates the site to a passing state, so it would need editing again the moment the state changed. Silence is both more accurate and more durable — a portfolio owes a reader no statement of availability at all. **This is a stronger position than the original, not merely a retreat from it:** the previous line's claim was the only sentence on the page that could go stale without any fact changing.
+>
+> The statement **is kept**, rather than the section dropping to a bare list, for two structural reasons. [The section layouts](section-layouts.md) §2 require a closing `lede` here — "the section is the page's last word, and four naked links would end the document mid-sentence". And ADR-0001 makes the one thing a visitor should do "grasp real professional capability, then make contact", so the four links need a sentence above them giving them a purpose.
+>
+> `O caminho mais rápido é o e-mail.` / `Email is the fastest route.` is kept verbatim: it does real work, ranking four equal-looking links.
+>
+> **ADR-0001's premise is untouched, which the first draft could not have said.** That ADR's purpose — "hiring signal for a working Tech Lead" — was written while the author was open to roles, and an explicit "not looking" would have narrowed it. Asserting nothing narrows nothing: the site goes on being hiring signal, and simply stops speaking for a state that changes. No other string on the page asserts availability — checked across both content modules — so this one line carried the whole claim.
+>
+> **The résumé needs no matching edit.** Verified by reading `public/resume-en.pdf`: it makes no availability claim in any section. Its one outstanding correction remains §9.4's `Languages` grouping.
 
 | Link | pt label | en label | Target |
 | --- | --- | --- | --- |
