@@ -122,9 +122,15 @@ The overlay is `position: fixed; inset: 0` at `z-index: 50` — **above** the ba
 
 Its `feColorMatrix` is equally easy to lose and was in fact **dropped once while transcribing the data URI during this implementation**. Without it the raw `feTurbulence` paints at the div's full 0.4 opacity: measured, dark paper lifted from `#141312` to a mean `#353433` with a luminance stdev of 8.66, and `og.png` inflated from 21 KB to 285 KB because random noise does not compress. It reads as a deliberately grungy design rather than as a bug. **The card's file size is a usable canary** for whether that data URI is still intact.
 
-### The availability claim moved rather than returning
+### The hero eyebrow is cut, and the availability claim with it
 
-`75233bf` dropped the availability claim from the contact statement, on the grounds that announcing a passing state dates the page. The design reintroduces it — but as `chrome.availability`, a short accent eyebrow at the **top** of the page. That placement is materially different: an eyebrow reads as a status line and is expected to change, where the last sentence of a portfolio reads as a standing position. **The contact statement itself is unchanged and still claims nothing**, so the page does not make the claim twice at two different weights.
+The design opens the page with a three-part mono row above the name — `Portfolio — 2026` · `● Open to conversation` · `Rio de Janeiro, BR` — under a full-ink rule. **Cut on the author's call after seeing it rendered**, which is the one place this implementation departs from the design on taste rather than on an engineering constraint.
+
+The name now opens the page on the section's own 88px, and the `<h1>`'s 48px top margin went with the eyebrow rather than being left as an orphan. `chrome.kind` and `chrome.availability` existed only for that row and are deleted from both message modules; `place` and `builtWith` survive in the footer.
+
+**This settles a decision that had been reversed twice.** `75233bf` dropped the availability claim from the contact statement, on the grounds that announcing a passing state dates the page and that such a line is the only sentence on the page able to go stale with no fact changing — the full argument is in [site copy](../site-copy.md). This ADR originally *relocated* that claim to the eyebrow rather than reversing it, reasoning that a status line at the top is a materially different thing from a standing position in the last sentence. With the eyebrow gone the claim is simply absent, which restores site-copy's position in full — including its statement that **no string on the page asserts availability**, which had briefly stopped being true.
+
+Third state of one decision, so it is now **asserted in `tests/prerendered-output.test.ts`** rather than left as prose: the exact strings that have been on the page and removed must not reappear. A rewording will slip past it, deliberately — the guard exists to make a reversal explicit, not to police vocabulary.
 
 ### Two emphasis runs are matched, not marked up
 
@@ -136,7 +142,7 @@ Instead the copy carries the sentence and the run as two plain strings, and `Emp
 
 `favicon.svg` is redrawn as the design's monogram — a roman `V`, an italic verde `O` and a period — from **real Instrument Serif outlines extracted from the shipped `woff2` files**, so it cannot drift from the site's type. It relies on **nonzero winding**: the `O`'s counter is a contour wound against the first, and setting `evenodd` anywhere fills it solid. `og.png` is regenerated from `og/og.html` through the existing Chromium step, and inverted to dark with the palette.
 
-The card stays **locale-neutral by construction**, which is what lets one file serve both routes — and that constraint shaped it. The obvious card in this language would carry the hero's eyebrow trio and the three labelled figures, and every one of those labels needs translating, so none of them is on it. Only the split name, the invariant role line and the accent rule survive.
+The card stays **locale-neutral by construction**, which is what lets one file serve both routes — and that constraint shaped it. The obvious card in this language would carry the design's eyebrow trio and the three labelled figures, and every one of those labels needs translating, so none of them is on it. Only the split name, the invariant role line and the accent rule survive. (The eyebrow was subsequently cut from the page too, for unrelated reasons — see above — so the card and the hero happen to agree.)
 
 ### What ADR-0005 keeps
 

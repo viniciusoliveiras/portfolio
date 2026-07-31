@@ -46,7 +46,7 @@ export function Portfolio({ locale, m }: { locale: Locale; m: Messages }) {
 			    hero carries no id of its own: it is the top of the page, so it is not a
 			    destination distinct from the page itself. */}
 			<main id="top" className="page">
-				<Hero copy={m.hero} chrome={m.chrome} />
+				<Hero copy={m.hero} />
 
 				<Section
 					id="summary"

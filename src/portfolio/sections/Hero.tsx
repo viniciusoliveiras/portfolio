@@ -1,13 +1,27 @@
 import { AUTHOR_FAMILY, AUTHOR_GIVEN } from "~/config";
-import { facts } from "~/content/facts";
 import type { Messages } from "~/content/pt";
 
 /**
  * The hero. It carries NO SECTION MARK and NO ID: it is the top of the page, so it has
  * no ordinal position to announce and is not a destination distinct from the page
- * itself. That is also why it does not go through `Section` — its shape is unique
- * (eyebrow rule below, meta rule above, no rule at the top) and forcing it through a
- * wrapper built for the other six would mean three escape-hatch props.
+ * itself. That is also why it does not go through `Section` — its shape is unique (one
+ * rule, below the name rather than above it) and forcing it through a wrapper built for
+ * the other six would mean escape-hatch props.
+ *
+ * THE EYEBROW IS GONE. The design opened with a three-part mono row above the name —
+ * `Portfolio — 2026` · `● Open to conversation` · `Rio de Janeiro, BR` — with a full-ink
+ * rule under it. Cut on the author's call after seeing it rendered. Three consequences
+ * worth knowing before anyone restores it:
+ *
+ * 1. The name now opens the page, with the section's own 88px above it. The `mt-12` the
+ *    `<h1>` used to carry was spacing FROM the eyebrow, so it went with it rather than
+ *    being left as an orphan 48px.
+ * 2. `chrome.kind` and `chrome.availability` existed only for that row and are deleted
+ *    from both message modules. `place` and `builtWith` survive in the footer.
+ * 3. THE PAGE ONCE AGAIN MAKES NO AVAILABILITY CLAIM ANYWHERE, which restores the
+ *    position `docs/site-copy.md` argued for and its claim that no string on the page
+ *    asserts availability. ADR-0006 had moved that claim here rather than reversing it;
+ *    this removes it outright.
  *
  * THE NAME IS SPLIT ACROSS TWO LINES with the surname in accent italic and indented
  * 0.6em — a typographic decision, not a copy one, which is why it reads from
@@ -17,32 +31,10 @@ import type { Messages } from "~/content/pt";
  * `text-wrap: pretty` on the lede rather than `balance`: this is a three-line paragraph
  * where the goal is avoiding a one-word last line, not centring the ragged edge.
  */
-export function Hero({
-	copy,
-	chrome,
-}: {
-	copy: Messages["hero"];
-	chrome: Messages["chrome"];
-}) {
+export function Hero({ copy }: { copy: Messages["hero"] }) {
 	return (
 		<section className="pt-[88px]">
-			{/* The eyebrow. `border-b border-ink` at full strength — this is a section
-			    boundary in the design's grammar, not an internal divider. */}
-			<div className="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1.5 border-b border-ink pb-[14px] font-mono text-mark text-muted uppercase">
-				{/* Composed from `facts.year` so the year exists once in the codebase. */}
-				<span>
-					{chrome.kind} — {facts.year}
-				</span>
-				<span className="text-accent">
-					{/* Decorative status dot, hidden from assistive technology: a screen
-					    reader announcing "black circle" before the claim adds nothing, and
-					    the claim itself is the content. */}
-					<span aria-hidden="true">●</span> {chrome.availability}
-				</span>
-				<span>{chrome.place}</span>
-			</div>
-
-			<h1 className="mt-12 font-serif text-[clamp(72px,12.5vw,176px)] leading-[0.94] tracking-[-0.02em]">
+			<h1 className="font-serif text-[clamp(72px,12.5vw,176px)] leading-[0.94] tracking-[-0.02em]">
 				{AUTHOR_GIVEN}
 				<br />
 				<em className="ml-[0.6em] text-accent">{AUTHOR_FAMILY}</em>

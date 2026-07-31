@@ -25,8 +25,6 @@ export const en = {
 	},
 
 	chrome: {
-		kind: "Portfolio",
-		availability: "Open to conversation",
 		// Not translated, and correct: the city's English and Portuguese names are the
 		// same, and `BR` is the ISO code in both. Written twice rather than shared across
 		// the locales because `chrome` is copy, and a locale-neutral home for it would
@@ -222,7 +220,8 @@ export const en = {
 
 	contact: {
 		// (voice) — see the note on the pt module. A counterpart, not a translation, and
-		// still carrying NO availability claim: that lives in `chrome.availability`.
+		// carrying NO availability claim — nor does anything else on the page, now that
+		// the hero eyebrow is cut.
 		statement:
 			"I'm always glad to talk about frontend architecture and technical leadership. Email is the fastest route.",
 		emphasis: "Email is the fastest route.",

@@ -30,10 +30,12 @@ const LINKS = [
  * on the page and no other section needs it — putting it in the wrapper would mean a
  * prop used once.
  *
- * NOTE ON THE AVAILABILITY CLAIM: this statement deliberately makes none. The design's
- * reintroduced claim sits in the hero eyebrow as `chrome.availability`. Both saying it
- * here and there would make the page claim it twice at two different weights, and the
- * closing sentence of a portfolio reads as a standing position rather than a status.
+ * NOTE ON THE AVAILABILITY CLAIM: this statement deliberately makes none — and since the
+ * hero eyebrow was cut, nothing else on the page does either. ADR-0006 had relocated the
+ * claim to that eyebrow rather than reversing the decision that dropped it from here;
+ * with the eyebrow gone the page is back to saying nothing, which is what
+ * `docs/site-copy.md` argued for on the grounds that a portfolio owes a reader no
+ * statement of availability.
  */
 export function Contact({
 	copy,

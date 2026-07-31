@@ -31,30 +31,21 @@ export const pt = {
 	},
 
 	/**
-	 * Page furniture that belongs to no single section.
+	 * Page furniture that belongs to no single section. Both strings are the footer's,
+	 * and the key is deliberately not called `footer`: the hero's eyebrow drew on this
+	 * too until it was cut, and a section-shaped name would make restoring anything here
+	 * feel like a violation.
 	 *
-	 * `place` and `builtWith` are each rendered TWICE and ONCE respectively but live
-	 * together because they are the same kind of thing — the footer's three-up and the
-	 * hero's eyebrow both draw on this. `place` in particular is deliberately one
-	 * string with two call sites rather than two strings that agree today: the hero
-	 * eyebrow and the footer print the same city, and letting them diverge is a defect
-	 * nobody would notice for a year.
-	 *
-	 * `kind` is composed with `facts.year` at the call site rather than being written
-	 * as "Portfólio — 2026", so the year exists once in the codebase.
+	 * TWO STRINGS WERE DELETED WITH THAT EYEBROW: `kind` ("Portfólio", composed with
+	 * `facts.year`) and `availability` ("Aberto a conversas"). The second matters beyond
+	 * layout — with it gone the page makes NO AVAILABILITY CLAIM ANYWHERE again, which is
+	 * the position [site copy](../../docs/site-copy.md) argued for and which ADR-0006 had
+	 * relocated rather than reversed. Do not reintroduce one here without reading that
+	 * argument: it holds that a portfolio owes a reader no statement of availability, and
+	 * that such a line is the only sentence on the page able to go stale with no fact
+	 * changing.
 	 */
 	chrome: {
-		kind: "Portfólio",
-		/**
-		 * (voice) — and a deliberate reversal. The contact statement dropped its
-		 * availability claim in 2026-07 on the grounds that announcing a passing state
-		 * dates the page. ADR-0006's design reintroduces the claim HERE instead, as a
-		 * short accent-marked eyebrow rather than as the closing sentence of the page —
-		 * which is a materially different placement: an eyebrow reads as a status line
-		 * and is expected to change, where the last sentence of a portfolio reads as a
-		 * standing position. Reverse it by deleting the string and its `●`.
-		 */
-		availability: "Aberto a conversas",
 		place: "Rio de Janeiro, BR",
 		builtWith: "Feito com TanStack Start",
 	},
@@ -345,11 +336,10 @@ export const pt = {
 	contact: {
 		// (voice) — rewritten 2026-07-29, and NOT reversed by ADR-0006. This line used
 		// to claim "Estou aberto a conversas sobre posições de liderança técnica", which
-		// stopped being true. It still makes no availability claim: the design's
-		// reintroduced claim lives in `chrome.availability`, as an eyebrow at the TOP of
-		// the page, which is a status line rather than a closing position. Keeping this
-		// sentence neutral is what stops the page making the claim twice with two
-		// different weights.
+		// stopped being true. It still makes no availability claim, and now nothing else
+		// on the page does either: ADR-0006's design put one in the hero eyebrow, and
+		// that eyebrow was cut. So this sentence is not merely neutral to avoid saying it
+		// twice — it is the whole of the page's position on the subject, which is silence.
 		statement:
 			"Gosto de conversar sobre arquitetura de frontend e liderança técnica. O caminho mais rápido é o e-mail.",
 		// The design sets the second sentence in accent italic; matched and wrapped by

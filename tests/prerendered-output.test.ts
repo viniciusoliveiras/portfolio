@@ -309,9 +309,7 @@ describe("content on first paint", () => {
 
 		it(`/${locale} renders the copy of every section, in the right locale`, () => {
 			const expected = [
-				// Page chrome, all new under ADR-0006.
-				m.chrome.kind,
-				m.chrome.availability,
+				// Page chrome. `kind` and `availability` were deleted with the hero eyebrow.
 				m.chrome.place,
 				m.chrome.builtWith,
 				// The hero's meta grid replaced the single `roleLine`. Each value is an
@@ -386,6 +384,35 @@ describe("content on first paint", () => {
 				!decode(doc).includes(messages[other].summary.lede),
 				`/${locale} leaked the ${other} summary`,
 			);
+		});
+
+		/**
+		 * THE PAGE ASSERTS NO AVAILABILITY, IN EITHER DIRECTION.
+		 *
+		 * This is the third state of one decision, which is why it is now a test rather
+		 * than a comment. `75233bf` dropped the claim from the contact statement on the
+		 * grounds that a portfolio owes a reader no statement of availability, and that
+		 * such a line is the only sentence on the page able to go stale with no fact
+		 * changing — see `docs/site-copy.md`. ADR-0006's design reintroduced it as a hero
+		 * eyebrow; the eyebrow was then cut.
+		 *
+		 * The strings below are the exact ones that have been on the page and been
+		 * removed. A near-miss rewording will not be caught, and that is fine: the point
+		 * is to make a *reversal* deliberate rather than to police vocabulary.
+		 */
+		it(`/${locale} makes no availability claim`, () => {
+			const text = decode(doc);
+			for (const claim of [
+				"Open to conversation",
+				"Aberto a conversas",
+				"Estou aberto a conversas",
+				"open to new opportunities",
+			]) {
+				assert.ok(
+					!text.includes(claim),
+					`/${locale} asserts availability again ("${claim}") — read docs/site-copy.md before restoring it`,
+				);
+			}
 		});
 
 		// The six numbered section marks. Written in `Portfolio.tsx` as ordinals over
