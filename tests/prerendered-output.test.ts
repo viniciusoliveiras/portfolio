@@ -15,6 +15,12 @@ import { pt } from "../src/content/pt";
  * component's props or a section's internal structure — the layout is fixed by a
  * document and changing it must not break a test.
  *
+ * THE ONE STRUCTURAL THING IT DOES ASSERT is the `<em>` around each emphasis run, and
+ * that is content rather than layout: an `<em>` is what a screen reader stresses and
+ * what a crawler reads as emphasis, so it is part of the text as received. Its CLASS is
+ * not — the accent colour is a cascade question and `rendered.spec.ts` reads it off the
+ * computed style, where it can actually fail for the right reason.
+ *
  * Node's own test runner and its native TypeScript execution, so this seam adds NO
  * DEPENDENCY at all. It reads `dist/client`, so `pnpm build` must have run.
  */
@@ -66,6 +72,16 @@ const decode = (s: string) =>
 		.replace(/&lt;/g, "<")
 		.replace(/&gt;/g, ">")
 		.replace(/&#x2F;/g, "/");
+
+/**
+ * The document as TEXT: entities decoded, React's `<!-- -->` text-node separators and
+ * every tag removed. What is left is what a reader receives, which is the only thing
+ * this seam is entitled to assert about the body.
+ */
+const plain = (doc: string) =>
+	decode(doc)
+		.replace(/<!--.*?-->/g, "")
+		.replace(/<[^>]+>/g, "");
 
 describe("the document itself", () => {
 	for (const locale of LOCALES) {
@@ -415,14 +431,31 @@ describe("content on first paint", () => {
 			}
 		});
 
-		// The six numbered section marks. Written in `Portfolio.tsx` as ordinals over
-		// the section list rather than authored per locale, so `/pt` cannot ship an `04`
-		// where `/en` ships an `05` — this asserts all six reached both.
-		it(`/${locale} renders all six section marks, 01 through 06`, () => {
-			for (const mark of ["01", "02", "03", "04", "05", "06"]) {
+		/**
+		 * The six numbered section marks. Written in `Portfolio.tsx` as ordinals over the
+		 * section list rather than authored per locale, so `/pt` cannot ship an `04` where
+		 * `/en` ships an `05` — this asserts all six reached both.
+		 *
+		 * Matched as TEXT (`01 / Resumo`) rather than as `>01</span>`, which was this
+		 * seam asserting the markup a component happens to emit. The text form is both
+		 * cleaner and stronger: it also proves each ordinal landed on the section it
+		 * belongs to, which the span form could not see.
+		 */
+		it(`/${locale} renders all six section marks against their labels`, () => {
+			const text = plain(doc);
+			const labels = [
+				m.nav.sections.summary,
+				m.nav.sections.experience,
+				m.nav.sections.work,
+				m.nav.sections.skills,
+				m.nav.sections.education,
+				m.nav.sections.contact,
+			];
+			for (const [i, label] of labels.entries()) {
+				const mark = `${String(i + 1).padStart(2, "0")} / ${label}`;
 				assert.ok(
-					has(doc, `>${mark}</span>`),
-					`section mark ${mark} is missing from /${locale}`,
+					text.includes(mark),
+					`section mark is missing or misnumbered in /${locale}: ${mark}`,
 				);
 			}
 		});
@@ -442,11 +475,19 @@ describe("content on first paint", () => {
 			);
 		});
 
+		// The `<em>` and not its class. Emphasis is content — it is what a screen reader
+		// stresses — so it belongs to this seam; the accent colour is a cascade question
+		// and `rendered.spec.ts` reads it off the computed style, where it can fail for
+		// the right reason. Asserting `class="text-accent"` here broke on a rename that
+		// broke nothing.
 		it(`/${locale} actually wraps both emphasis runs in an <em>`, () => {
 			const text = decode(doc);
 			for (const run of [m.summary.emphasis, m.contact.emphasis]) {
-				assert.ok(
-					text.includes(`<em class="text-accent">${run}</em>`),
+				assert.match(
+					text,
+					new RegExp(
+						`<em[^>]*>${run.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</em>`,
+					),
 					`emphasis run was not wrapped in /${locale}: ${JSON.stringify(run)}`,
 				);
 			}
