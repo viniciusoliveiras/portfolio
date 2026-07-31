@@ -41,7 +41,7 @@ export const Route = createRootRoute({
 			// FOUR preloads under ADR-0006, not two, and all four are genuinely needed
 			// above the fold at a desktop first paint: the two Instrument Serif statics
 			// split the `<h1>` and the monogram between them, Hanken sets the hero lede
-			// and the meta grid, and the mono sets the eyebrow and the bar. 99.2 KB
+			// and the meta grid, and the mono sets its three labels and the bar. 99.2 KB
 			// shipped, 99.2 KB preloaded — there is nothing loaded lazily to distinguish.
 			//
 			// `crossOrigin` is required on font preloads EVEN SAME-ORIGIN; omitting it

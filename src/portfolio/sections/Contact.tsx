@@ -77,15 +77,18 @@ export function Contact({
 			</div>
 
 			<div className="mt-[88px] flex flex-wrap justify-between gap-x-5 gap-y-2 border-t border-rule pt-5 font-mono text-micro text-muted uppercase">
-				{/* `facts.year` again, so the hero eyebrow and this line cannot disagree about
-				    what year it is. */}
+				{/* `facts.year` is now the page's ONLY use of the year — the hero eyebrow that
+				    also printed it is gone. It stays in `facts` on its own merits, not for
+				    sharing: the argument there is that computing it would make the static
+				    output a function of the build date. */}
 				<span>
 					© {facts.year} {AUTHOR_NAME}
 				</span>
 				<span>{chrome.builtWith}</span>
-				{/* The same `place` string the hero eyebrow prints, deliberately shared rather
-				    than written twice — two strings that agree today are a defect nobody
-				    notices for a year. */}
+				{/* Likewise `chrome.place`, which the eyebrow used to print too. Both keys
+				    stay under `chrome` rather than moving to a `footer` key: this is the only
+				    caller today, and a section-shaped name would make putting either back
+				    anywhere else feel like a violation. */}
 				<span>{chrome.place}</span>
 			</div>
 		</div>

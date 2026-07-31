@@ -24,8 +24,10 @@ export const facts = {
 	erpUsers: "400+",
 
 	/**
-	 * The year in the hero's eyebrow and the footer's copyright, WRITTEN RATHER THAN
-	 * COMPUTED. `new Date().getFullYear()` would be evaluated at prerender time, which
+	 * The year in the footer's copyright — its only caller since the hero eyebrow that
+	 * also printed it was cut. WRITTEN RATHER THAN COMPUTED, and that is why it stays
+	 * here with one caller: `new Date().getFullYear()` would be evaluated at prerender
+	 * time, which
 	 * makes the static output a function of the build date — the year would change
 	 * without a commit, and `tests/prerendered-output.test.ts` asserts against fixed
 	 * strings. One edit a year in one place beats a snapshot that rots on New Year's

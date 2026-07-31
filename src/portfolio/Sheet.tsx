@@ -32,7 +32,7 @@ import { LocaleSwitch } from "./LocaleSwitch";
  *    back on the menu button in the bar. Fixing it means imperative focus management
  *    on the target heading, which is more machinery than the wart costs.
  *
- * 2. Crossing `md` while the sheet is open leaves the `open` attribute set on an
+ * 2. Crossing `wide` (820px) while the sheet is open leaves the `open` attribute set on an
  *    element the breakpoint has hidden — reachable on a phone, because rotating a
  *    390px portrait screen to 844px landscape crosses the breakpoint. MEASURED, and
  *    the page does not break: the sheet stops rendering, everything behind it stays

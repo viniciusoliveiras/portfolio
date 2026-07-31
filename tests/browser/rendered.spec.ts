@@ -180,7 +180,8 @@ test.describe("the palette follows the system theme", () => {
 		 * a real hazard — Lightning CSS emits a statically resolved light-mode literal
 		 * ahead of the `color-mix()` as a fallback, and the later rule has to win — but
 		 * the hazard needed an accent that CHANGES between modes to be observable, and
-		 * ADR-0006's accent does not. `accent-link` also now has no caller on the page.
+		 * ADR-0006's accent does not. `accent-link` is also no longer drawn on this page
+		 * at all — it survives on /404 and in `Segments`, whose anchors are unfilled.
 		 */
 		expect(
 			await page

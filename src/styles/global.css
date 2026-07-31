@@ -5,7 +5,7 @@
    Every one of them appears above the fold at a desktop first paint: the roman and
    the italic split the `<h1>` between them ("Vinicius" / "Oliveira") and the
    monogram ("V" / "O"), Hanken sets the hero lede and the meta grid, and the mono
-   sets the eyebrow and the bar.
+   sets the hero's three meta labels and the bar.
 
    Taken from the `latin` unicode-range blocks Google's css2 API serves, which are
    already subset, so no subsetting pass of our own exists to drift. The two
@@ -254,9 +254,10 @@
 	   than being rounded to Tailwind's `lg` (1024px), which would hold every grid in
 	   one column for 204px longer than what was approved.
 
-	   Tailwind's own sm/md/lg/xl/2xl remain available and are used where a second
-	   step is genuinely needed. Pending a breakpoint ladder from the design, `wide:`
-	   is the single authored step. */
+	   Tailwind's own sm/md/lg/xl/2xl remain available, and NOTHING USES THEM: `wide:`
+	   is the page's only breakpoint prefix, 22 times over. Pending a breakpoint ladder
+	   from the design that is the honest state of things, and worth knowing before
+	   anyone reaches for `lg:` and puts a second, unauthored step on the page. */
 	--breakpoint-wide: 51.25rem; /* 820 */
 }
 
@@ -367,14 +368,15 @@
 }
 
 /* The one INLINE-PROSE link treatment, for links that sit inside a sentence rather
-   than in a pill. Its only caller today is `Segments`, rendering the company-group
-   note — and that note's two anchors are unfilled inputs, so nothing on the page
-   currently uses it.
+   than in a pill. `NotFound` uses it for both of the /404 page's back links, which is
+   its only RENDERED use today.
 
-   It exists anyway, and deliberately: `Segments` is the mechanism by which any
-   message can grow an inline link, and the moment `DEVEX_URL` gets a value the link
-   must already look like one. Deleting this because it has no live caller is how the
-   first filled URL ships as unstyled body text.
+   Its other caller is `Segments`, rendering the company-group note — and that note's
+   two anchors are unfilled inputs, so nothing on the PORTFOLIO page currently draws
+   it. It would stay here even if it drew nowhere at all: `Segments` is the mechanism
+   by which any message can grow an inline link, and the moment `DEVEX_URL` gets a
+   value the link must already look like one. Deleting an inline-link treatment for
+   having no live caller is how the first filled URL ships as unstyled body text.
 
    The design supplies no inline-link treatment to copy — it has no inline links —
    so this is derived: accent, underlined at 40% rising to full on hover, inside the
