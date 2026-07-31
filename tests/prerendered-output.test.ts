@@ -611,7 +611,7 @@ describe("the assets the head promises", () => {
 		}
 	});
 
-	it("emits the favicon, unoptimised and with no fill-rule", () => {
+	it("emits the favicon, with no fill-rule and no CSS", () => {
 		const svg = read("favicon.svg");
 		// ADR-0006's monogram is REAL INSTRUMENT SERIF OUTLINES, extracted from the
 		// shipped woff2 files — a roman `V`, an italic accent `O` and a period. Font
@@ -621,10 +621,17 @@ describe("the assets the head promises", () => {
 		// it, which is what this asserts — the same guard as before, for a new reason.
 		assert.ok(!svg.includes("fill-rule"), "the favicon gained a fill-rule");
 		assert.ok(!svg.includes("<style"), "the favicon gained CSS");
+		// The byte count, which is a canary for the two above and nothing more. It USED
+		// to be described as "it must never meet an SVG optimiser", which conflated two
+		// unrelated things: the winding rule, which an optimiser really can destroy, and
+		// coordinate precision, which it cannot. The extracted outlines arrived at 17
+		// significant figures on a 32-unit viewBox; rounding them to two moved no pixel a
+		// favicon renders (max channel delta 5/255 at 16px and 32px, measured) and took
+		// the file from 4704 bytes to 1579.
 		assert.equal(
 			Buffer.byteLength(svg),
-			4704,
-			"the favicon changed size — it must never meet an SVG optimiser",
+			1579,
+			"the favicon changed size — check it did not lose its winding or gain CSS",
 		);
 	});
 
