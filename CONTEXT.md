@@ -4,7 +4,7 @@ Glossary for this repository, as [`docs/agents/domain.md`](docs/agents/domain.md
 
 **It defines terms and points at the document that fixed each one. It never restates a decision** — the decision lives in exactly one place, and this file is an index into that, not a copy of it.
 
-**It describes the site the spec specifies, not the code in `src/` today.** `src/` is still the old Next.js + Chakra site, which uses none of this vocabulary. See [`README.md`](README.md) for what state this repo is in.
+**It describes the site in `src/` today.** ~~`src/` is still the old Next.js + Chakra site, which uses none of this vocabulary.~~ **Corrected 2026-07-31:** the spec was implemented and cut over, so the code and this glossary now speak the same language — every term below names something that exists. See [`README.md`](README.md) for what state this repo is in.
 
 ## Why this file exists
 

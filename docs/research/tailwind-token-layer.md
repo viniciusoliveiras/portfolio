@@ -258,7 +258,7 @@ Note the mono declares a single `font-weight: 500`, not a range, because it was 
 
 Paste-ready — **this exact stylesheet was compiled with Tailwind 4.3.3**: no errors, all 24 intended utilities generated, `text-red-500` and `text-xs` correctly absent, and the spacing utilities resolving to 96 / 64 / 32 / 12px as the brief specifies.
 
-One file, `src/styles/global.css`, imported for its side effect from the root route — the [API map](next-to-tanstack-start-api-map.md) established that a bare `import` is like-for-like with the current Next setup and keeps more production features than `?url`.
+One file, `src/styles/global.css`, imported for its side effect from the root route — the [API map](https://github.com/viniciusoliveiras/portfolio/issues/3) established that a bare `import` is like-for-like with the current Next setup and keeps more production features than `?url`.
 
 ```css
 @import "tailwindcss";
