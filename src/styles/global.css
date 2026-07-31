@@ -80,6 +80,15 @@
 	   5.76:1 and does not clear light at 2.76:1; ADR-0006 records that as accepted,
 	   with the trigger to reopen. */
 	--color-accent: #2fa35c;
+
+	/* The only legible foreground on that green, and its one caller is `pill-solid`'s
+	   hover — the one place on the page where TEXT sits on an accent fill. It is
+	   declared rather than inlined there so the next accent fill has an answer waiting.
+
+	   There was an `accent-surface` utility here binding the two so the pair could not
+	   be applied half-way. It had no caller, and neither did the `bg-accent` its own
+	   comment pointed at; a utility nothing draws is not a guard, it is a claim that a
+	   guard exists. */
 	--color-on-accent: #fff8ef;
 
 	/* ---- faces ----------------------------------------------------------- */
@@ -357,14 +366,6 @@
 @utility bar-surface {
 	background-color: color-mix(in srgb, var(--color-paper) 85%, transparent);
 	backdrop-filter: blur(12px);
-}
-
-/* An accent fill and its correct foreground, bound together so the pair cannot be
-   applied half-way. `bg-accent` still exists for non-text fills; anything carrying
-   TEXT on accent uses this. */
-@utility accent-surface {
-	background-color: var(--color-accent);
-	color: var(--color-on-accent);
 }
 
 /* The one INLINE-PROSE link treatment, for links that sit inside a sentence rather
