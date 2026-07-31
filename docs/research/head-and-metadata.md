@@ -38,6 +38,15 @@ Both are indexable, both serve the same pages, and **`rel="canonical"` appears n
 >
 > **And this table lists two origins where there are three.** `portfolio-git-main-viniciusoliveiras.vercel.app`, a legacy git-branch alias under Vercel's old naming scheme, was pinned to a 2021 deployment too. It carried `x-robots-tag: noindex`, so it never contributed to the duplicate-content defect this section identifies — but it is a third `*.vercel.app` host to account for whenever the origins consolidate.
 >
+> **They never consolidated — closed 2026-07-31.** At the domain swap all three hosts were
+> removed from the Vercel project instead of being redirected into
+> `www.viniciusoliveiras.com`, so all three now serve `DEPLOYMENT_NOT_FOUND`. **This
+> section's requirement that the old origins keep working, so existing shared links
+> survive, is therefore not met** — it was raised and declined, and the reasoning plus the
+> accepted costs are in [the cutover plan](../migration-cutover.md) Phase 4. The
+> duplicate-content defect this document exists to fix *is* fixed, by the single
+> `SITE_ORIGIN`: there is now exactly one origin, because the others are gone.
+>
 > All three are now **project domains**, which is the only thing that makes a host track production — see [the cutover plan](../migration-cutover.md) §"Same Vercel project" for the mechanism and the API call, established across three production deploys after two wrong guesses. With that done, the fix this section designed works exactly as specified: every origin serves byte-identical output and every one advertises the same `rel="canonical"` at `SITE_ORIGIN`, so they consolidate from launch rather than at domain-swap time.
 
 A custom domain retires the ambiguity instead of crowning one of two accidents, and ADR-0001 makes the case: the site's job is hiring signal for a working Tech Lead, and the host is the one string every reader sees.

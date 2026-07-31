@@ -18,7 +18,7 @@ Resolves [Decide the migration strategy and cutover order](https://github.com/vi
 | `git filter-repo` | **Not performed.** Made redundant by the force-push |
 | Vercel project | **Same project, build settings changed *before* the push** |
 | Old URLs | **308 all four to `/`** |
-| Custom domain | **After** the cutover, as a separate later event |
+| Custom domain | **After** the cutover, as a separate later event — `viniciusoliveiras.com`, done 2026-07-31 |
 
 ### Greenfield needed no arguing
 
@@ -99,6 +99,12 @@ A parallel project was attractive — attach the new domain, verify on the real 
 > Vercel refuses to add it as a project domain while it exists as an alias (`409 duplicate-team-registration`), so it was pointed at production with `POST /v2/deployments/{id}/aliases` instead.
 >
 > **A third host was found while checking that**, which no document names: `portfolio-git-main-viniciusoliveiras.vercel.app`, a legacy git-branch alias under Vercel's old naming scheme, was *also* pinned to the 2021 deployment and serving the old site. It carried `x-robots-tag: noindex`, so it was never an indexing problem, but it was a public URL serving the exact page this migration exists to retire. **So the count is three `*.vercel.app` hosts, not two** — which matters at Phase 4, where all three should end up 308-ing into the custom domain.
+>
+> **Superseded 2026-07-31 at the domain swap — they do not 308, they 404.** All three
+> were removed from the project rather than redirected, and re-attaching them was
+> considered and declined. The mechanism below is still correct and still the reason
+> there was no recurring chore while those hosts lived; it simply no longer applies to
+> any host. See Phase 4.
 >
 > ### The mechanism, established by testing across three production deploys
 >
@@ -182,12 +188,56 @@ Section anchors were considered and rejected: `/about` has no clean counterpart,
 
 ### Phase 4 — the domain swap, a separate later event
 
-18. Choose and register the domain. **This is the one unfilled value in the whole spec.**
-19. Attach it in Vercel and set it primary, so both vercel.app hostnames 308 to it and the origins consolidate.
+18. ~~Choose and register the domain.~~ **`viniciusoliveiras.com`, registered and configured 2026-07-31.** The spec has no unfilled values left.
+19. Attach it in Vercel and set it primary, ~~so both vercel.app hostnames 308 to it and the origins consolidate~~ — the second clause was **not** performed; see below.
 20. `SITE_ORIGIN` → the new domain. One line, then redeploy.
 21. **Regenerate the résumé PDF** with the new URL.
 22. Update `homepageUrl` again.
 23. Re-verify `canonical`, the three `hreflang` alternates, `x-default` and `og:url` all name the new host.
+
+> **Performed 2026-07-31.** Three things this phase did not anticipate.
+>
+> **The domain has a `www`/apex split, and `SITE_ORIGIN` takes the `www` form.** Vercel
+> serves production on `www.viniciusoliveiras.com`; the apex 308s to it. Step 20 says
+> "the new domain" as though that were one value. It is two, and only one of them
+> answers 200 — so an apex `SITE_ORIGIN` would put the canonical, both `hreflang`
+> alternates, `x-default`, `og:url`, the `twitter` URLs and the JSON-LD `url` on a
+> redirecting host. That is a variant of the duplicate-origin defect this constant was
+> introduced to retire, which is why it is worth naming rather than treating as a typo.
+>
+> **The résumé PDF prints the bare apex, and the asymmetry with `SITE_ORIGIN` is
+> deliberate.** Step 21 assumed one URL serves both purposes. In the PDF the URL is
+> display text a reader types or copies, and the 308 carries them; only machine-read
+> URLs need the host that answers 200. `viniciusoliveiras.com` on a résumé line also
+> reads better than the `www` form, at no cost.
+>
+> **Step 19's consolidation clause is reversed, not pending.** All three `*.vercel.app`
+> hosts were removed from the project during the swap, so they now serve
+> `DEPLOYMENT_NOT_FOUND` — a 404, not the 308 this document asked for. Re-attaching them
+> as project domains (the mechanism §1 established) would have restored it. **It was
+> raised with the author and declined.** The costs, accepted knowingly:
+>
+> - **Résumé PDFs already in circulation cite `viniciusoliveiras.vercel.app`** and now
+>   404. Every copy sent before today points at nothing.
+> - **This reverses a requirement, not a nice-to-have.** The head-and-metadata decision
+>   wanted the old origins to keep working so existing shared links survive, and §1 cites
+>   that requirement as the reason the *same* Vercel project was used at all. The reason
+>   is now spent; the decision it justified is not revisited, because the force-push
+>   already happened.
+> - **§4's continuity argument is abandoned.** It argued for launching on the vercel.app
+>   origin precisely so its crawl history would consolidate into the new domain via those
+>   308s. Without them the new domain starts from zero authority — the outcome §4 said
+>   domain-first would have caused, arrived at by another route.
+> - **The `viniciusoliveiras.vercel.app` subdomain returns to Vercel's namespace**, where
+>   another account can claim it.
+>
+> **Status at time of writing:** 18 done. 19 done for the domain, declined for the
+> vercel.app hosts. 20 and 21 done in one commit, with 23 verified against the local
+> prerender — canonical, three alternates, `x-default`, `og:url` and both `twitter` URLs
+> all name `https://www.viniciusoliveiras.com`, and no `*.vercel.app` string survives in
+> any of the three emitted pages. 22 done. **The production redeploy and the live re-run
+> of 23 are the author's, not this session's** — the push to `main` was deliberately left
+> to him.
 
 **Not performed at any point:** `git filter-repo`.
 
@@ -200,6 +250,12 @@ This was decided against my recommendation, and two of the three arguments I rai
 **The résumé PDF does not need two content rewrites.** With `SITE_ORIGIN` starting as `viniciusoliveiras.vercel.app`, the URL the PDF already cites becomes *correct* at launch. The Phase 0 refresh is only the `Languages` grouping fix; the URL line changes in Phase 4, which it would need to do whenever the domain arrived regardless.
 
 **The indexing argument partly runs the other way.** `viniciusoliveiras.vercel.app` already has crawl history from the old site. Launching the new site on that same origin means a known host is re-crawled and the four 308s consolidate into it, whereas launching straight onto a fresh domain starts from zero authority *and* abandons the old origin's history. A re-index happens either way; this ordering keeps continuity.
+
+> **Withdrawn 2026-07-31.** The continuity this argument promised was carried entirely by
+> the vercel.app → domain 308s, and those were declined at Phase 4. The old origin's crawl
+> history is abandoned, not consolidated, so the new domain starts from zero authority —
+> exactly the cost this paragraph attributed to domain-*first*. The ordering decision
+> itself stands, having already been spent; this particular argument for it does not.
 
 **What genuinely does cost something**, and is accepted: the site spends its first period advertising a canonical, three `hreflang` links and an `og:url` on a host it intends to leave, and Phase 4 is therefore a real domain migration rather than a one-line change. The mitigation is already in Phase 4 step 19 — set the domain primary so the vercel.app hosts 308 into it, which is the standard consolidation path.
 

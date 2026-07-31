@@ -347,6 +347,14 @@ Both mean the PDF needs a refresh **as part of the cutover**, not after it — i
 >
 > **(1) was never a defect at launch, and this section's framing of it was wrong.** [The cutover plan](migration-cutover.md) §4 settled that `SITE_ORIGIN` starts as `viniciusoliveiras.vercel.app`, so the URL the PDF already cites is *correct* today — and the bare origin now 307s to a detected locale, so it lands on the site rather than "a redirect at best". The line changes at Phase 4, with the domain.
 >
+> **(1) closed 2026-07-31 at Phase 4, and "a redirect at best" turned out to be
+> optimistic.** The line now reads `viniciusoliveiras.com` — the bare apex deliberately,
+> since here the URL is display text a reader types and the apex 308s to the `www` host
+> that serves production. Worth recording for anyone holding an older copy: the three
+> `*.vercel.app` hosts were removed from the Vercel project rather than redirected, so
+> every PDF sent before that date cites a host that now 404s. Not a redirect, nothing.
+> See [the cutover plan](migration-cutover.md) Phase 4 for why that was accepted.
+>
 > **The more serious problem was one no document recorded: the PDF had no source.** It was generated once, and only the binary survived — nothing in the repo or on the author's machine could regenerate it, so neither of the two edits above had anywhere to be made. The source is now `resume/resume-en.html`, rendered by `node resume/build.mjs` with the Chromium the browser test seam already installs. That follows the [token layer](research/tailwind-token-layer.md) §6 font-vendoring precedent exactly — a one-off step producing a committed binary, no `package.json` entry, no CI job.
 >
 > Verified in the output: one page, three subsetted Liberation Sans faces, `ToUnicode` CMaps present and zero images, so the text stays selectable and machine-parseable. Phase 4's URL change is now one line in that file plus a re-render.
