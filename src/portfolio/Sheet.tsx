@@ -114,9 +114,7 @@ export function Sheet({
 				<div className="flex h-[54px] shrink-0 items-center justify-between border-b border-rule px-4">
 					{/* The monogram's full name, spelled out: the sheet has the width the bar
 					    does not, and this is the one place the reader sees the name whole. */}
-					<span className="font-serif text-[21px] leading-none">
-						{AUTHOR_NAME}
-					</span>
+					<span className="font-serif text-wordmark">{AUTHOR_NAME}</span>
 					<button
 						type="button"
 						onClick={close}

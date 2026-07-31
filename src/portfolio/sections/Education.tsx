@@ -8,8 +8,10 @@ import type { Messages } from "~/content/pt";
  * to a completed credential rather than to a span of employment, and `· Completed` is
  * the claim the section exists to make.
  *
- * The two rows reuse the 130px label column from Skills, so the label edges line up
- * down the page across two sections that are not in the same grid.
+ * The two rows take `label-row`, the same utility Skills' eight rows take, so the label
+ * edges line up down the page across two sections that are not in the same grid. That
+ * invariant is held by one declaration rather than by three copies of `130px`, which is
+ * the only form in which it can survive an edit to either section.
  */
 export function Education({ copy }: { copy: Messages["education"] }) {
 	return (
@@ -26,7 +28,7 @@ export function Education({ copy }: { copy: Messages["education"] }) {
 				<div className="text-body text-muted">{copy.degree.institution}</div>
 			</div>
 
-			<div className="grid grid-cols-[130px_1fr] gap-5 border-t border-rule pt-5">
+			<div className="label-row border-t border-rule pt-5">
 				<span className="font-mono text-mark text-muted uppercase">
 					{copy.certifications.label}
 				</span>
@@ -35,7 +37,7 @@ export function Education({ copy }: { copy: Messages["education"] }) {
 				</span>
 			</div>
 
-			<div className="grid grid-cols-[130px_1fr] gap-5">
+			<div className="label-row">
 				<span className="font-mono text-mark text-muted uppercase">
 					{copy.languages.label}
 				</span>

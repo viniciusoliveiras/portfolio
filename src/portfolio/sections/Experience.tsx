@@ -33,10 +33,7 @@ export function Experience({ copy }: { copy: Messages["experience"] }) {
 	return (
 		<div className="flex flex-col">
 			{ROLES.map(([key, decade, current]) => (
-				<div
-					key={key}
-					className="grid gap-[clamp(20px,3.5vw,40px)] border-t border-rule py-9 wide:grid-cols-[260px_1fr]"
-				>
+				<div key={key} className="mark-grid border-t border-rule py-9">
 					<div>
 						<div
 							className={[
@@ -77,7 +74,7 @@ export function Experience({ copy }: { copy: Messages["experience"] }) {
 			    nothing to problem, scale, stack or contribution. Its title takes `muted`
 			    rather than `ink`, which is how the design says "this one counts less"
 			    without omitting it. */}
-			<div className="grid gap-[clamp(20px,3.5vw,40px)] border-t border-rule py-9 wide:grid-cols-[260px_1fr]">
+			<div className="mark-grid border-t border-rule py-9">
 				<div>
 					<div className="font-serif text-decade">
 						{facts.roleDecades.minor}

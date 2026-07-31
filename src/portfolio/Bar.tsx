@@ -38,7 +38,7 @@ export function Bar({ locale, nav }: { locale: Locale; nav: Messages["nav"] }) {
 				<a
 					href="#top"
 					aria-label={AUTHOR_NAME}
-					className="font-serif text-[21px] leading-none no-underline"
+					className="font-serif text-wordmark no-underline"
 				>
 					{AUTHOR_INITIALS.given}
 					<em className="text-accent">{AUTHOR_INITIALS.family}</em>.

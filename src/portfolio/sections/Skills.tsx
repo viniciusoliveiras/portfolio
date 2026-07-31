@@ -32,10 +32,7 @@ export function Skills({ copy }: { copy: Messages["skills"] }) {
 	return (
 		<div className="grid gap-x-12 wide:grid-cols-2">
 			{ROWS.map((key) => (
-				<div
-					key={key}
-					className="grid grid-cols-[130px_1fr] gap-5 border-b border-rule py-[18px]"
-				>
+				<div key={key} className="label-row border-b border-rule py-[18px]">
 					<span className="pt-[3px] font-mono text-mark text-muted uppercase">
 						{copy.rows[key].label}
 					</span>

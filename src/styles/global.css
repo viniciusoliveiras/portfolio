@@ -119,11 +119,19 @@
 	--text-micro--font-weight: 400;
 	--text-micro--letter-spacing: 0.14em;
 
-	/* ---- serif display: the four sizes that REPEAT ----------------------- */
-	/* One-off display sizes — the hero, the summary lede, the contact statement, the
-	   education title, the monogram — stay as arbitrary values at their single call
-	   site. Tokenising a size with one caller buys nothing and hides the number from
-	   whoever is reading the component. */
+	/* ---- serif display: the named roles ---------------------------------- */
+	/* THE CRITERION IS A ROLE, NOT A CALL COUNT. Each of the four below names a
+	   recurring KIND of thing — a metric, a card title, a decade marker, a role title —
+	   and several of them happen to have one caller today. That is fine: a type scale is
+	   a vocabulary, and `text-figure` tells a reader what the number is FOR where
+	   `text-[clamp(3rem,5vw,4.5rem)]` tells them only how big it is.
+	   (An earlier revision of this block claimed the criterion was repetition, which was
+	   never true of `figure` or `role` and would have argued for deleting them.)
+
+	   What genuinely stays inline is the one-off with no role to name: the hero, the
+	   summary lede, the contact statement, the education title. Those are single
+	   typographic gestures, not members of a scale, and hiding their numbers behind a
+	   token would cost the reader of the component more than it saves. */
 
 	/* The metric panel: 15 / 8 / 400+. */
 	--text-figure: clamp(3rem, 5vw, 4.5rem); /* 48 -> 72 */
@@ -144,6 +152,14 @@
 	--text-role: clamp(1.5rem, 4vw, 1.875rem); /* 24 -> 30 */
 	--text-role--line-height: 1.2;
 	--text-role--font-weight: 400;
+
+	/* The wordmark, in its two presentations: the bar's `VO.` monogram and the sheet's
+	   spelled-out name. They are the SAME mark at the same size in two widths, and they
+	   sit in two different files — so the size is bound here rather than written twice
+	   and left to drift. */
+	--text-wordmark: 1.3125rem; /* 21 */
+	--text-wordmark--line-height: 1;
+	--text-wordmark--font-weight: 400;
 
 	/* ---- sans ------------------------------------------------------------ */
 	/* Hanken at 300 is the page's default weight, set on `html` below. 500 exists
@@ -249,6 +265,37 @@
 	max-width: var(--container-page);
 	margin-inline: auto;
 	padding-inline: clamp(1.25rem, 4.5vw, 2.5rem);
+}
+
+/* THE MARK GRID: the section mark's 260px column beside its content, and the gutter
+   between them.
+
+   Bound here because it has THREE callers in TWO files that must agree and have no
+   other connection: `Section`'s split layout draws it, and every Experience row draws
+   it again independently — those rows are not inside a `Section` grid, but their decade
+   markers have to line up with the marks above them. The same is true of `page`, and
+   for the same reason: under the superseded direction the equivalent literal had
+   already drifted between callers while being copied.
+
+   `items-start` is NOT part of this. Only the split layout wants it, and it is what
+   lets the mark's sticky variant travel. */
+@utility mark-grid {
+	display: grid;
+	gap: clamp(20px, 3.5vw, 40px);
+
+	@variant wide {
+		grid-template-columns: 260px 1fr;
+	}
+}
+
+/* THE LABEL ROW: a 130px mono label against its value. Skills draws eight of them and
+   Education two, and the design lines their label edges up DOWN THE PAGE across two
+   sections that are not in the same grid — an invariant nothing but this shared
+   declaration can hold, since neither section can see the other's literal. */
+@utility label-row {
+	display: grid;
+	grid-template-columns: 130px 1fr;
+	gap: calc(var(--spacing) * 5); /* 20px, Tailwind's `gap-5` */
 }
 
 /* The bar's translucent surface. `color-mix` against `transparent` rather than a

@@ -82,7 +82,7 @@ export function Section({
 				 * `items-start` the div shrinks to the mark's own ~15px, leaving nothing to
 				 * travel within. MEASURED: the wrapped form put Skills' mark at -177px
 				 * instead of holding it at 90px, i.e. the sticky silently did nothing. */
-				<div className="grid gap-[clamp(20px,3.5vw,40px)] wide:grid-cols-[260px_1fr] wide:items-start">
+				<div className="mark-grid wide:items-start">
 					{markEl}
 					<div>{children}</div>
 				</div>
