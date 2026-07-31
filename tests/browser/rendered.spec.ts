@@ -485,8 +485,55 @@ test.describe("the section mark", () => {
 	});
 });
 
+test.describe("the bar's height", () => {
+	/**
+	 * `--spacing-bar` is NOMINAL. The bar composes its height from `py-[14px]` on a
+	 * baseline-aligned row — an explicit height would move that alignment — so its real
+	 * height is a function of two fonts' vertical metrics and lands at 50.39px against a
+	 * declared 54.
+	 *
+	 * Three things are drawn against the token: the sheet's header row matches it, the
+	 * sections' `scroll-margin-top` clears it, Skills' sticky mark holds below it. All
+	 * three want the token to be AT LEAST the bar. None of them care that it is a few px
+	 * over. So this asserts the headroom in both directions rather than equality:
+	 * negative headroom means the derived three no longer clear the bar, and a large
+	 * positive one means the token has stopped describing it at all.
+	 *
+	 * Asserting equality here would fail on a font swap that changes nothing anyone can
+	 * see, which is how a true assertion gets deleted.
+	 */
+	test("leaves `--spacing-bar` a small, positive headroom", async ({
+		page,
+	}) => {
+		await page.setViewportSize(DESKTOP);
+		await page.goto("/pt");
+
+		const { declared, measured } = await page.evaluate(() => {
+			const header = document.querySelector("header");
+			return {
+				declared: Number.parseFloat(
+					getComputedStyle(document.documentElement).getPropertyValue(
+						"--spacing-bar",
+					),
+				),
+				measured: header?.getBoundingClientRect().height ?? 0,
+			};
+		});
+
+		const headroom = declared - measured;
+		expect(
+			headroom,
+			`the bar measures ${measured}px against a declared ${declared}px — everything drawn against the token has stopped clearing it`,
+		).toBeGreaterThanOrEqual(0);
+		expect(
+			headroom,
+			`--spacing-bar is ${headroom}px over the bar's ${measured}px and no longer describes it`,
+		).toBeLessThan(6);
+	});
+});
+
 test.describe("anchored jumps", () => {
-	// `scroll-margin-top` of the bar height plus 1rem, so a jumped-to heading does not
+	// `scroll-margin-top` of the bar height plus 18px, so a jumped-to heading does not
 	// land underneath the sticky bar.
 	test("do not land the section under the sticky bar", async ({ page }) => {
 		await page.setViewportSize(DESKTOP);

@@ -33,7 +33,13 @@ export function Bar({ locale, nav }: { locale: Locale; nav: Messages["nav"] }) {
 		<header className="sticky top-0 z-40 border-b border-rule bar-surface">
 			{/* `items-baseline` is what aligns a 21px serif monogram with an 11px mono
 			    anchor — they share a baseline rather than a centre line, which is the
-			    difference between this row reading as typeset and as laid out. */}
+			    difference between this row reading as typeset and as laid out. It is also
+			    why the height is COMPOSED from padding rather than set: an explicit height
+			    on a baseline-aligned row moves the alignment.
+
+			    So this `py-[14px]` is the origin of `--spacing-bar`, which the sheet's
+			    header, `scroll-margin-top` and Skills' sticky mark all derive from. Change
+			    it and change the token, or a browser test will tell you. */}
 			<div className="page flex items-baseline justify-between gap-6 py-[14px]">
 				<a
 					href="#top"

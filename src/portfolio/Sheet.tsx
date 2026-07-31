@@ -109,9 +109,9 @@ export function Sheet({
 				{/* The sheet's own header row. `rule` rather than the retired `rule-strong`
 				    — ADR-0006 collapses the two into one line value; see the note in
 				    `Bar.tsx`. Matching the bar's height is what stops the menu button and
-				    the close button appearing to jump, and the bar is now 54px, so this is
-				    `h-[54px]` rather than the old `h-14`. */}
-				<div className="flex h-[54px] shrink-0 items-center justify-between border-b border-rule px-4">
+				    the close button appearing to jump, so this takes `h-bar` — the bar's own
+				    measurement — rather than restating the number it happens to be. */}
+				<div className="flex h-bar shrink-0 items-center justify-between border-b border-rule px-4">
 					{/* The monogram's full name, spelled out: the sheet has the width the bar
 					    does not, and this is the one place the reader sees the name whole. */}
 					<span className="font-serif text-wordmark">{AUTHOR_NAME}</span>

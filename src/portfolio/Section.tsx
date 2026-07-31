@@ -56,7 +56,10 @@ export function Section({
 		<p
 			className={[
 				"font-mono text-mark text-muted uppercase",
-				sticky ? "wide:sticky wide:top-[90px]" : "",
+				// The bar, plus 36px of air. Derived from `--spacing-bar` rather than
+				// written as the 90px it resolves to: the mark holding BELOW THE BAR is
+				// the property, and the number is only today's arithmetic.
+				sticky ? "wide:sticky wide:top-[calc(var(--spacing-bar)+36px)]" : "",
 			].join(" ")}
 		>
 			{/* The number is decorative NUMBERING rather than content, but it is

@@ -226,6 +226,27 @@
 	/* The page's one container width. */
 	--container-page: 77.5rem; /* 1240 */
 
+	/* THE BAR'S NOMINAL HEIGHT, AND THE THREE MEASUREMENTS DRAWN AGAINST IT: the sheet's
+	   header row matches it, `scroll-margin-top` clears it, and Skills' sticky mark holds
+	   below it. Until now those were three independent literals in three files, each with
+	   a comment explaining a relationship the code refused to state — change `Bar`'s
+	   padding and all three went quietly wrong.
+
+	   NOMINAL, NOT MEASURED, and the distinction is not pedantry. The bar composes its
+	   height from `py-[14px]` on a row aligned `items-baseline`; an explicit height would
+	   move that alignment, so the real number is whatever the baseline box works out to.
+	   MEASURED it is 50.39px — 14 + a 21.39px baseline row + 14 + one hairline — which
+	   means the "25px baseline row" this block used to claim was never right, and the
+	   sheet's header has been ~3.6px taller than the bar it exists to match since the
+	   redesign landed.
+
+	   54 is kept rather than corrected to 50.39, because that figure is a function of two
+	   fonts' vertical metrics and would move under a face change for no design reason.
+	   What matters is that the derived three CLEAR the bar, and a nominal value with a
+	   few px of headroom does that. `rendered.spec.ts` asserts the headroom exists and
+	   stays small in both directions. */
+	--spacing-bar: 54px;
+
 	/* THE DESIGN HAS EXACTLY ONE BREAKPOINT, a JS `matchMedia('(max-width: 819px)')`
 	   flipping every grid between one column and its desktop value. That is a
 	   limitation of a single-file preview, not a decision — but its VALUE is the one
@@ -419,10 +440,11 @@
 		-webkit-font-smoothing: antialiased;
 	}
 
-	/* The bar measures 54px — 14px padding, a 25px baseline row, 14px padding, one
-	   hairline — so 4.5rem clears it with ~18px to spare. */
+	/* The bar, plus 18px so a jumped-to section does not sit flush against its
+	   underside. Derived rather than written as the 4.5rem it resolves to, because
+	   "clears the bar" is the property and 72px is only today's arithmetic. */
 	section[id] {
-		scroll-margin-top: 4.5rem;
+		scroll-margin-top: calc(var(--spacing-bar) + 18px);
 	}
 
 	/* The design specifies hover treatments but no focus treatment anywhere, which a
