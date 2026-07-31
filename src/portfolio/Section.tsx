@@ -18,40 +18,50 @@ import type { ReactNode } from "react";
  * different design: full-ink section rules are most of what gives it the editorial
  * register.
  */
-export function Section({
-	id,
-	mark,
-	label,
-	layout,
-	note,
-	sticky = false,
-	children,
-}: {
+/**
+ * THE LAYOUT IS A DISCRIMINANT, NOT A FLAG BESIDE TWO OPTIONAL PROPS.
+ *
+ * `split` puts the mark in the left column of the mark grid beside the content, which is
+ * what Summary, Skills and Education do. `stacked` gives the mark its own full-width row
+ * above the content, which is what Experience, Work and Contact do because their content
+ * spans the whole page width.
+ *
+ * Passed rather than inferred: the choice is per-section and visible in the design, and
+ * a component guessing it from its children would be a worse kind of magic than a
+ * five-character prop.
+ *
+ * The two other props are each meaningful under exactly ONE of those, and as a flat prop
+ * bag that was true only in prose — `<Section layout="split" note={…}>` compiled and
+ * silently dropped the note. A union makes the misuse unrepresentable and deletes the
+ * paragraph that used to have to say so.
+ */
+type SectionProps = {
 	id: string;
 	/** The two-digit index, `01`–`06`. Locale-neutral, so it is passed, not authored. */
 	mark: string;
 	label: string;
-	/**
-	 * `split` puts the mark in the left column of a 260px/1fr grid beside the content,
-	 * which is what Summary, Skills and Education do. `stacked` gives the mark its own
-	 * full-width row above the content, which is what Experience, Work and Contact do
-	 * because their content spans the whole page width.
-	 *
-	 * Passed rather than inferred: the choice is per-section and visible in the design,
-	 * and a component guessing it from its children would be a worse kind of magic
-	 * than a five-character prop.
-	 */
-	layout: "split" | "stacked";
-	/**
-	 * Content set beside the mark on a `stacked` section's header row. Only Experience
-	 * uses it, for the company-group note. Ignored under `split`, where the mark's
-	 * column has no room for a second thing.
-	 */
-	note?: ReactNode;
-	/** Skills alone holds its mark as the reader scrolls its long row list. */
-	sticky?: boolean;
 	children: ReactNode;
-}) {
+} & (
+	| {
+			layout: "split";
+			/** Skills alone holds its mark as the reader scrolls its long row list. */
+			sticky?: boolean;
+	  }
+	| {
+			layout: "stacked";
+			/**
+			 * Content set beside the mark on the header row. Only Experience uses it, for
+			 * the company-group note. There is no `split` counterpart: the mark's column
+			 * has no room for a second thing.
+			 */
+			note?: ReactNode;
+	  }
+);
+
+export function Section(props: SectionProps) {
+	const { id, mark, label, children } = props;
+	const sticky = props.layout === "split" && props.sticky === true;
+
 	const markEl = (
 		<p
 			className={[
@@ -75,7 +85,7 @@ export function Section({
 			id={id}
 			className="mt-[clamp(64px,9vw,96px)] border-t border-ink pt-[22px]"
 		>
-			{layout === "split" ? (
+			{props.layout === "split" ? (
 				/* THE MARK IS THE GRID ITEM — do not wrap it in a `<div>`.
 				 *
 				 * `sticky` resolves its travel against its containing block, which is its
@@ -93,7 +103,7 @@ export function Section({
 				<>
 					<div className="mb-10 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3">
 						{markEl}
-						{note}
+						{props.note}
 					</div>
 					{children}
 				</>
