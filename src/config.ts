@@ -4,13 +4,18 @@
  * from it — which retires the live defect where the site served from two origins
  * with `rel="canonical"` appearing nowhere.
  *
- * This takes the shorter of the two existing `*.vercel.app` hosts at launch, and the
+ * This took the shorter of the two existing `*.vercel.app` hosts at launch, and the
  * custom domain in Phase 4 of the cutover. That is a one-line change here, not
- * eleven tags. Both vercel.app hostnames serve the same production deployment, so
- * pointing both canonicals at this one value fixes the duplicate-content defect
- * immediately rather than at domain-swap time.
+ * eleven tags.
+ *
+ * **Phase 4 performed 2026-07-31. It is the `www` host, deliberately.** The apex
+ * `viniciusoliveiras.com` 308s to `www`, which is the domain Vercel serves production
+ * on — so the apex cannot be this value. A `canonical` naming a host that redirects is
+ * the defect this constant exists to prevent, pointed at a different host. The résumé
+ * PDF still prints the bare apex, because there it is display text a human types and
+ * the 308 carries them; only machine-read URLs need the host that answers 200.
  */
-export const SITE_ORIGIN = "https://viniciusoliveiras.vercel.app";
+export const SITE_ORIGIN = "https://www.viniciusoliveiras.com";
 
 /**
  * Not copy: the name is rendered as-is from the résumé's own header, so it never
