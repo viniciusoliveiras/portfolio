@@ -44,11 +44,16 @@ await page.goto(`file://${SOURCE}`, { waitUntil: "load" });
 // the browser is still showing its fallback serif — a failure that looks like a design
 // choice rather than a bug.
 await page.evaluate(() => document.fonts.ready);
+// All THREE faces the card uses are checked, italic included: the surname is the
+// italic, and Chromium will happily mechanically slant the roman if the italic file
+// never arrived — which looks like a design choice rather than a bug, and is exactly
+// what this guard exists to catch.
 const loaded = await page.evaluate(() => ({
-	serif: document.fonts.check('400 112px "Source Serif 4"'),
-	mono: document.fonts.check('500 26px "JetBrains Mono"'),
+	serif: document.fonts.check('400 132px "Instrument Serif"'),
+	italic: document.fonts.check('italic 400 132px "Instrument Serif"'),
+	mono: document.fonts.check('400 26px "JetBrains Mono"'),
 }));
-if (!loaded.serif || !loaded.mono) {
+if (!loaded.serif || !loaded.italic || !loaded.mono) {
 	console.error(`FAIL fonts did not load: ${JSON.stringify(loaded)}`);
 	await browser.close();
 	process.exit(1);

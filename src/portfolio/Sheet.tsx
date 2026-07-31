@@ -32,7 +32,7 @@ import { LocaleSwitch } from "./LocaleSwitch";
  *    back on the menu button in the bar. Fixing it means imperative focus management
  *    on the target heading, which is more machinery than the wart costs.
  *
- * 2. Crossing `md` while the sheet is open leaves the `open` attribute set on an
+ * 2. Crossing `wide` (820px) while the sheet is open leaves the `open` attribute set on an
  *    element the breakpoint has hidden — reachable on a phone, because rotating a
  *    390px portrait screen to 844px landscape crosses the breakpoint. MEASURED, and
  *    the page does not break: the sheet stops rendering, everything behind it stays
@@ -106,14 +106,15 @@ export function Sheet({
 				aria-label={nav.menuLabel}
 				className="inset-0 h-dvh max-h-none w-full max-w-none flex-col overscroll-contain bg-paper text-ink opacity-0 backdrop:bg-transparent transition-[opacity,display,overlay] transition-discrete duration-200 open:flex open:opacity-100 starting:open:opacity-0 motion-reduce:duration-0"
 			>
-				{/* The sheet's own header row. `rule-strong` keeps its job on this edge:
-				    it bounds an interactive surface, so it needs 3:1. Matching the bar's
-				    56px height is what stops the menu button and the close button
-				    appearing to jump. */}
-				<div className="flex h-14 shrink-0 items-center justify-between border-b border-rule-strong px-4">
-					<span className="text-body-sm text-ink optical-16">
-						{AUTHOR_NAME}
-					</span>
+				{/* The sheet's own header row. `rule` rather than the retired `rule-strong`
+				    — ADR-0006 collapses the two into one line value; see the note in
+				    `Bar.tsx`. Matching the bar's height is what stops the menu button and
+				    the close button appearing to jump, so this takes `h-bar` — the bar's own
+				    measurement — rather than restating the number it happens to be. */}
+				<div className="flex h-bar shrink-0 items-center justify-between border-b border-rule px-4">
+					{/* The monogram's full name, spelled out: the sheet has the width the bar
+					    does not, and this is the one place the reader sees the name whole. */}
+					<span className="font-serif text-wordmark">{AUTHOR_NAME}</span>
 					<button
 						type="button"
 						onClick={close}
@@ -146,7 +147,7 @@ export function Sheet({
 							key={key}
 							href={`#${key}`}
 							onClick={close}
-							className="font-mono text-label text-muted uppercase hover:text-ink"
+							className="font-mono text-mark text-muted uppercase no-underline hover:text-accent"
 						>
 							{nav.sections[key]}
 						</a>

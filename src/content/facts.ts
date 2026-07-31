@@ -22,6 +22,34 @@ export const facts = {
 	erpModules: "15",
 	erpClients: "8",
 	erpUsers: "400+",
+
+	/**
+	 * The year in the footer's copyright — its only caller since the hero eyebrow that
+	 * also printed it was cut. WRITTEN RATHER THAN COMPUTED, and that is why it stays
+	 * here with one caller: `new Date().getFullYear()` would be evaluated at prerender
+	 * time, which
+	 * makes the static output a function of the build date — the year would change
+	 * without a commit, and `tests/prerendered-output.test.ts` asserts against fixed
+	 * strings. One edit a year in one place beats a snapshot that rots on New Year's
+	 * Day in a way nobody notices until January.
+	 */
+	year: "2026",
+
+	/**
+	 * The decade marker set large beside each role — ADR-0006's occupant of the
+	 * position the superseded direction gave to display figures.
+	 *
+	 * Locale-neutral and keyed to the same role names the locale modules use, so a
+	 * marker cannot drift from its role. NOT derived by slicing the `period` string:
+	 * the periods are authored per locale ("abr 2026 — presente"), and parsing copy to
+	 * recover a number is how a pt-BR month abbreviation ends up rendered as a year.
+	 */
+	roleDecades: {
+		lead: "2026",
+		analyst: "2023",
+		intern: "2021",
+		minor: "2019",
+	},
 } as const;
 
 /**
@@ -43,5 +71,23 @@ export const terms = {
 	learning: ["Go"],
 	certifications: ["Ignite – ReactJS", "Learn Go Course"],
 	erpStack: ["TypeScript", "React", "Node.js", "Microsoft SQL Server"],
-	bpoStack: ["TanStack Start", "TanStack Query"],
+
+	/**
+	 * The BPO entry's chosen architecture, as a KEYED MAP rather than the flat
+	 * `bpoStack` array it replaces.
+	 *
+	 * ADR-0006's design pairs each of these three with a role label — framework,
+	 * server state, backend — in its own chip, and the locale modules supply those
+	 * labels under these same keys. An array could not express the pairing without
+	 * index-matching, which is the failure mode `facts` exists to prevent.
+	 *
+	 * The card's trailing stack line is composed from `Object.values` of this map, so
+	 * the chips and the stack line cannot disagree and Node.js cannot appear in one
+	 * but not the other. INSERTION ORDER IS THE DISPLAY ORDER for both.
+	 */
+	bpoArchitecture: {
+		framework: "TanStack Start",
+		serverState: "TanStack Query",
+		backend: "Node.js",
+	},
 } as const;

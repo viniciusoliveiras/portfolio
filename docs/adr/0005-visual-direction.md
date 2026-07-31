@@ -1,7 +1,26 @@
 # ADR-0005: Visual direction for the redesigned portfolio
 
-- **Status**: Accepted
+- **Status**: **Superseded** on 2026-07-31 by [ADR-0006: The warm editorial direction](0006-warm-editorial-direction.md) — its **visual axes only**
 - **Date**: 2026-07-27
+
+> **Superseded 2026-07-31.** A new visual direction was authored in Claude Design and
+> implemented; ADR-0006 supersedes the axes below — the lineage, the palette, the faces,
+> the scale, the rail, the cards-versus-rules ruling and the italic. Read ADR-0006 first,
+> and read this document for what it still owns.
+>
+> **What is still binding.** Every *process* finding here survives, because ADR-0006
+> re-verified rather than replaced them: the `@theme inline` hazard, `crossOrigin` on
+> same-origin font preloads, the unhashed-filename discipline under `/fonts/`, `head()`'s
+> meta dedupe keying on `name` alone, `items-start` over `items-end` for figure rows, and
+> the finding that the mobile sheet is the platform's `<dialog>` rather than a dependency
+> or a hand-roll. So is §Motion's principle that motion be layout- or state-derived with
+> no animation library.
+>
+> **This document is kept, not cleaned up.** Its measured contrast tables are the
+> reference ADR-0006's own findings are stated against, and its road-not-taken sections
+> are why reversing ADR-0006 means going back to a document rather than reconstructing an
+> argument. Nothing below is edited to match the new direction — read it as a record of
+> what was true, and of what was deliberately given up.
 - **Promoted**: 2026-07-29, from `docs/design-brief.md`, by [Assemble the deliverable](https://github.com/viniciusoliveiras/portfolio/issues/22)
 - **Resolves**: [Settle the visual direction for the redesign](https://github.com/viniciusoliveiras/portfolio/issues/6), on [the migration map](https://github.com/viniciusoliveiras/portfolio/issues/1)
 - **Builds on**: [ADR-0001: Information architecture](0001-information-architecture.md)

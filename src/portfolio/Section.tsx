@@ -1,57 +1,113 @@
 import type { ReactNode } from "react";
 
 /**
- * A rail column plus a centred measure — the one layout primitive every section
- * shares.
+ * The section wrapper every one of the six id-carrying sections shares: the top rule,
+ * the rhythm above it, and the section mark.
  *
- * At `lg`+ the grid is an 8rem rail, a 2.5rem gutter and the measure. Section rules
- * span the FULL grid, per the brief's "rules dividing the seven sections stay inside
- * the rail-plus-measure grid" — a rule stopping at the measure would leave the rail
- * label floating outside the structure. Below `lg` the rail collapses, the label sits
- * static above the content, and the rules span the measure because the measure is the
- * whole shell.
+ * THE MARK IS NOT THE SUPERSEDED RAIL. The rail was per-section marginalia — sticky,
+ * scoped to its section's height, released at its end, never numbered, 8rem wide, and
+ * explicitly not a list of destinations. This is a numbered index entry (`01 /
+ * Summary`) in a 260px column, static by default. It occupies the rail's position on
+ * the page and shares nothing else about its behaviour, which is why ADR-0006 renames
+ * it rather than redefining "rail".
  *
- * The measure container carries `text-body` because `min(65ch, …)` resolves `ch`
- * against the container's OWN font size — at any other size the measure is not the
- * 65ch the brief specifies.
+ * THE TOP RULE IS `border-ink`, NOT `border-rule`. The design draws the six section
+ * boundaries at full ink strength and reserves the hairline `rule` for dividers INSIDE
+ * a section — the experience rows, the skills rows, the card panels. Getting these two
+ * the wrong way round is the most visible single way to make this page look like a
+ * different design: full-ink section rules are most of what gives it the editorial
+ * register.
  */
-export function Section({
-	id,
-	label,
-	rule = true,
-	children,
-}: {
-	id?: string;
-	label?: string;
-	rule?: boolean;
+/**
+ * THE LAYOUT IS A DISCRIMINANT, NOT A FLAG BESIDE TWO OPTIONAL PROPS.
+ *
+ * `split` puts the mark in the left column of the mark grid beside the content, which is
+ * what Summary, Skills and Education do. `stacked` gives the mark its own full-width row
+ * above the content, which is what Experience, Work and Contact do because their content
+ * spans the whole page width.
+ *
+ * Passed rather than inferred: the choice is per-section and visible in the design, and
+ * a component guessing it from its children would be a worse kind of magic than a
+ * five-character prop.
+ *
+ * The two other props are each meaningful under exactly ONE of those, and as a flat prop
+ * bag that was true only in prose — `<Section layout="split" note={…}>` compiled and
+ * silently dropped the note. A union makes the misuse unrepresentable and deletes the
+ * paragraph that used to have to say so.
+ */
+type SectionProps = {
+	id: string;
+	/** The two-digit index, `01`–`06`. Locale-neutral, so it is passed, not authored. */
+	mark: string;
+	label: string;
 	children: ReactNode;
-}) {
+} & (
+	| {
+			layout: "split";
+			/** Skills alone holds its mark as the reader scrolls its long row list. */
+			sticky?: boolean;
+	  }
+	| {
+			layout: "stacked";
+			/**
+			 * Content set beside the mark on the header row. Only Experience uses it, for
+			 * the company-group note. There is no `split` counterpart: the mark's column
+			 * has no room for a second thing.
+			 */
+			note?: ReactNode;
+	  }
+);
+
+export function Section(props: SectionProps) {
+	const { id, mark, label, children } = props;
+	const sticky = props.layout === "split" && props.sticky === true;
+
+	const markEl = (
+		<p
+			className={[
+				"font-mono text-mark text-muted uppercase",
+				// The bar, plus 36px of air. Derived from `--spacing-bar` rather than
+				// written as the 90px it resolves to: the mark holding BELOW THE BAR is
+				// the property, and the number is only today's arithmetic.
+				sticky ? "wide:sticky wide:top-[calc(var(--spacing-bar)+36px)]" : "",
+			].join(" ")}
+		>
+			{/* The number is decorative NUMBERING rather than content, but it is
+			    deliberately not `aria-hidden`: a screen reader announcing "01 slash
+			    Summary" conveys the same ordinal position a sighted reader gets, and
+			    hiding it would drop the only cue that these six are a sequence. */}
+			<span className="text-accent">{mark}</span> / {label}
+		</p>
+	);
+
 	return (
-		<section id={id}>
-			<div
-				className={[
-					"measure w-full py-16 text-body",
-					"lg:measure-rail lg:grid lg:grid-cols-[8rem_2.5rem_minmax(0,1fr)] lg:py-24",
-					rule ? "border-t border-rule" : "",
-				].join(" ")}
-			>
-				{/* The rail is MARGINALIA, NOT NAVIGATION: it names the section the
-				    reader is currently inside, it lists no destinations, and it is never
-				    clickable. Six sections carry a label; the bar carries four anchors.
-				    That asymmetry is correct, not an inconsistency. */}
-				<div className="lg:col-start-1">
-					{label ? (
-						// `sticky` scoped to this column, whose height is the section's, so
-						// the label travels with its section and is released at its end.
-						// `top` is the 56px bar plus 1.75rem. No scroll-spy and no
-						// IntersectionObserver: per-section marginalia needs neither.
-						<p className="mb-3 font-mono text-label text-muted uppercase lg:sticky lg:top-21 lg:mb-0">
-							{label}
-						</p>
-					) : null}
+		<section
+			id={id}
+			className="mt-[clamp(64px,9vw,96px)] border-t border-ink pt-[22px]"
+		>
+			{props.layout === "split" ? (
+				/* THE MARK IS THE GRID ITEM — do not wrap it in a `<div>`.
+				 *
+				 * `sticky` resolves its travel against its containing block, which is its
+				 * PARENT'S content box. As a direct grid child that parent is this grid
+				 * container, whose height is the whole section, so the mark can travel.
+				 * Wrapped in a div, the containing block becomes that div — and under
+				 * `items-start` the div shrinks to the mark's own ~15px, leaving nothing to
+				 * travel within. MEASURED: the wrapped form put Skills' mark at -177px
+				 * instead of holding it at 90px, i.e. the sticky silently did nothing. */
+				<div className="mark-grid wide:items-start">
+					{markEl}
+					<div>{children}</div>
 				</div>
-				<div className="lg:col-start-3">{children}</div>
-			</div>
+			) : (
+				<>
+					<div className="mb-10 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3">
+						{markEl}
+						{props.note}
+					</div>
+					{children}
+				</>
+			)}
 		</section>
 	);
 }

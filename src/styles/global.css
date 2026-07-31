@@ -1,142 +1,387 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------- fonts */
-/* Two files, not three: the italic face is not built and not shipped — nothing
-   across the seven sections is italic. If italic prose is ever introduced, the
-   fix is to restore that face and its @font-face block, not to accept the
-   browser's mechanical slant of the roman. Both faces here are preloaded from
-   the root route, so total payload and preload path are the same 92.8 KB.
+/* FOUR files, self-hosted, 99.2 KB total, all four preloaded from the root route.
+   Every one of them appears above the fold at a desktop first paint: the roman and
+   the italic split the `<h1>` between them ("Vinicius" / "Oliveira") and the
+   monogram ("V" / "O"), Hanken sets the hero lede and the meta grid, and the mono
+   sets the hero's three meta labels and the bar.
 
-   Both files are UNHASHED and cached `immutable` for a year by vercel.json, so
-   CHANGING A FONT MEANS CHANGING ITS FILENAME — `roman.woff2` becomes
-   `roman-2.woff2`, updating this `src` and the preload link together. A swapped
-   font under an unchanged name is invisible in a fresh browser and permanent in
-   a warm one. */
+   Taken from the `latin` unicode-range blocks Google's css2 API serves, which are
+   already subset, so no subsetting pass of our own exists to drift. The two
+   variable faces are INSTANCED to the ranges the page actually uses — Hanken to
+   wght 300-500 from 100-900, mono to 400-500 from 400-800 — which is what makes
+   the `font-weight` ranges below truthful rather than an invitation to synthesise.
+
+   Instrument Serif has NO WEIGHT AXIS. Roman and italic are separate static files,
+   both at 400, and the italic is not optional: it carries half the hero, the
+   monogram's O, and the accent emphasis in Summary and Contact.
+
+   All four are UNHASHED and cached `immutable` for a year by vercel.json, so
+   CHANGING A FONT MEANS CHANGING ITS FILENAME. `mono-2.woff2` is already the second
+   generation — the retired `mono.woff2` was JetBrains Mono pinned to a static 500,
+   and reusing that name for this 400-500 range would have been invisible in a fresh
+   browser and permanent in a warm one. */
 
 @font-face {
-	font-family: "Source Serif 4";
+	font-family: "Instrument Serif";
 	font-style: normal;
-	font-weight: 400 600;
+	font-weight: 400; /* static file — no axis to declare a range over */
 	font-display: swap;
-	src: url("/fonts/roman.woff2") format("woff2");
+	src: url("/fonts/instrument-roman.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Instrument Serif";
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/instrument-italic.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Hanken Grotesk";
+	font-style: normal;
+	font-weight: 300 500; /* instanced to exactly this range */
+	font-display: swap;
+	src: url("/fonts/hanken.woff2") format("woff2");
 }
 
 @font-face {
 	font-family: "JetBrains Mono";
 	font-style: normal;
-	font-weight: 500; /* static instance — not a range. Declaring a range here
-	                     would let the browser synthesise weights that the
-	                     instanced file does not contain. */
+	font-weight: 400 500; /* instanced to exactly this range */
 	font-display: swap;
-	src: url("/fonts/mono.woff2") format("woff2");
+	src: url("/fonts/mono-2.woff2") format("woff2");
 }
 
 /* ---------------------------------------------------------------- theme */
-/* NEVER `@theme inline` here — measured: it inlines the values into the
-   utilities, `.bg-paper` compiles to a literal `#FAF9F7`, and the dark override
-   below silently stops working. No error, no warning; the site simply never
-   goes dark. */
+/* NEVER `@theme inline` here — measured under the superseded direction: it inlines
+   values into the utilities, `.bg-paper` compiles to a literal, and the dark
+   override below silently stops working. No error, no warning; the site simply
+   never goes dark. That hazard is unchanged by ADR-0006. */
 
 @theme {
 	--color-*: initial;
 	--text-*: initial;
 
-	/* light is canonical; dark overrides the same custom properties below */
-	--color-paper: #faf9f7;
-	--color-ink: #1a1a1a;
-	--color-muted: #545454;
-	--color-rule: #e2e0dc;
-	--color-rule-strong: #8e8b86;
-	--color-accent: #b3261e;
-	--color-on-accent: #ffffff;
+	/* ---- colour. Values taken VERBATIM from the design; see ADR-0006 ------ */
+	/* Dark is the authored mode. Light is declared first because it is the
+	   unprefixed default, and dark overrides these same custom properties below. */
+	--color-paper: #f2ede4;
+	--color-surface: #f7f3eb;
+	--color-ink: #1c1917;
+	--color-muted: #7a7268;
+	--color-rule: rgb(28 25 23 / 0.16);
 
-	--font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+	/* One accent, ONE VALUE, in both modes — the design's verde vibrante. This is a
+	   deliberate departure from the superseded direction, which held that an accent
+	   is only ever valid against its own mode's paper. It clears dark paper at
+	   5.76:1 and does not clear light at 2.76:1; ADR-0006 records that as accepted,
+	   with the trigger to reopen. */
+	--color-accent: #2fa35c;
+
+	/* The only legible foreground on that green, and its one caller is `pill-solid`'s
+	   hover — the one place on the page where TEXT sits on an accent fill. It is
+	   declared rather than inlined there so the next accent fill has an answer waiting.
+
+	   There was an `accent-surface` utility here binding the two so the pair could not
+	   be applied half-way. It had no caller, and neither did the `bg-accent` its own
+	   comment pointed at; a utility nothing draws is not a guard, it is a claim that a
+	   guard exists. */
+	--color-on-accent: #fff8ef;
+
+	/* ---- faces ----------------------------------------------------------- */
+	/* The serif is DISPLAY ONLY. Body prose is the sans, which inverts the
+	   superseded direction, where the serif was the prose face and no sans existed.
+	   The mono is unchanged in role: it sets data, never prose. */
+	--font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+	--font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
 	--font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-	--text-label: 0.75rem; /* 12 */
-	--text-label--line-height: 1.4;
-	--text-label--font-weight: 500;
-	--text-label--letter-spacing: 0.08em;
+	/* ---- mono: SIX roles, and every one of them is declared here ---------- */
+	/* The design's five near-identical LABEL variants — differing only by size (10/11px)
+	   and tracking (0.10/0.12/0.14/0.16em) across roughly thirty uses — do collapse to
+	   three. That spread is an artifact of hand-written inline styles, not intent. The
+	   largest single shift is the footer and hero meta labels moving from 0.12em/0.16em
+	   to a shared 0.14em: 0.02em at 10px is 0.2px per letter.
 
-	--text-body-sm: 0.9375rem; /* 15 */
-	--text-body-sm--line-height: 1.6;
-	--text-body-sm--font-weight: 400;
+	   The other three are NOT labels and did not come from that spread. They are the two
+	   card stack lines, the architecture chips and the contact pills, at 12–13px. An
+	   earlier revision left all three as inline arbitrary values, which made the "three
+	   tokens" claim above true of the header and false of the page — the mono layer had
+	   six treatments, three of them invisible from here. Declaring them is what makes the
+	   collapse auditable: a seventh cannot now appear without appearing in this block.
 
-	--text-body: 1.125rem; /* 18 — body size, NOT the root size */
-	--text-body--line-height: 1.65;
-	--text-body--font-weight: 400;
+	   OPEN, for the design rather than for this file: `chip` and `pill` are the SAME
+	   device — mono inside a `rounded-full` border — at two hand-drifted values. Collapsing
+	   them would delete a role instead of naming one, but it repaints both, so it is a
+	   ruling and not a cleanup. */
 
-	--text-lede: 1.375rem; /* 22 */
-	--text-lede--line-height: 1.55;
-	--text-lede--font-weight: 400;
+	/* Section marks (`01 /`), card eyebrows, metric labels, bar anchors, skills and
+	   education row labels, the same-stack footnote. The workhorse: ~24 of the ~30 uses. */
+	--text-mark: 0.6875rem; /* 11 */
+	--text-mark--line-height: 1.4;
+	--text-mark--font-weight: 400;
+	--text-mark--letter-spacing: 0.14em;
 
-	--text-entry: 1.5rem; /* 24 */
-	--text-entry--line-height: 1.3;
-	--text-entry--font-weight: 600;
+	/* Dates and the group note. Sentence case, NOT caps — this is the one mono LABEL role
+	   carrying readable phrases rather than labels, which is why it keeps the tighter
+	   tracking. */
+	--text-meta: 0.6875rem; /* 11 */
+	--text-meta--line-height: 1.6;
+	--text-meta--font-weight: 400;
+	--text-meta--letter-spacing: 0.1em;
 
-	--text-figure: 2.75rem; /* 44 */
+	/* The hero meta grid's labels and the footer three-up. */
+	--text-micro: 0.625rem; /* 10 */
+	--text-micro--line-height: 1.4;
+	--text-micro--font-weight: 400;
+	--text-micro--letter-spacing: 0.14em;
+
+	/* The `·`-joined stack line at the foot of each work card. Sentence case and the
+	   loosest reading of the mono roles — an enumeration, not a label, which is why it
+	   takes the least tracking of the six. */
+	--text-caption: 0.75rem; /* 12 */
+	--text-caption--line-height: 1.5;
+	--text-caption--font-weight: 400;
+	--text-caption--letter-spacing: 0.04em;
+
+	/* The three architecture chips. Untracked: each holds two words on one baseline with
+	   space between them, and tracking a chip's contents fights that gap. */
+	--text-chip: 0.8125rem; /* 13 */
+	--text-chip--line-height: 1.4;
+	--text-chip--font-weight: 400;
+
+	/* The four contact links. Sized against the address it has to print in full. */
+	--text-pill: 0.75rem; /* 12 */
+	--text-pill--line-height: 1.4;
+	--text-pill--font-weight: 400;
+	--text-pill--letter-spacing: 0.06em;
+
+	/* ---- serif display: the named roles ---------------------------------- */
+	/* THE CRITERION IS A ROLE, NOT A CALL COUNT. Each of the four below names a
+	   recurring KIND of thing — a metric, a card title, a decade marker, a role title —
+	   and several of them happen to have one caller today. That is fine: a type scale is
+	   a vocabulary, and `text-figure` tells a reader what the number is FOR where
+	   `text-[clamp(3rem,5vw,4.5rem)]` tells them only how big it is.
+	   (An earlier revision of this block claimed the criterion was repetition, which was
+	   never true of `figure` or `role` and would have argued for deleting them.)
+
+	   What genuinely stays inline is the one-off with no role to name: the hero, the
+	   summary lede, the contact statement, the education title. Those are single
+	   typographic gestures, not members of a scale, and hiding their numbers behind a
+	   token would cost the reader of the component more than it saves. */
+
+	/* The metric panel: 15 / 8 / 400+. */
+	--text-figure: clamp(3rem, 5vw, 4.5rem); /* 48 -> 72 */
 	--text-figure--line-height: 1;
-	--text-figure--font-weight: 600;
+	--text-figure--font-weight: 400;
 
-	--text-hero: clamp(2.5rem, 6vw, 4rem);
-	--text-hero--line-height: 1.05;
-	--text-hero--font-weight: 400;
+	/* Work card titles. */
+	--text-entry: clamp(2.125rem, 3.6vw, 3rem); /* 34 -> 48 */
+	--text-entry--line-height: 1.1;
+	--text-entry--font-weight: 400;
+
+	/* The decade markers beside each role: 2026 / 2023 / 2021 / 2019. */
+	--text-decade: clamp(2.25rem, 4.5vw, 2.75rem); /* 36 -> 44 */
+	--text-decade--line-height: 1;
+	--text-decade--font-weight: 400;
+
+	/* Experience role titles. */
+	--text-role: clamp(1.5rem, 4vw, 1.875rem); /* 24 -> 30 */
+	--text-role--line-height: 1.2;
+	--text-role--font-weight: 400;
+
+	/* The wordmark, in its two presentations: the bar's `VO.` monogram and the sheet's
+	   spelled-out name. They are the SAME mark at the same size in two widths, and they
+	   sit in two different files — so the size is bound here rather than written twice
+	   and left to drift. */
+	--text-wordmark: 1.3125rem; /* 21 */
+	--text-wordmark--line-height: 1;
+	--text-wordmark--font-weight: 400;
+
+	/* ---- sans ------------------------------------------------------------ */
+	/* Hanken at 300 is the page's default weight, set on `html` below. 500 exists
+	   for exactly one element, the hero's filled action. */
+
+	/* Hero meta values, education lines. */
+	--text-body: 0.9375rem; /* 15 */
+	--text-body--line-height: 1.5;
+	--text-body--font-weight: 300;
+
+	/* Skills values and work-card prose. */
+	--text-value: 1rem; /* 16 */
+	--text-value--line-height: 1.7;
+	--text-value--font-weight: 300;
+
+	/* Experience bullets. Its own size and a looser leading, because it is the
+	   longest continuous reading on the page. */
+	--text-prose: 0.96875rem; /* 15.5 */
+	--text-prose--line-height: 1.75;
+	--text-prose--font-weight: 300;
+
+	/* The hero paragraph. */
+	--text-lede: 1.0625rem; /* 17 */
+	--text-lede--line-height: 1.6;
+	--text-lede--font-weight: 300;
+
+	/* Pill actions. The only caller of Hanken 500. */
+	--text-action: 0.875rem; /* 14 */
+	--text-action--line-height: 1.4;
+	--text-action--font-weight: 500;
+
+	/* ---- layout ---------------------------------------------------------- */
+	/* The page's one container width. */
+	--container-page: 77.5rem; /* 1240 */
+
+	/* THE BAR'S NOMINAL HEIGHT, AND THE THREE MEASUREMENTS DRAWN AGAINST IT: the sheet's
+	   header row matches it, `scroll-margin-top` clears it, and Skills' sticky mark holds
+	   below it. Until now those were three independent literals in three files, each with
+	   a comment explaining a relationship the code refused to state — change `Bar`'s
+	   padding and all three went quietly wrong.
+
+	   NOMINAL, NOT MEASURED, and the distinction is not pedantry. The bar composes its
+	   height from `py-[14px]` on a row aligned `items-baseline`; an explicit height would
+	   move that alignment, so the real number is whatever the baseline box works out to.
+	   MEASURED it is 50.39px — 14 + a 21.39px baseline row + 14 + one hairline — which
+	   means the "25px baseline row" this block used to claim was never right, and the
+	   sheet's header has been ~3.6px taller than the bar it exists to match since the
+	   redesign landed.
+
+	   54 is kept rather than corrected to 50.39, because that figure is a function of two
+	   fonts' vertical metrics and would move under a face change for no design reason.
+	   What matters is that the derived three CLEAR the bar, and a nominal value with a
+	   few px of headroom does that. `rendered.spec.ts` asserts the headroom exists and
+	   stays small in both directions. */
+	--spacing-bar: 54px;
+
+	/* THE DESIGN HAS EXACTLY ONE BREAKPOINT, a JS `matchMedia('(max-width: 819px)')`
+	   flipping every grid between one column and its desktop value. That is a
+	   limitation of a single-file preview, not a decision — but its VALUE is the one
+	   thing the preview does fix, so it becomes a real media query at 820px rather
+	   than being rounded to Tailwind's `lg` (1024px), which would hold every grid in
+	   one column for 204px longer than what was approved.
+
+	   Tailwind's own sm/md/lg/xl/2xl remain available, and NOTHING USES THEM: `wide:`
+	   is the page's only breakpoint prefix, 22 times over. Pending a breakpoint ladder
+	   from the design that is the honest state of things, and worth knowing before
+	   anyone reaches for `lg:` and puts a second, unauthored step on the page. */
+	--breakpoint-wide: 51.25rem; /* 820 */
 }
 
 /* ------------------------------------------------------- dark overrides */
-/* Plain custom properties, unlayered, outside @theme — @theme forbids media
-   queries, and unlayered rules beat @layer theme unconditionally, which makes
-   this robust against source order and against Tailwind reordering its layers. */
+/* Plain custom properties, unlayered, outside @theme — @theme forbids media queries,
+   and unlayered rules beat @layer theme unconditionally, which makes this robust
+   against source order and against Tailwind reordering its layers.
+
+   `accent` and `on-accent` are ABSENT here on purpose: one accent value serves both
+   modes under ADR-0006, so repeating it would imply a flip that does not exist. */
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--color-paper: #1a1918;
-		--color-ink: #e8e6e1;
-		--color-muted: #ada9a0;
-		--color-rule: #33312e;
-		--color-rule-strong: #6a6862;
-		--color-accent: #f0736a;
-		--color-on-accent: #1a1918; /* FLIPS — white here is 2.85:1 and fails */
+		--color-paper: #141312;
+		--color-surface: #1a1918;
+		--color-ink: #e8e4de;
+		--color-muted: #96908a;
+		--color-rule: rgb(232 228 222 / 0.14);
 	}
 }
 
 /* ------------------------------------------------------------ utilities */
 
-@utility optical-* {
-	font-variation-settings: "opsz" --value(number);
+/* The fixed grain over the entire page. Two of its properties are load-bearing and
+   neither is decorative:
+
+   `pointer-events: none` — this element covers the full viewport at z-index 50.
+   Without it EVERY LINK ON THE SITE IS DEAD and the page still looks perfect. There
+   is a browser test asserting it for exactly that reason.
+
+   `position: fixed` — the grain must not scroll with the content, or it reads as a
+   texture printed on the page rather than on the screen.
+
+   Inlined as a data URI rather than a file so it cannot 404 into a missing texture,
+   and because feTurbulence generates it at paint time from ~250 bytes.
+
+   THE `feColorMatrix` IS NOT OPTIONAL AND IS EASY TO DROP WHILE TRANSCRIBING. It
+   zeroes R, G and B and scales alpha to 0.05, which is what turns feTurbulence's
+   full-strength RGBA noise into a black veil at up to 5% alpha. Without it the raw
+   turbulence paints at the div's full 0.4 opacity: MEASURED, the dark paper lifts from
+   #141312 to a mean #353433 with a luminance stdev of 8.66, the page reads washed-out
+   grey rather than near-black, and og.png inflates from 21 KB to 285 KB because random
+   noise does not compress. It looks like a deliberately grungy design rather than a
+   bug, which is why it is called out here. */
+@utility grain {
+	position: fixed;
+	inset: 0;
+	z-index: 50;
+	pointer-events: none;
+	opacity: 0.4;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/%3E%3CfeColorMatrix values=%220 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0%22/%3E%3C/filter%3E%3Crect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22/%3E%3C/svg%3E");
 }
 
-/* accent fill + its correct foreground, bound together so the mode flip cannot
-   be applied half-way. `bg-accent` still exists for non-text fills, but every
-   accent fill CARRYING TEXT uses this. */
-@utility accent-surface {
-	background-color: var(--color-accent);
-	color: var(--color-on-accent);
-}
-
-/* The centred measure, and the same measure with the rail's column beside it
-   (8rem rail + 2.5rem gutter = 10.5rem). Bound here rather than repeated as a
-   class list because three components need one of the two, and the literal had
-   already drifted once while it was copied between them. Widening the measure is
-   now one edit in the layer that owns the value.
-
-   `ch` resolves against the element's OWN font size, so anything taking these
-   must also be at `text-body` or the measure is not the 65ch the brief fixes. */
-@utility measure {
-	max-width: min(65ch, 100% - 2rem);
+/* The page container: one width, one padding ramp, both written once. Seven section
+   wrappers and the bar need it, and under the superseded direction the equivalent
+   literal had already drifted between callers while being copied. */
+@utility page {
+	max-width: var(--container-page);
 	margin-inline: auto;
+	padding-inline: clamp(1.25rem, 4.5vw, 2.5rem);
 }
 
-@utility measure-rail {
-	max-width: min(calc(65ch + 10.5rem), 100% - 2rem);
-	margin-inline: auto;
+/* THE MARK GRID: the section mark's 260px column beside its content, and the gutter
+   between them.
+
+   Bound here because it has THREE callers in TWO files that must agree and have no
+   other connection: `Section`'s split layout draws it, and every Experience row draws
+   it again independently — those rows are not inside a `Section` grid, but their decade
+   markers have to line up with the marks above them. The same is true of `page`, and
+   for the same reason: under the superseded direction the equivalent literal had
+   already drifted between callers while being copied.
+
+   `items-start` is NOT part of this. Only the split layout wants it, and it is what
+   lets the mark's sticky variant travel. */
+@utility mark-grid {
+	display: grid;
+	gap: clamp(20px, 3.5vw, 40px);
+
+	@variant wide {
+		grid-template-columns: 260px 1fr;
+	}
 }
 
-/* The one link treatment on the page: accent, underlined at 40% rising to full
-   on hover inside the base layer's 150ms transition. NOT a filled button — fills
-   are a UI convention that fights the editorial frame, and the underline is the
-   affordance. Bound into a utility because it has six callers and the offset had
-   already drifted to two different values across them. */
+/* THE LABEL ROW: a 130px mono label against its value. Skills draws eight of them and
+   Education two, and the design lines their label edges up DOWN THE PAGE across two
+   sections that are not in the same grid — an invariant nothing but this shared
+   declaration can hold, since neither section can see the other's literal. */
+@utility label-row {
+	display: grid;
+	grid-template-columns: 130px 1fr;
+	gap: calc(var(--spacing) * 5); /* 20px, Tailwind's `gap-5` */
+}
+
+/* The bar's translucent surface. `color-mix` against `transparent` rather than a
+   fixed rgba, so it tracks whichever paper is in force instead of needing a second
+   value per mode. */
+@utility bar-surface {
+	background-color: color-mix(in srgb, var(--color-paper) 85%, transparent);
+	backdrop-filter: blur(12px);
+}
+
+/* The one INLINE-PROSE link treatment, for links that sit inside a sentence rather
+   than in a pill. `NotFound` uses it for both of the /404 page's back links, which is
+   its only RENDERED use today.
+
+   Its other caller is `Segments`, rendering the company-group note — and that note's
+   two anchors are unfilled inputs, so nothing on the PORTFOLIO page currently draws
+   it. It would stay here even if it drew nowhere at all: `Segments` is the mechanism
+   by which any message can grow an inline link, and the moment `DEVEX_URL` gets a
+   value the link must already look like one. Deleting an inline-link treatment for
+   having no live caller is how the first filled URL ships as unstyled body text.
+
+   The design supplies no inline-link treatment to copy — it has no inline links —
+   so this is derived: accent, underlined at 40% rising to full on hover, inside the
+   base layer's transition. */
 @utility accent-link {
 	color: var(--color-accent);
 	text-decoration-line: underline;
@@ -152,59 +397,98 @@
 	}
 }
 
+/* The two pill shapes. `pill` is the outline form — the résumé action and the three
+   non-email contact links; `pill-solid` is the filled form — the hero's primary
+   action and the email link. Both hover to accent, the page's single interactive
+   idiom, and both are bound here because there are seven callers between them. */
+@utility pill {
+	display: inline-block;
+	border: 1px solid var(--color-rule);
+	border-radius: 999px;
+	color: var(--color-ink);
+
+	&:hover {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+}
+
+@utility pill-solid {
+	display: inline-block;
+	border: 1px solid var(--color-ink);
+	border-radius: 999px;
+	background-color: var(--color-ink);
+	color: var(--color-paper);
+
+	&:hover {
+		border-color: var(--color-accent);
+		background-color: var(--color-accent);
+		color: var(--color-on-accent);
+	}
+}
+
 /* ----------------------------------------------------------------- base */
 
 @layer base {
 	html {
-		/* no font-size here on purpose: Tailwind's spacing scale is rem-based, so an
-		   18px root rescales it by 12.5% and the brief's 96/64/32/12px stop landing
-		   on the scale — and it would override the reader's own browser setting on a
-		   page whose smallest text is a load-bearing 12px label. The 18px is a BODY
-		   size and lives in `--text-body`. */
-		font-family: var(--font-serif);
+		/* No `font-size` here, deliberately: Tailwind's spacing scale is rem-based, so
+		   moving the root rescales every gap on the page, and it would override the
+		   reader's own browser setting on a page whose smallest text is a load-bearing
+		   10px label. Body size lives in the type tokens. */
+		font-family: var(--font-sans);
+		font-weight: 300;
 		color: var(--color-ink);
 		background-color: var(--color-paper);
 		scroll-behavior: smooth;
 		-webkit-font-smoothing: antialiased;
 	}
 
+	/* The bar, plus 18px so a jumped-to section does not sit flush against its
+	   underside. Derived rather than written as the 4.5rem it resolves to, because
+	   "clears the bar" is the property and 72px is only today's arithmetic. */
 	section[id] {
-		scroll-margin-top: 4.5rem; /* 56px bar + 1rem */
+		scroll-margin-top: calc(var(--spacing-bar) + 18px);
 	}
 
+	/* The design specifies hover treatments but no focus treatment anywhere, which a
+	   single-file preview has no way to express. Derived from accent pending an
+	   answer from the design, and applied globally so ~25 interactive elements do not
+	   each have to remember it. */
 	:focus-visible {
 		outline: 2px solid var(--color-accent);
 		outline-offset: 2px;
 	}
 
-	/* The brief's 150ms hover. Base, not a utility, for the same reason as the
-	   focus ring: ~20 interactive elements must not each remember it.
-	   Hand-written rather than `@apply transition-colors` on purpose — the stock
-	   utility's property list includes `outline-color`, which would make any
-	   future change to the focus outline's colour FADE the focus indicator in.
-	   The two `var()`s are load-bearing: these theme vars are pruned when
-	   nothing references them, and this rule is what keeps them in the output. */
+	/* Hand-written rather than `@apply transition-colors`: the stock utility's
+	   property list includes `outline-color`, which would make any future change to
+	   the focus outline FADE the focus indicator in. The `var()`s are load-bearing —
+	   these theme variables are pruned when nothing references them, and this rule is
+	   what keeps them in the output. */
 	a,
 	button {
-		transition-property: color, background-color, text-decoration-color;
-		transition-duration: var(--default-transition-duration); /* 150ms */
+		transition-property:
+			color, background-color, border-color, text-decoration-color;
+		transition-duration: var(--default-transition-duration);
 		transition-timing-function: var(--default-transition-timing-function);
 	}
 
-	/* Locale switch cross-fade, retimed from the UA's 0.25s to match the sheet.
-	   Targets the GROUP, not old/new: the UA puts `animation-duration` on
-	   `::view-transition-group(*)` and gives image-pair/old/new
-	   `animation-duration: inherit`, so one selector retimes the whole tree. */
+	/* Locale switch cross-fade, retimed from the UA's 0.25s. Targets the GROUP, not
+	   old/new: the UA puts `animation-duration` on `::view-transition-group(*)` and
+	   gives image-pair/old/new `animation-duration: inherit`, so one selector retimes
+	   the whole tree. */
 	::view-transition-group(*) {
 		animation-duration: 200ms;
 	}
 
+	/* The design sets `scroll-behavior: smooth` unconditionally, which a preview
+	   cannot guard. Confirmation requested from the design; guarded meanwhile, because
+	   unguarded smooth scrolling is a vestibular trigger. */
 	@media (prefers-reduced-motion: reduce) {
 		html {
 			scroll-behavior: auto;
 		}
-		/* 1ms, not `animation: none` — removing the animations leaves both
-		   snapshots stacked at full opacity with nothing to end the transition. */
+		/* 1ms, not `animation: none` — removing the animations leaves both snapshots
+		   stacked at full opacity with nothing to end the transition. */
 		::view-transition-group(*) {
 			animation-duration: 1ms;
 		}

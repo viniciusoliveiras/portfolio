@@ -20,8 +20,26 @@ export const SITE_ORIGIN = "https://www.viniciusoliveiras.com";
 /**
  * Not copy: the name is rendered as-is from the résumé's own header, so it never
  * varies by locale and does not belong in the message modules.
+ *
+ * SPLIT INTO ITS TWO PARTS because ADR-0006's hero sets them on separate lines with
+ * the surname in accent italic, and the bar's monogram takes an initial from each.
+ * `AUTHOR_NAME` is composed rather than written a second time, so the full name and
+ * its parts cannot disagree — and note there is no accent on the `i`, which a
+ * previous pass got wrong and had to correct.
  */
-export const AUTHOR_NAME = "Vinicius Oliveira";
+export const AUTHOR_GIVEN = "Vinicius";
+export const AUTHOR_FAMILY = "Oliveira";
+export const AUTHOR_NAME = `${AUTHOR_GIVEN} ${AUTHOR_FAMILY}`;
+
+/**
+ * The monogram in the bar: `V`, an italic accent `O`, and a full stop. `charAt`
+ * rather than `[0]`, which is `string | undefined` under
+ * `noUncheckedIndexedAccess` and would need a non-null assertion to render.
+ */
+export const AUTHOR_INITIALS = {
+	given: AUTHOR_GIVEN.charAt(0),
+	family: AUTHOR_FAMILY.charAt(0),
+};
 
 /** The locale tag travels as an explicit prop, never string-matched off the path. */
 export type Locale = "pt" | "en";
@@ -53,6 +71,20 @@ export const ogLocale: Record<Locale, string> = {
 export const localeName: Record<Locale, string> = {
 	pt: "Português",
 	en: "English",
+};
+
+/**
+ * The two-letter form the BAR shows — ADR-0006's design renders the switch as `PT →`
+ * rather than spelling the language out, because the bar's anchor row has no width to
+ * spare once it carries five anchors.
+ *
+ * This is a display abbreviation, NOT an accessible name. The switch keeps
+ * `localeName` on its `aria-label`, so a screen reader is told "Português" and never
+ * "P T arrow" — and the sheet, which has room, uses `localeName` visibly.
+ */
+export const localeCode: Record<Locale, string> = {
+	pt: "PT",
+	en: "EN",
 };
 
 /** The route path for a locale, kept literal so `Link`'s `to` stays type-checked. */

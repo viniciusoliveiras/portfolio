@@ -23,20 +23,46 @@
 			`jobTitle` invariant for exactly that reason — and `Rio de Janeiro` is spelled
 			identically in both locales. No other string appears. Do not add one that would
 			need translating.
+
+			REDRAWN FOR ADR-0006, and the locale-neutrality rule is what shaped it. The
+			obvious card in this visual language would carry the design's eyebrow trio
+			(`Portfolio — 2026` · `Open to conversation` · `Rio de Janeiro, BR`) and the
+			three labelled figures from the work panel — and every one of those labels
+			needs translating, so none of them is here. What survives is the split name
+			with its accent italic surname, the invariant role line, and the accent rule.
+
+			That eyebrow was later cut from the page as well, so the card and the hero now
+			agree by coincidence rather than by design — worth knowing, because it means
+			this card is NOT lagging the page and does not need redrawing for it.
+
+			DARK, where the superseded card was light. The reasoning inverts with the
+			palette rather than being abandoned: a social card has no colour scheme to
+			follow, so it takes the AUTHORED mode, and under ADR-0006 that is dark — the
+			design file's initial state and its own thumbnail template are both dark.
+			Revisit if Claude Design confirms light as canonical.
 		-->
 		<style>
+			/* Instrument Serif has no weight axis; roman and italic are separate statics
+			   and BOTH are needed here, because the surname is the italic. */
 			@font-face {
-				font-family: "Source Serif 4";
+				font-family: "Instrument Serif";
 				font-style: normal;
-				font-weight: 400 600;
-				src: url("../public/fonts/roman.woff2") format("woff2");
+				font-weight: 400;
+				src: url("../public/fonts/instrument-roman.woff2") format("woff2");
+			}
+
+			@font-face {
+				font-family: "Instrument Serif";
+				font-style: italic;
+				font-weight: 400;
+				src: url("../public/fonts/instrument-italic.woff2") format("woff2");
 			}
 
 			@font-face {
 				font-family: "JetBrains Mono";
 				font-style: normal;
-				font-weight: 500;
-				src: url("../public/fonts/mono.woff2") format("woff2");
+				font-weight: 400 500;
+				src: url("../public/fonts/mono-2.woff2") format("woff2");
 			}
 
 			* {
@@ -50,47 +76,78 @@
 			body {
 				width: 1200px;
 				height: 630px;
-				/* `paper` and `ink`, light mode — a social card has no colour scheme to
-				   follow, so the canonical mode is the only sensible one. */
-				background: #faf9f7;
-				color: #1a1a1a;
+				/* `paper` and `ink`, dark — see the note above on why this inverted. */
+				background: #141312;
+				color: #e8e4de;
+				position: relative;
+				overflow: hidden;
+				font-family: "Instrument Serif", serif;
+			}
+
+			/* The page's grain, at the same 0.4 opacity and the same inline data URI. No
+			   `pointer-events` guard is needed here the way it is on the site — this
+			   document is screenshotted, never clicked.
+
+			   The `feColorMatrix` is what holds it to a 5%-alpha black veil. Dropping it
+			   paints raw turbulence and inflates this PNG from ~21 KB to ~285 KB, because
+			   random noise does not compress — so the file size is a usable canary for
+			   whether this data URI is still intact. See the note in `global.css`. */
+			.grain {
+				position: absolute;
+				inset: 0;
+				opacity: 0.4;
+				background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/%3E%3CfeColorMatrix values=%220 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0%22/%3E%3C/filter%3E%3Crect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22/%3E%3C/svg%3E");
+			}
+
+			.frame {
+				position: relative;
+				height: 100%;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				padding: 0 100px;
-				font-family: "Source Serif 4", serif;
 			}
 
 			.role {
 				font-family: "JetBrains Mono", monospace;
-				font-weight: 500;
+				font-weight: 400;
 				font-size: 26px;
-				letter-spacing: 0.08em;
+				letter-spacing: 0.14em;
 				text-transform: uppercase;
-				color: #545454; /* muted */
+				color: #96908a; /* muted */
 			}
 
+			/* The split name, as the hero sets it: given name roman, surname accent
+			   italic and indented. 132px rather than the page's clamped 176px ceiling —
+			   two lines of 176px plus the role line and the rule overflow 630px. */
 			h1 {
-				font-size: 112px;
+				font-size: 132px;
 				font-weight: 400;
-				line-height: 1.05;
-				/* The `hero` role's optical size — the largest cut, as on the page. */
-				font-variation-settings: "opsz" 60;
+				line-height: 0.94;
+				letter-spacing: -0.02em;
 				margin: 34px 0 0;
+			}
+
+			h1 em {
+				color: #2fa35c; /* accent */
+				margin-left: 0.6em;
 			}
 
 			/* The closing device, echoing the page's section rules. */
 			.rule {
 				width: 200px;
 				height: 4px;
-				background: #b3261e; /* accent */
+				background: #2fa35c; /* accent */
 				margin-top: 52px;
 			}
 		</style>
 	</head>
 	<body>
-		<p class="role">Tech Lead · Rio de Janeiro</p>
-		<h1>Vinicius Oliveira</h1>
-		<div class="rule"></div>
+		<div class="grain"></div>
+		<div class="frame">
+			<p class="role">Tech Lead · Rio de Janeiro</p>
+			<h1>Vinicius<br /><em>Oliveira</em></h1>
+			<div class="rule"></div>
+		</div>
 	</body>
 </html>

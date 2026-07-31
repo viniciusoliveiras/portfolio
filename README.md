@@ -14,7 +14,13 @@ The migration was planned as one effort of 21 decisions, tracked on [the migrati
 
 The map asked to be judged on one claim: that implementation would need no further decisions. **It needed some.** There are 23 dated correction blocks across the corpus, and they cluster almost entirely on Vercel's actual behaviour — the one area no amount of desk research could settle, because it could only be measured. [The map's closing comment](https://github.com/viniciusoliveiras/portfolio/issues/1#issuecomment-5144229667) is the verdict; the corrections themselves are annotated in place.
 
-**Read [`CONTEXT.md`](CONTEXT.md) first if you are picking up work here.** It is the glossary, and several terms in these documents mean something narrower than they look.
+### The 2026-07-31 redesign
+
+`src/` no longer looks like the site ADR-0005 describes. A new visual direction was authored in Claude Design, imported, and implemented as **[ADR-0006](docs/adr/0006-warm-editorial-direction.md)**, which supersedes ADR-0005's visual axes — new faces, a warm palette, cards, a numbered section mark in place of the rail. **ADR-0001's information architecture is untouched**, and so is every string of prose.
+
+Two things to know before reading further. ADR-0006 records **three contrast findings accepted rather than fixed**, all in light mode, each with a stated trigger to reopen — they are decisions, not oversights. And **six questions are open with Claude Design**, chief among them the mobile navigation: the design file has none, because a single-file preview cannot express a `<dialog>`, so the existing sheet is retained pending a ruling.
+
+**Read [`CONTEXT.md`](CONTEXT.md) first if you are picking up work here.** It is the glossary, and several terms in these documents mean something narrower than they look. Note that **`rail` is retired** and that older documents use it freely.
 
 ---
 
@@ -28,7 +34,7 @@ pnpm preview          # look at a production build locally
 pnpm check            # biome check
 pnpm check:write      # biome check --write
 pnpm typecheck        # tsc --noEmit
-pnpm test             # 47 node tests, then 13 Playwright browser tests
+pnpm test             # 54 node tests, then 16 Playwright browser tests
 ```
 
 **Bootstrap pnpm with the standalone installer, not Corepack**, per [ADR-0003](docs/adr/0003-package-manager-and-node-baseline.md) — and mind the trap that follows from it. `devEngines.packageManager.version` is the *range* `>=11.0.0 <12.0.0`, which Corepack refuses to resolve at all: `Invalid package manager specification … expected a semver version`. If the `pnpm` first on your `PATH` is a Corepack shim, every command above fails — and so does `git commit`, because the lefthook `pre-commit` hook shells out to `pnpm` by name.
@@ -41,23 +47,24 @@ The résumé PDF is a committed binary with a one-off build step kept deliberate
 
 ## Reading order
 
-Fourteen documents, and reading them in creation order is the wrong order. This is the order that makes each one make sense when you reach it.
+Fifteen documents, and reading them in creation order is the wrong order. This is the order that makes each one make sense when you reach it.
 
 ### 1. What the site is
 
 | | Document | Why it comes first |
 | --- | --- | --- |
-| 1 | [ADR-0001: Information architecture](docs/adr/0001-information-architecture.md) | **Start here, always.** What pages exist, what got cut, and why the site's job is hiring signal for a Tech Lead. Everything downstream assumes it |
-| 2 | [ADR-0005: Visual direction](docs/adr/0005-visual-direction.md) | The design brief. Palette, typography, layout, motion budget. The single most-cited document in the corpus |
-| 3 | [Site copy](docs/site-copy.md) | Every string, both locales, each factual claim traced to a line in the résumé |
-| 4 | [Section layouts](docs/section-layouts.md) | How the seven sections are actually built, decided against a working prototype |
+| 1 | [ADR-0001: Information architecture](docs/adr/0001-information-architecture.md) | **Start here, always.** What pages exist, what got cut, and why the site's job is hiring signal for a Tech Lead. Everything downstream assumes it. **Untouched by the 2026-07-31 redesign** |
+| 2 | [ADR-0006: The warm editorial direction](docs/adr/0006-warm-editorial-direction.md) | **The current design brief.** Palette, typography, layout. Imported from a Claude Design project 2026-07-31 and implemented; it supersedes ADR-0005's visual axes and records three contrast findings accepted rather than fixed |
+| 3 | [ADR-0005: Visual direction](docs/adr/0005-visual-direction.md) | **Superseded, and kept deliberately.** Read it *after* ADR-0006, for two reasons: its measured contrast tables are the reference ADR-0006's findings are stated against, and its process findings are all still binding. Do not build from its palette, faces or layout |
+| 4 | [Site copy](docs/site-copy.md) | Every string, both locales, each factual claim traced to a line in the résumé. The prose is unchanged by the redesign; ADR-0006 added chrome strings on top |
+| 5 | [Section layouts](docs/section-layouts.md) | How the seven sections were built under ADR-0005, decided against a working prototype. **The section *contents* still hold; the rail, the measure and the figure placement do not** |
 
 ### 2. What it is built with
 
 | | Document | Why |
 | --- | --- | --- |
-| 5 | [ADR-0002: TypeScript and Biome](docs/adr/0002-typescript-and-biome-baseline.md) | Compiler strictness and lint rules. The `types: ["vite/client"]` finding is the easiest line in the migration to omit |
-| 6 | [ADR-0003: Package manager and Node](docs/adr/0003-package-manager-and-node-baseline.md) | pnpm 11, and three traps that each break `pnpm install` outright |
+| 6 | [ADR-0002: TypeScript and Biome](docs/adr/0002-typescript-and-biome-baseline.md) | Compiler strictness and lint rules. The `types: ["vite/client"]` finding is the easiest line in the migration to omit |
+| 7 | [ADR-0003: Package manager and Node](docs/adr/0003-package-manager-and-node-baseline.md) | pnpm 11, and three traps that each break `pnpm install` outright |
 
 The pinned versions that used to be documented here now live in `package.json` and `pnpm-lock.yaml`, which are enforced rather than described — see the note on removed documents below.
 
@@ -65,19 +72,19 @@ The pinned versions that used to be documented here now live in `package.json` a
 
 | | Document | Why |
 | --- | --- | --- |
-| 7 | [Tailwind token layer](docs/research/tailwind-token-layer.md) | The paste-ready stylesheet. Binds ADR-0005's values into `@theme` |
-| 8 | [i18n and locale routing](docs/research/i18n-and-locale-routing.md) | Route shape, `<html lang>`, and §8.1's decision: **typed message modules, no i18n runtime** |
-| 9 | [Head and metadata](docs/research/head-and-metadata.md) | Every tag on every route. **`viewport` is not automatic in Start** — losing it gives phones the desktop layout |
-| 10 | [Mobile sheet primitive](docs/research/mobile-sheet-primitive.md) | The one component primitive the site needs, on the native `<dialog>` |
-| 11 | [Favicon and asset serving](docs/research/favicon-and-asset-serving.md) | What `public/` contains, the shipping favicon, and cache headers |
+| 8 | [Tailwind token layer](docs/research/tailwind-token-layer.md) | How ADR-0005's values were bound into `@theme`. **Its values are superseded** — the shipped stylesheet is `src/styles/global.css` under ADR-0006 — but its *mechanism* findings are not, above all why `@theme inline` must never be used here |
+| 9 | [i18n and locale routing](docs/research/i18n-and-locale-routing.md) | Route shape, `<html lang>`, and §8.1's decision: **typed message modules, no i18n runtime** |
+| 10 | [Head and metadata](docs/research/head-and-metadata.md) | Every tag on every route. **`viewport` is not automatic in Start** — losing it gives phones the desktop layout |
+| 11 | [Mobile sheet primitive](docs/research/mobile-sheet-primitive.md) | The one component primitive the site needs, on the native `<dialog>` |
+| 12 | [Favicon and asset serving](docs/research/favicon-and-asset-serving.md) | What `public/` contains, the shipping favicon, and cache headers |
 
 ### 4. How it ships
 
 | | Document | Why |
 | --- | --- | --- |
-| 12 | [ADR-0004: Deployment target and rendering mode](docs/adr/0004-deployment-target-and-rendering-mode.md) | Vercel, fully prerendered, no server runtime. Includes two collisions with ADR-0003, one fatal, plus the corrected build and install commands |
-| 13 | [CI workflow](docs/ci-workflow.md) | The complete workflow YAML, with pinned SHAs |
-| 14 | [Migration strategy and cutover](docs/migration-cutover.md) | **The record of what shipped**, all five phases performed. Read Phase 4 for the one requirement that was reversed rather than met |
+| 13 | [ADR-0004: Deployment target and rendering mode](docs/adr/0004-deployment-target-and-rendering-mode.md) | Vercel, fully prerendered, no server runtime. Includes two collisions with ADR-0003, one fatal, plus the corrected build and install commands |
+| 14 | [CI workflow](docs/ci-workflow.md) | The complete workflow YAML, with pinned SHAs |
+| 15 | [Migration strategy and cutover](docs/migration-cutover.md) | **The record of what shipped**, all five phases performed. Read Phase 4 for the one requirement that was reversed rather than met |
 
 ### 5. Repo conventions (not part of the spec)
 
@@ -89,7 +96,7 @@ The pinned versions that used to be documented here now live in `package.json` a
 
 Three directories, and the split is **not** what the names suggest:
 
-- **`docs/adr/`** — the five numbered, load-bearing decisions. A document earns a number when **reversing it invalidates other documents**. That is the whole test; prose shape has nothing to do with it. Three strong candidates were considered and declined — the [sheet primitive](docs/research/mobile-sheet-primitive.md), the [cutover plan](docs/migration-cutover.md) and [i18n §8.1](docs/research/i18n-and-locale-routing.md) — because reversing each of them reaches no further than itself.
+- **`docs/adr/`** — the six numbered, load-bearing decisions, one of them superseded. A document earns a number when **reversing it invalidates other documents**. That is the whole test; prose shape has nothing to do with it. Three strong candidates were considered and declined — the [sheet primitive](docs/research/mobile-sheet-primitive.md), the [cutover plan](docs/migration-cutover.md) and [i18n §8.1](docs/research/i18n-and-locale-routing.md) — because reversing each of them reaches no further than itself.
 - **`docs/research/`** — **provenance, not content.** It held the output of the map's five research tickets plus three later ones; three of those files have since been removed (see below), so it now holds five. Several are not research at all but implementation contracts: the token layer ships a paste-ready stylesheet, the sheet ships a component, the favicon ships a 332-byte file. The name is historical and was deliberately kept — moving the files would break the links in the closed tickets' resolution comments, which are the detail layer this README indexes.
 - **`docs/`** root — everything else the spec produced.
 

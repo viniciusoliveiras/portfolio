@@ -4,6 +4,29 @@ Resolves [Settle the favicon and where the résumé PDF is served from](https://
 
 Decided **2026-07-28**. Every browser-support claim below cites a bug tracker or a vendor release note with the date it was read; every contrast ratio and geometry number was **computed or rendered locally** (Chromium via Playwright, fontTools 4.62.1, Pillow) rather than inferred. The favicon in §1.5 is the shipping file, not a sketch.
 
+> **Corrected 2026-07-31 by [ADR-0006](../adr/0006-warm-editorial-direction.md).** Four
+> of the files this document inventories changed, so **§1, §1.5 and the `public/` table
+> below no longer describe what is on disk**. The *mechanisms* are all still correct and
+> still binding — read this document for those, not for the file contents.
+>
+> - **`favicon.svg` is no longer a `#B3261E` tile carrying a Source Serif 4 `V`, and no
+>   longer 332 bytes.** It is a `#141312` tile carrying the **monogram** — a roman `V`, an
+>   italic accent `O` and a period — drawn from real Instrument Serif outlines extracted
+>   from the shipped `woff2` files. 4,704 bytes. §1.6's rule survives and matters *more*:
+>   do not run it through an SVG optimiser, and do not let anything set `fill-rule`, because
+>   font outlines rely on nonzero winding and the `O`'s counter fills solid under `evenodd`.
+> - **`public/fonts/` holds four files, not two**, and neither original name survives:
+>   `instrument-roman.woff2`, `instrument-italic.woff2`, `hanken.woff2`, `mono-2.woff2`.
+>   §5's rename rule is exactly why `mono-2` carries a `-2` — the retired `mono.woff2` was a
+>   pinned static 500 and this one is a 400–500 range.
+> - **`og.png` is redrawn and dark.** Same 1200×630, same locale-neutral constraint, same
+>   one-off Chromium step.
+> - The contrast tables in §1 and §3 are for the retired red accent. The current values are
+>   in ADR-0006 §Colour, including **three findings accepted rather than fixed**.
+>
+> §2 (no `prefers-color-scheme` in the file), §3's *method*, §4 (the résumé PDF), §5 (the
+> one `vercel.json` entry and its rename rule) and §6 are unaffected.
+
 | # | Decision |
 | --- | --- |
 | 1 | **A full-bleed `#B3261E` tile carrying a Source Serif 4 `V`** in `#FAF9F7` — `wght 600`, `opsz 8`, exported as a path. 332 bytes. |

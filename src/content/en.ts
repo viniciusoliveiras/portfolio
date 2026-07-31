@@ -9,6 +9,11 @@ import type { Messages, Segment } from "./pt";
  * structure compiler-enforced parallel, so the only remaining freedom is wording:
  * omitting a key is TS2741, adding one Portuguese lacks is TS2353. A pt-BR recruiter
  * and an English-speaking engineering manager are being addressed differently.
+ *
+ * This module is also the one ADR-0006's design file was authored against, so every
+ * prose string below appears in it VERBATIM — the hero lede, the summary, all eleven
+ * experience bullets, both work paragraphs, the contact statement and the education
+ * lines. What the design added on top was chrome, not prose.
  */
 export const en = {
 	meta: {
@@ -19,6 +24,15 @@ export const en = {
 			"Tech Lead in Rio de Janeiro. I lead four developers across two products — a modular ERP monorepo and frontend architecture for a financial BPO platform.", // 152
 	},
 
+	chrome: {
+		// Not translated, and correct: the city's English and Portuguese names are the
+		// same, and `BR` is the ISO code in both. Written twice rather than shared across
+		// the locales because `chrome` is copy, and a locale-neutral home for it would
+		// mean `facts.ts` holding a phrase.
+		place: "Rio de Janeiro, BR",
+		builtWith: "Built with TanStack Start",
+	},
+
 	nav: {
 		openMenu: "Open menu",
 		menuLabel: "Navigation menu",
@@ -26,9 +40,18 @@ export const en = {
 		sections: {
 			summary: "Summary",
 			experience: "Experience",
-			// 13 characters — the widest rail label in either locale, measured at 106px
-			// against a 128px rail, leaving 22px of headroom.
+			// Written in full now. The 13-character short form was a constraint of the
+			// superseded 128px rail; ADR-0006's mark column is 260px.
 			work: "Selected work",
+			skills: "Skills",
+			education: "Education",
+			contact: "Contact",
+		},
+		// `Work` against the mark's `Selected work` is the divergence that justifies
+		// authoring these five separately — see the note on the pt module.
+		anchors: {
+			experience: "Experience",
+			work: "Work",
 			skills: "Skills",
 			education: "Education",
 			contact: "Contact",
@@ -36,10 +59,23 @@ export const en = {
 	},
 
 	hero: {
-		roleLine: "Tech Lead · Full-Stack Developer · Rio de Janeiro",
 		// `own` is deliberate — it is the résumé's own verb, and a stronger claim than
 		// "worked on".
 		lede: "I lead frontend architecture for a financial BPO platform and own a modular ERP monorepo running in production for enterprise clients.",
+		meta: {
+			role: {
+				label: "Role",
+				value: ["Tech Lead ·", "Full-Stack Developer"],
+			},
+			currently: {
+				label: "Currently",
+				value: ["Devex Soluções ·", "Inovasensor"],
+			},
+			since: {
+				label: "Since",
+				value: ["Aug 2021 —", "intern to lead"],
+			},
+		},
 		// (voice) — see the pt module.
 		actions: {
 			contact: { label: "Get in touch", href: "#contact" },
@@ -49,18 +85,25 @@ export const en = {
 
 	summary: {
 		lede: "I joined the group as an intern in August 2021 and now lead a team of four developers across two products, owning technical direction, code standards, and delivery planning. I work with React, TypeScript, Node.js, and Microsoft SQL Server, with experience in data modeling, containerization, and workflow automation.",
+		// MUST be a substring of `lede` — the component finds it and wraps it in accent
+		// italic, and silently renders the lede plain if it does not match. There is a
+		// test asserting the match for both locales, because a near-miss here degrades
+		// invisibly rather than failing.
+		emphasis: "four developers across two products",
 	},
 
 	experience: {
+		// Hyphens became em dashes and the roles-below opener is gone — see the pt
+		// module's notes on both.
 		groupNote: [
-			"The roles below are within one company group — Devex Soluções and Inovasensor — whose engineering teams operate jointly across products.",
+			"One company group — Devex Soluções & Inovasensor — whose engineering teams operate jointly across products.",
 		] as Segment[],
 
-		// Hyphens, not the en dashes the site copy writes — see the note on the pt
-		// module's `roles`.
+		now: "now",
+
 		roles: {
 			lead: {
-				period: "April 2026 - Present",
+				period: "Apr 2026 — Present",
 				title: "Tech Lead, Devex Soluções · Technical Lead, Inovasensor",
 				bullets: [
 					"I lead a team of four developers across two products, owning technical direction, code standards, and delivery planning.",
@@ -72,7 +115,7 @@ export const en = {
 				],
 			},
 			analyst: {
-				period: "January 2023 - April 2026",
+				period: "Jan 2023 — Apr 2026",
 				title: "Systems Analyst",
 				bullets: [
 					"I built and maintained ERP modules using React, TypeScript, and Node.js on Microsoft SQL Server.",
@@ -82,7 +125,7 @@ export const en = {
 				],
 			},
 			intern: {
-				period: "August 2021 - December 2022",
+				period: "Aug 2021 — Dec 2022",
 				title: "Intern",
 				bullets: [
 					"I supported the development team on front-end tasks and bug fixing, applying React within production codebases.",
@@ -91,13 +134,14 @@ export const en = {
 		},
 
 		minorRole: {
-			period: "March 2019 - April 2021",
+			period: "Mar 2019 — Apr 2021",
 			title: "Ancar Ivanhoe Shopping Centers — Youth Apprentice, Marketing",
 		},
 	},
 
 	work: {
 		erp: {
+			eyebrow: "In production",
 			title: "Modular ERP monorepo",
 			figureLabels: {
 				modules: "modules",
@@ -112,7 +156,14 @@ export const en = {
 		},
 		bpo: {
 			title: "Financial BPO platform",
-			lockup: { values: terms.bpoStack, label: "Chosen architecture" },
+			lockup: {
+				label: "Chosen architecture",
+				roles: {
+					framework: "framework",
+					serverState: "server state",
+					backend: "backend",
+				},
+			},
 			// The strongest sentence available to the site, and the reason is
 			// structural: it is a documented architectural decision with its rationale
 			// attached, which is precisely what a Tech Lead is assessed on.
@@ -120,6 +171,7 @@ export const en = {
 			// traceable, but pointing at it is a rhetorical decision.
 			prose:
 				"I define the platform's frontend architecture. I selected TanStack Start, with TanStack Query handling server state, caching, and loading and error states — over a client-state library, because the product is API-driven. I also contribute to the Node.js backend, inside a monorepo that houses the product's proprietary AI layer. This site runs on the same choice.",
+			sameStack: "This site runs on the same stack",
 		},
 	},
 
@@ -130,7 +182,7 @@ export const en = {
 			backend: { label: "Backend", values: terms.backend },
 			databases: { label: "Databases", values: terms.databases },
 			infrastructure: {
-				label: "Infrastructure",
+				label: "Infra",
 				values: ["Docker", "Git", "Monorepo architecture"],
 			},
 			automation: { label: "Automation", values: terms.automation },
@@ -149,12 +201,12 @@ export const en = {
 
 	education: {
 		degree: {
-			period: "2020 - 2022 · completed",
+			period: "2020 — 2022 · Completed",
 			title: "Technologist Degree in Systems Analysis and Development",
 			institution: "Centro Universitário UniCarioca — Rio de Janeiro, Brazil",
 		},
 		certifications: {
-			label: "Certifications",
+			label: "Certs",
 			values: terms.certifications,
 		},
 		languages: {
@@ -167,9 +219,12 @@ export const en = {
 	},
 
 	contact: {
-		// (voice) — see the note on the pt module. A counterpart, not a translation.
+		// (voice) — see the note on the pt module. A counterpart, not a translation, and
+		// carrying NO availability claim — nor does anything else on the page, now that
+		// the hero eyebrow is cut.
 		statement:
 			"I'm always glad to talk about frontend architecture and technical leadership. Email is the fastest route.",
+		emphasis: "Email is the fastest route.",
 		links: {
 			email: {
 				label: "Email",
