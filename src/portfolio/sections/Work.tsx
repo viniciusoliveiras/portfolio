@@ -60,7 +60,7 @@ export function Work({ copy }: { copy: Messages["work"] }) {
 						</p>
 						{/* `mt-auto` pins the stack line to the bottom of the panel regardless of
 						    how the prose wraps, so it aligns with the metric panel's last row. */}
-						<div className="mt-auto font-mono text-[12px] tracking-[0.04em] text-muted">
+						<div className="mt-auto font-mono text-caption text-muted">
 							{copy.erp.stack.join(" · ")}
 						</div>
 					</div>
@@ -110,7 +110,7 @@ export function Work({ copy }: { copy: Messages["work"] }) {
 						    the superseded rule that suppressed one of them — they sit in
 						    different columns here and read as a lockup with a caption rather
 						    than as the same list twice. */}
-						<div className="mt-auto font-mono text-[12px] tracking-[0.04em] text-muted">
+						<div className="mt-auto font-mono text-caption text-muted">
 							{Object.values(terms.bpoArchitecture).join(" · ")}
 						</div>
 					</div>
@@ -120,7 +120,7 @@ export function Work({ copy }: { copy: Messages["work"] }) {
 							<div
 								key={key}
 								className={[
-									"flex justify-between rounded-full border px-6 py-3.5 font-mono text-[13px]",
+									"flex justify-between rounded-full border px-6 py-3.5 font-mono text-chip",
 									chosen
 										? "border-accent text-accent"
 										: "border-rule text-muted",
@@ -130,7 +130,11 @@ export function Work({ copy }: { copy: Messages["work"] }) {
 								<span>{copy.bpo.lockup.roles[key]}</span>
 							</div>
 						))}
-						<div className="mt-2 font-mono text-mark tracking-[0.08em] text-muted uppercase">
+						{/* `text-mark` outright, where this used to override the token's tracking
+						    down to 0.08em. That value is outside the four the design uses, so it
+						    was the implementation artifact the mono collapse exists to remove —
+						    and half-overriding a token is the shape that hides the next one. */}
+						<div className="mt-2 font-mono text-mark text-muted uppercase">
 							<span aria-hidden="true">↳</span> {copy.bpo.sameStack}
 						</div>
 					</div>

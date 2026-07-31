@@ -57,7 +57,7 @@ export function Contact({
 						href={copy.links[key].href}
 						className={[
 							solid ? "pill-solid" : "pill",
-							"px-[22px] py-3 font-mono text-[12px] tracking-[0.06em] no-underline",
+							"px-[22px] py-3 font-mono text-pill no-underline",
 						].join(" ")}
 					>
 						{showValue ? copy.links[key].value : copy.links[key].label}{" "}

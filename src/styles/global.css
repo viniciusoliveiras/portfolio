@@ -90,24 +90,35 @@
 	--font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
 	--font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-	/* ---- mono: three tokens, collapsed from the design's five ------------- */
-	/* The source file carries five near-identical mono-label variants differing only
-	   by size (10/11px) and tracking (0.10/0.12/0.14/0.16em) across roughly thirty
-	   uses. That spread is an artifact of hand-written inline styles, not intent, so
-	   it collapses to three roles. The largest single shift is the footer and hero
-	   meta labels moving from 0.12em/0.16em to a shared 0.14em — 0.02em at 10px is
-	   0.2px per letter. */
+	/* ---- mono: SIX roles, and every one of them is declared here ---------- */
+	/* The design's five near-identical LABEL variants — differing only by size (10/11px)
+	   and tracking (0.10/0.12/0.14/0.16em) across roughly thirty uses — do collapse to
+	   three. That spread is an artifact of hand-written inline styles, not intent. The
+	   largest single shift is the footer and hero meta labels moving from 0.12em/0.16em
+	   to a shared 0.14em: 0.02em at 10px is 0.2px per letter.
+
+	   The other three are NOT labels and did not come from that spread. They are the two
+	   card stack lines, the architecture chips and the contact pills, at 12–13px. An
+	   earlier revision left all three as inline arbitrary values, which made the "three
+	   tokens" claim above true of the header and false of the page — the mono layer had
+	   six treatments, three of them invisible from here. Declaring them is what makes the
+	   collapse auditable: a seventh cannot now appear without appearing in this block.
+
+	   OPEN, for the design rather than for this file: `chip` and `pill` are the SAME
+	   device — mono inside a `rounded-full` border — at two hand-drifted values. Collapsing
+	   them would delete a role instead of naming one, but it repaints both, so it is a
+	   ruling and not a cleanup. */
 
 	/* Section marks (`01 /`), card eyebrows, metric labels, bar anchors, skills and
-	   education row labels. The workhorse: ~24 of the ~30 uses. */
+	   education row labels, the same-stack footnote. The workhorse: ~24 of the ~30 uses. */
 	--text-mark: 0.6875rem; /* 11 */
 	--text-mark--line-height: 1.4;
 	--text-mark--font-weight: 400;
 	--text-mark--letter-spacing: 0.14em;
 
-	/* Dates, the group note, the same-stack note. Sentence case, NOT caps — this is
-	   the one mono role carrying readable phrases rather than labels, which is why
-	   it keeps the tighter tracking. */
+	/* Dates and the group note. Sentence case, NOT caps — this is the one mono LABEL role
+	   carrying readable phrases rather than labels, which is why it keeps the tighter
+	   tracking. */
 	--text-meta: 0.6875rem; /* 11 */
 	--text-meta--line-height: 1.6;
 	--text-meta--font-weight: 400;
@@ -118,6 +129,26 @@
 	--text-micro--line-height: 1.4;
 	--text-micro--font-weight: 400;
 	--text-micro--letter-spacing: 0.14em;
+
+	/* The `·`-joined stack line at the foot of each work card. Sentence case and the
+	   loosest reading of the mono roles — an enumeration, not a label, which is why it
+	   takes the least tracking of the six. */
+	--text-caption: 0.75rem; /* 12 */
+	--text-caption--line-height: 1.5;
+	--text-caption--font-weight: 400;
+	--text-caption--letter-spacing: 0.04em;
+
+	/* The three architecture chips. Untracked: each holds two words on one baseline with
+	   space between them, and tracking a chip's contents fights that gap. */
+	--text-chip: 0.8125rem; /* 13 */
+	--text-chip--line-height: 1.4;
+	--text-chip--font-weight: 400;
+
+	/* The four contact links. Sized against the address it has to print in full. */
+	--text-pill: 0.75rem; /* 12 */
+	--text-pill--line-height: 1.4;
+	--text-pill--font-weight: 400;
+	--text-pill--letter-spacing: 0.06em;
 
 	/* ---- serif display: the named roles ---------------------------------- */
 	/* THE CRITERION IS A ROLE, NOT A CALL COUNT. Each of the four below names a
