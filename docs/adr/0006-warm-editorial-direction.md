@@ -94,9 +94,23 @@ Taken from Google's own `latin` unicode-range blocks, which are already subset �
 
 Written CSS-first into Tailwind v4's `@theme`, as before. **`@theme inline` remains forbidden** — the hazard ADR-0005 measured (values inline into utilities, the dark override silently stops working, no error) is unchanged.
 
-**Three mono tokens, collapsed from the design's five.** The file carries five near-identical mono-label variants across ~30 uses, differing only by size (10/11px) and tracking (0.10/0.12/0.14/0.16em). That spread is an artifact of hand-written inline styles rather than intent, so it became `mark` (11px/0.14em/caps), `meta` (11px/0.10em, sentence case) and `micro` (10px/0.14em/caps). Largest single shift: the footer and hero meta labels move to a shared 0.14em — 0.02em at 10px is 0.2px per letter.
+**Three mono LABEL tokens, collapsed from the design's five.** The file carries five near-identical mono-label variants across ~30 uses, differing only by size (10/11px) and tracking (0.10/0.12/0.14/0.16em). That spread is an artifact of hand-written inline styles rather than intent, so it became `mark` (11px/0.14em/caps), `meta` (11px/0.10em, sentence case) and `micro` (10px/0.14em/caps). Largest single shift: the footer and hero meta labels move to a shared 0.14em — 0.02em at 10px is 0.2px per letter.
 
-**Four serif display tokens, for the four sizes that repeat** (`figure`, `entry`, `decade`, `role`). One-off display sizes — the hero, the Summary lede, the Contact statement, the education title, the monogram — stay as arbitrary values at their single call site, because tokenising a size with one caller hides the number from whoever is reading the component.
+**Three more mono tokens that are not labels, for six in total** (`caption` 12px/0.04em, the work cards' `·`-joined stack line; `chip` 13px, the architecture chips; `pill` 12px/0.06em, the contact links). These never belonged to the 10/11px label spread above and are not the collapse failing.
+
+> Corrected in review, before merge. The first implementation shipped these three as inline arbitrary values, which made "three mono tokens" true of this document and false of the page: the mono layer had six treatments, three of them invisible from the `@theme` block, and a seventh could have appeared with nothing to notice it. One value moved in the course of naming them — the same-stack footnote reached for `mark` and then overrode its tracking to 0.08em, a value outside the four the design uses, and now takes `mark` whole.
+>
+> **Left open for the design:** `chip` and `pill` are the same device — mono inside a `rounded-full` border — at two hand-drifted values. Collapsing them would delete a role rather than name one, but it repaints both, so it is a ruling and not a cleanup.
+
+**Four serif display tokens** (`figure`, `entry`, `decade`, `role`). One-off display sizes — the hero, the Summary lede, the Contact statement, the education title, the monogram — stay as arbitrary values at their single call site, because tokenising a size with one caller hides the number from whoever is reading the component.
+
+> Also corrected in review. This was originally justified as "the four sizes that repeat", which was never true of `figure` or `role` — each has exactly one caller — and following that criterion would have argued for deleting them. **The criterion is a ROLE, not a call count:** `text-figure` says what the number is for, where `text-[clamp(3rem,5vw,4.5rem)]` says only how big it is. The genuine one-offs above are single typographic gestures with no role to name, and the rule holds for them.
+>
+> What did repeat and was left as copy-pasted literals: the mark column (260px, drawn by `Section` and independently by every Experience row), the label column (130px, lining Skills up with Education across two sections that share no grid), and the wordmark size (21px, the bar's monogram and the sheet's name). All three are bound now — as the `mark-grid` and `label-row` utilities and `--text-wordmark` — because each holds an alignment no single call site can see. That is the same failure mode `page` exists to prevent.
+
+**One layout token, `--spacing-bar`.** The bar's height, from which the sheet's header row, the sections' `scroll-margin-top` and Skills' sticky mark are all derived. It is **nominal at 54px against a measured 50.39** — the bar composes its height from `py-[14px]` on a baseline-aligned row, so the real figure is a function of two fonts' vertical metrics and would move under a face change for no design reason. What the three consumers need is to *clear* the bar; a browser test asserts the headroom is positive and small in both directions.
+
+> Found in review, and worth stating because the first implementation had those three as independent literals — 54, 72 and 90 — in three files, each carrying a comment that explained a relationship the code refused to state. Writing the guard is what revealed that 54 was never the bar's height, and that the sheet's header had been ~3.6px taller than the bar it exists to match.
 
 This is the "hybrid" of three options put to the author: tokenise the roles, keep the one-off clamps.
 
