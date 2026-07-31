@@ -1,6 +1,10 @@
 import type { Messages } from "~/content/pt";
 
-// The résumé's seven groupings plus Learning. Order fixed here; keyed in the content.
+/**
+ * The eight rows, in the résumé's order. Keyed rather than mapped over
+ * `Object.entries`, so the display order is written down rather than inherited from
+ * object insertion order in a content module.
+ */
 const ROWS = [
 	"languages",
 	"frontend",
@@ -13,39 +17,43 @@ const ROWS = [
 ] as const;
 
 /**
- * A DEFINITION LIST — mono label in a 10.5rem column, serif values — collapsing to
- * stacked label-over-values below 40rem. The aligned label column is the idiom the
- * figure labels and date lines already use.
+ * A two-column list of label/value rows, wrapping into two columns of four at `wide`.
  *
- * On the brief's ambiguity: its typography section lists "the skills groups" among the
- * mono items. That is read here as the LABELS, not the values. The alternative reading
- * turns this section into a dense grey block in the middle of a serif page.
+ * `gap-x-12` with NO row gap is deliberate: the rows are separated by their own bottom
+ * hairline, and adding row spacing on top would double the gap and detach each rule
+ * from the row it belongs to.
  *
- * Clustering the eight rows into three chunks was built and rejected: the
- * super-grouping is an editorial reading of how the skills relate rather than the
- * résumé's own, and structure is a claim too. Recorded as available if the grouping
- * ever turns out to be how the author actually thinks about it.
- *
- * `Aprendendo` / `Learning` carries Go alone. It appears in NO experience bullet — all
- * four roles are React, TypeScript, Node.js, MSSQL, Docker and n8n — so listing it
- * beside three languages he demonstrably ships would create a false equivalence, and
- * the downside is asymmetric. This makes the site diverge from the résumé's grouping;
- * the résumé is the weaker document here and should follow the site.
+ * Values join with `, ` rather than the ` · ` used in Education and the card stack
+ * lines. That looks inconsistent and is the design's own distinction: these are lists
+ * of things you would say in a sentence, where the other two are enumerations of
+ * discrete items.
  */
 export function Skills({ copy }: { copy: Messages["skills"] }) {
 	return (
-		<dl className="space-y-5">
-			{ROWS.map((key) => {
-				const row = copy.rows[key];
-				return (
-					<div key={key} className="sm:flex sm:gap-6">
-						<dt className="font-mono text-label text-muted uppercase sm:w-42 sm:shrink-0 sm:pt-2">
-							{row.label}
-						</dt>
-						<dd className="mt-1 text-body sm:mt-0">{row.values.join(", ")}</dd>
-					</div>
-				);
-			})}
-		</dl>
+		<div className="grid gap-x-12 wide:grid-cols-2">
+			{ROWS.map((key) => (
+				<div
+					key={key}
+					className="grid grid-cols-[130px_1fr] gap-5 border-b border-rule py-[18px]"
+				>
+					<span className="pt-[3px] font-mono text-mark text-muted uppercase">
+						{copy.rows[key].label}
+					</span>
+					{/* `learning` is the one row set in accent serif italic. It is the only
+					    forward-looking entry in a list of things already shipped, and the
+					    design marks that difference typographically rather than with a label
+					    like "in progress". */}
+					<span
+						className={
+							key === "learning"
+								? "font-serif text-[16px] italic text-accent"
+								: "text-value"
+						}
+					>
+						{copy.rows[key].values.join(", ")}
+					</span>
+				</div>
+			))}
+		</div>
 	);
 }

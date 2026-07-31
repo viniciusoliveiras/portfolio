@@ -21,9 +21,10 @@ export const Route = createRootRoute({
 			// `charSet` and `viewport` are the two highest-consequence lines in this
 			// file. NEXT INJECTED BOTH AUTOMATICALLY AND TANSTACK START DOES NOT. Lose
 			// the viewport and every Tailwind breakpoint resolves against a ~980px
-			// virtual viewport: phones get the desktop layout, the `md` sheet never
-			// appears, and the `lg` marginalia rail renders on a 390px screen — a
-			// failure that is completely invisible in a desktop dev loop.
+			// virtual viewport: phones get the desktop layout, the sheet never appears,
+			// and every `wide:` grid — the hero's four columns, the work cards' split,
+			// the two-column skills list — renders on a 390px screen. A failure that is
+			// completely invisible in a desktop dev loop.
 			{ charSet: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
 			// Locale-invariant only. Everything that varies lives on the locale routes.
@@ -37,18 +38,43 @@ export const Route = createRootRoute({
 		],
 		links: [
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+			// FOUR preloads under ADR-0006, not two, and all four are genuinely needed
+			// above the fold at a desktop first paint: the two Instrument Serif statics
+			// split the `<h1>` and the monogram between them, Hanken sets the hero lede
+			// and the meta grid, and the mono sets the eyebrow and the bar. 99.2 KB
+			// shipped, 99.2 KB preloaded — there is nothing loaded lazily to distinguish.
+			//
 			// `crossOrigin` is required on font preloads EVEN SAME-ORIGIN; omitting it
 			// makes the browser fetch each file twice.
+			//
+			// These filenames are load-bearing and must match `global.css`'s `@font-face`
+			// blocks exactly. `/fonts/(.*)` is the ONE path `vercel.json` caches
+			// `immutable` for a year, so a font that changes must change its name in both
+			// places together — `mono-2.woff2` is already the second generation.
 			{
 				rel: "preload",
-				href: "/fonts/roman.woff2",
+				href: "/fonts/instrument-roman.woff2",
 				as: "font",
 				type: "font/woff2",
 				crossOrigin: "anonymous",
 			},
 			{
 				rel: "preload",
-				href: "/fonts/mono.woff2",
+				href: "/fonts/instrument-italic.woff2",
+				as: "font",
+				type: "font/woff2",
+				crossOrigin: "anonymous",
+			},
+			{
+				rel: "preload",
+				href: "/fonts/hanken.woff2",
+				as: "font",
+				type: "font/woff2",
+				crossOrigin: "anonymous",
+			},
+			{
+				rel: "preload",
+				href: "/fonts/mono-2.woff2",
 				as: "font",
 				type: "font/woff2",
 				crossOrigin: "anonymous",
@@ -86,12 +112,12 @@ function RootDocument({ children }: { children: ReactNode }) {
 				    colour scheme. The values are the two `paper` tokens. */}
 				<meta
 					name="theme-color"
-					content="#FAF9F7"
+					content="#F2EDE4"
 					media="(prefers-color-scheme: light)"
 				/>
 				<meta
 					name="theme-color"
-					content="#1A1918"
+					content="#141312"
 					media="(prefers-color-scheme: dark)"
 				/>
 				<HeadContent />

@@ -106,12 +106,15 @@ export function Sheet({
 				aria-label={nav.menuLabel}
 				className="inset-0 h-dvh max-h-none w-full max-w-none flex-col overscroll-contain bg-paper text-ink opacity-0 backdrop:bg-transparent transition-[opacity,display,overlay] transition-discrete duration-200 open:flex open:opacity-100 starting:open:opacity-0 motion-reduce:duration-0"
 			>
-				{/* The sheet's own header row. `rule-strong` keeps its job on this edge:
-				    it bounds an interactive surface, so it needs 3:1. Matching the bar's
-				    56px height is what stops the menu button and the close button
-				    appearing to jump. */}
-				<div className="flex h-14 shrink-0 items-center justify-between border-b border-rule-strong px-4">
-					<span className="text-body-sm text-ink optical-16">
+				{/* The sheet's own header row. `rule` rather than the retired `rule-strong`
+				    — ADR-0006 collapses the two into one line value; see the note in
+				    `Bar.tsx`. Matching the bar's height is what stops the menu button and
+				    the close button appearing to jump, and the bar is now 54px, so this is
+				    `h-[54px]` rather than the old `h-14`. */}
+				<div className="flex h-[54px] shrink-0 items-center justify-between border-b border-rule px-4">
+					{/* The monogram's full name, spelled out: the sheet has the width the bar
+					    does not, and this is the one place the reader sees the name whole. */}
+					<span className="font-serif text-[21px] leading-none">
 						{AUTHOR_NAME}
 					</span>
 					<button
@@ -146,7 +149,7 @@ export function Sheet({
 							key={key}
 							href={`#${key}`}
 							onClick={close}
-							className="font-mono text-label text-muted uppercase hover:text-ink"
+							className="font-mono text-mark text-muted uppercase no-underline hover:text-accent"
 						>
 							{nav.sections[key]}
 						</a>

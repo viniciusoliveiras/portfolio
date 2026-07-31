@@ -1,37 +1,84 @@
+import { AUTHOR_NAME } from "~/config";
+import { facts } from "~/content/facts";
 import type { Messages } from "~/content/pt";
-
-const LINKS = ["email", "linkedin", "github", "resume"] as const;
+import { Emphasise } from "../Emphasise";
 
 /**
- * A closing statement PLUS the labelled link list, not a bare list: this section is
- * the page's last word, and four naked links would end the document mid-sentence.
+ * The four links, in the design's order, with the email carrying the filled pill.
  *
- * No form — a form needs a backend, which the fully static outcome precludes, and
- * links are what this audience uses anyway. No Instagram, cut as off-message. The
- * résumé's phone number is not published in the HTML; it stays on the PDF.
+ * `showValue` is why this is a table rather than a map over `copy.links`: the email pill
+ * prints its VALUE (`vinitag190@gmail.com`) while the other three print their LABEL
+ * (`LinkedIn`, not `github.com/viniciusoliveiras`). The email address is the call to
+ * action, so it is shown in full; the others would only add URL noise.
  */
-export function Contact({ copy }: { copy: Messages["contact"] }) {
-	return (
-		<div>
-			<p className="text-lede">{copy.statement}</p>
+const LINKS = [
+	["email", true, true],
+	["linkedin", false, false],
+	["github", false, false],
+	["resume", false, false],
+] as const;
 
-			<dl className="mt-8 space-y-4">
-				{LINKS.map((key) => {
-					const link = copy.links[key];
-					return (
-						<div key={key} className="sm:flex sm:gap-6">
-							<dt className="font-mono text-label text-muted uppercase sm:w-26 sm:shrink-0 sm:pt-2">
-								{link.label}
-							</dt>
-							<dd className="mt-1 sm:mt-0">
-								<a href={link.href} className="text-body accent-link">
-									{link.value}
-								</a>
-							</dd>
-						</div>
-					);
-				})}
-			</dl>
+/**
+ * The closing section, and the page's footer, which lives INSIDE it.
+ *
+ * The footer is not a separate landmark on purpose: it is three mono lines under a
+ * hairline, carrying no navigation and no content the page has not already stated. A
+ * `<footer>` element would announce a landmark to a screen reader and then deliver a
+ * copyright line, which is worse than leaving it as the tail of the contact section.
+ *
+ * The bottom padding lives here rather than in `Section`, because it is the last section
+ * on the page and no other section needs it — putting it in the wrapper would mean a
+ * prop used once.
+ *
+ * NOTE ON THE AVAILABILITY CLAIM: this statement deliberately makes none. The design's
+ * reintroduced claim sits in the hero eyebrow as `chrome.availability`. Both saying it
+ * here and there would make the page claim it twice at two different weights, and the
+ * closing sentence of a portfolio reads as a standing position rather than a status.
+ */
+export function Contact({
+	copy,
+	chrome,
+}: {
+	copy: Messages["contact"];
+	chrome: Messages["chrome"];
+}) {
+	return (
+		<div className="pb-[clamp(72px,10vw,96px)]">
+			<p className="max-w-[780px] font-serif text-[clamp(26px,3vw,38px)] leading-[1.35] text-pretty">
+				<Emphasise text={copy.statement} emphasis={copy.emphasis} />
+			</p>
+
+			<div className="mt-10 flex flex-wrap gap-3">
+				{LINKS.map(([key, solid, showValue]) => (
+					<a
+						key={key}
+						href={copy.links[key].href}
+						className={[
+							solid ? "pill-solid" : "pill",
+							"px-[22px] py-3 font-mono text-[12px] tracking-[0.06em] no-underline",
+						].join(" ")}
+					>
+						{showValue ? copy.links[key].value : copy.links[key].label}{" "}
+						{/* Decorative: the link's destination is already in its href and its
+						    text, and a screen reader announcing "north east arrow" four times
+						    adds nothing. */}
+						<span aria-hidden="true">↗</span>
+					</a>
+				))}
+			</div>
+
+			<div className="mt-[88px] flex flex-wrap justify-between gap-x-5 gap-y-2 border-t border-rule pt-5 font-mono text-micro text-muted uppercase">
+				{/* `facts.year` again, so the hero eyebrow and this line cannot disagree about
+				    what year it is. */}
+				<span>
+					© {facts.year} {AUTHOR_NAME}
+				</span>
+				<span>{chrome.builtWith}</span>
+				{/* The same `place` string the hero eyebrow prints, deliberately shared rather
+				    than written twice — two strings that agree today are a defect nobody
+				    notices for a year. */}
+				<span>{chrome.place}</span>
+			</div>
 		</div>
 	);
 }

@@ -1,40 +1,47 @@
 import type { Messages } from "~/content/pt";
 
 /**
- * LIGHTER THAN EXPERIENCE: three items, no rules between them, 1.75rem apart. It is
- * the lowest-value section on the page and its treatment should say so.
+ * One degree and two label/value rows.
  *
- * `(concluído)` / `(completed)` is explicit on purpose — the current site says
- * "Janeiro 2020 até a data atual", which is false. The résumé's 2020–2022 has no open
- * end, and the degree is finished.
+ * The period takes ACCENT here, where every other date on the page is `muted`. That is
+ * the design's doing and it is defensible: this is the only date on the page attached
+ * to a completed credential rather than to a span of employment, and `· Completed` is
+ * the claim the section exists to make.
+ *
+ * The two rows reuse the 130px label column from Skills, so the label edges line up
+ * down the page across two sections that are not in the same grid.
  */
 export function Education({ copy }: { copy: Messages["education"] }) {
 	return (
-		<div className="space-y-7">
+		<div className="flex flex-col gap-7">
 			<div>
-				<p className="font-mono text-label text-muted uppercase">
+				{/* Uppercased here, not in the copy — same reason as the experience periods:
+				    a screen reader should be handed sentence case. */}
+				<div className="font-mono text-meta text-accent uppercase">
 					{copy.degree.period}
-				</p>
-				<h3 className="mt-3 text-body font-semibold">{copy.degree.title}</h3>
-				<p className="mt-1 text-body-sm text-muted optical-16">
-					{copy.degree.institution}
-				</p>
+				</div>
+				<h3 className="mt-2.5 mb-1.5 font-serif text-[28px] leading-[1.2]">
+					{copy.degree.title}
+				</h3>
+				<div className="text-body text-muted">{copy.degree.institution}</div>
 			</div>
 
-			<div>
-				<p className="font-mono text-label text-muted uppercase">
+			<div className="grid grid-cols-[130px_1fr] gap-5 border-t border-rule pt-5">
+				<span className="font-mono text-mark text-muted uppercase">
 					{copy.certifications.label}
-				</p>
-				<p className="mt-3 text-body">
+				</span>
+				<span className="text-body text-muted">
 					{copy.certifications.values.join(" · ")}
-				</p>
+				</span>
 			</div>
 
-			<div>
-				<p className="font-mono text-label text-muted uppercase">
+			<div className="grid grid-cols-[130px_1fr] gap-5">
+				<span className="font-mono text-mark text-muted uppercase">
 					{copy.languages.label}
-				</p>
-				<p className="mt-3 text-body">{copy.languages.values.join(" · ")}</p>
+				</span>
+				<span className="text-body text-muted">
+					{copy.languages.values.join(" · ")}
+				</span>
 			</div>
 		</div>
 	);
