@@ -231,13 +231,24 @@ Section anchors were considered and rejected: `/about` has no clean counterpart,
 > - **The `viniciusoliveiras.vercel.app` subdomain returns to Vercel's namespace**, where
 >   another account can claim it.
 >
-> **Status at time of writing:** 18 done. 19 done for the domain, declined for the
-> vercel.app hosts. 20 and 21 done in one commit, with 23 verified against the local
-> prerender — canonical, three alternates, `x-default`, `og:url` and both `twitter` URLs
-> all name `https://www.viniciusoliveiras.com`, and no `*.vercel.app` string survives in
-> any of the three emitted pages. 22 done. **The production redeploy and the live re-run
-> of 23 are the author's, not this session's** — the push to `main` was deliberately left
-> to him.
+> **Phase 4 is complete. Every step 18–23 done, and 23 verified against production**, not
+> only the local prerender. 19 is done for the domain and declined for the vercel.app
+> hosts. Measured on `www.viniciusoliveiras.com` immediately after the deploy:
+>
+> | Checked | Result |
+> | --- | --- |
+> | `canonical` on `/pt` and `/en`, three `hreflang`, `x-default`, `og:url`, `og:image`, `twitter:image`, JSON-LD `url` | all name `https://www.viniciusoliveiras.com` |
+> | any `vercel.app` string in the served HTML | **zero**, on all three pages |
+> | `/` | 307 → `/pt` (locale detected per-request) |
+> | `/home`, `/about`, `/projects`, `/resume` | 308 → `/`, all four |
+> | a cold unknown URL | 404; `/404` itself 200 with `<meta name="robots" content="noindex">` |
+> | apex `viniciusoliveiras.com` | 308 → `www` |
+> | `/resume-en.pdf` | 200, **byte-identical to `public/resume-en.pdf`** at 42 171 bytes, and its contact line reads `viniciusoliveiras.com` |
+> | `/og.png`, `/robots.txt` | 200 |
+> | `/fonts/*.woff2` | 200, `cache-control: public, max-age=31536000, immutable` |
+>
+> **This closes the cutover.** The document's remaining forward references are all to the
+> reversal above, not to unfinished work.
 
 **Not performed at any point:** `git filter-repo`.
 
