@@ -11,9 +11,17 @@ import { expect, test } from "@playwright/test";
 const PHONE = { width: 390, height: 844 };
 const DESKTOP = { width: 1280, height: 900 };
 
-// The two `paper`/`ink` pairs, as the browser resolves them.
-const DARK = { paper: "rgb(26, 25, 24)", ink: "rgb(232, 230, 225)" };
-const LIGHT = { paper: "rgb(250, 249, 247)", ink: "rgb(26, 26, 26)" };
+// The two `paper`/`ink` pairs, as the browser resolves them. ADR-0006's values.
+const DARK = { paper: "rgb(20, 19, 18)", ink: "rgb(232, 228, 222)" };
+const LIGHT = { paper: "rgb(242, 237, 228)", ink: "rgb(28, 25, 23)" };
+
+/**
+ * ONE accent, in BOTH modes — `#2FA35C`, verde vibrante. The superseded direction held
+ * that an accent is only ever valid against its own mode's paper and shipped a different
+ * value per mode; ADR-0006 ships one. That the SAME string is expected under both colour
+ * schemes below is the assertion, not a copy-paste.
+ */
+const ACCENT = "rgb(47, 163, 92)";
 
 test.describe("the sheet", () => {
 	/**
@@ -159,23 +167,27 @@ test.describe("the palette follows the system theme", () => {
 		});
 		expect(resolved).toEqual(DARK);
 
-		// And the one coloured surface stays legible: the dark accent, not the light one.
-		const link = page.locator("#contact a").first();
-		expect(await link.evaluate((el) => getComputedStyle(el).color)).toBe(
-			"rgb(240, 115, 106)",
-		);
-
-		// The underline too. `accent-link` sets its decoration colour with a
-		// `color-mix()` over the accent token, and Lightning CSS emits a STATICALLY
-		// RESOLVED light-mode literal ahead of it as a fallback for engines without
-		// `color-mix()`. The later rule must be the one that wins, or the underline
-		// keeps its light value on dark paper — the same failure shape as `@theme
-		// inline`, one property down.
-		const decoration = await link.evaluate(
-			(el) => getComputedStyle(el).textDecorationColor,
-		);
-		expect(decoration).not.toContain("179");
-		expect(decoration).toMatch(/240|oklab|color-mix/);
+		/**
+		 * The accent, read off the Summary lede's emphasis run — which is the page's
+		 * most stable accent surface: an `<em>` inside a section with an id, present in
+		 * both locales, and not a link whose colour a pill utility might override.
+		 *
+		 * The contact links are NOT usable for this any more: they are pills now, and the
+		 * first of them is the filled `pill-solid` (ink ground, paper text), so reading
+		 * `#contact a` would assert against ink and pass for the wrong reason.
+		 *
+		 * The superseded `accent-link` `color-mix()` assertion is gone with it. It guarded
+		 * a real hazard — Lightning CSS emits a statically resolved light-mode literal
+		 * ahead of the `color-mix()` as a fallback, and the later rule has to win — but
+		 * the hazard needed an accent that CHANGES between modes to be observable, and
+		 * ADR-0006's accent does not. `accent-link` also now has no caller on the page.
+		 */
+		expect(
+			await page
+				.locator("#summary em")
+				.first()
+				.evaluate((el) => getComputedStyle(el).color),
+		).toBe(ACCENT);
 
 		await context.close();
 	});
@@ -193,19 +205,21 @@ test.describe("the palette follows the system theme", () => {
 		});
 		expect(resolved).toEqual(LIGHT);
 
-		// `#B3261E` — crossing an accent with the other mode's paper fails contrast.
+		// THE SAME `ACCENT` as the dark test above, and that is the point: one value
+		// serves both modes under ADR-0006. If someone reintroduces a per-mode accent,
+		// one of these two assertions fails.
 		const accent = await page
-			.locator("#contact a")
+			.locator("#summary em")
 			.first()
 			.evaluate((el) => getComputedStyle(el).color);
-		expect(accent).toBe("rgb(179, 38, 30)");
+		expect(accent).toBe(ACCENT);
 
 		await context.close();
 	});
 });
 
 test.describe("the network", () => {
-	test("makes zero third-party requests, and loads both font files", async ({
+	test("makes zero third-party requests, and loads all four font files", async ({
 		page,
 	}) => {
 		const requested: string[] = [];
@@ -241,10 +255,22 @@ test.describe("the network", () => {
 		});
 		expect(foreign, `third-party requests: ${foreign.join(", ")}`).toEqual([]);
 
-		// Self-hosting the fonts is what buys the zero-third-party property, so the two
-		// files must actually be fetched rather than silently falling back to a system
-		// serif.
-		for (const face of ["roman", "mono"]) {
+		/**
+		 * SELF-HOSTING IS WHAT BUYS THE ASSERTION ABOVE. ADR-0006 adds a third family and
+		 * a fourth file, and taking them from the Google CDN instead would have meant
+		 * DELETING the zero-third-party test rather than editing it — which is the clearest
+		 * statement of what that choice cost.
+		 *
+		 * All four must actually be fetched rather than silently falling back to a system
+		 * face. `mono-2` rather than `mono`: `/fonts/(.*)` is cached `immutable` for a
+		 * year, so the new 400-500 range had to take a new filename.
+		 */
+		for (const face of [
+			"instrument-roman",
+			"instrument-italic",
+			"hanken",
+			"mono-2",
+		]) {
 			expect(
 				requested.some((u) => u.includes(`/fonts/${face}.woff2`)),
 				`${face}.woff2 was never requested`,
@@ -252,65 +278,209 @@ test.describe("the network", () => {
 		}
 	});
 
-	test("both faces actually load, and the serif is the one in use", async ({
+	/**
+	 * THIS TEST'S PREMISE INVERTED UNDER ADR-0006. It used to assert that the SERIF was
+	 * the body face — that was the superseded direction, where Source Serif 4 set the
+	 * prose and no sans existed at all. Now the sans sets the prose and the serif is
+	 * DISPLAY ONLY, so asserting a serif body would enforce the opposite of the design.
+	 *
+	 * The italic is checked explicitly because it is the face most likely to go missing
+	 * without looking broken: if it never loads, the browser mechanically slants the
+	 * roman, and a synthesised oblique of a display serif reads as a slightly-off design
+	 * choice rather than as a failure.
+	 */
+	test("all three families load, the sans sets the body and the serif sets the hero", async ({
 		page,
 	}) => {
 		await page.goto("/pt", { waitUntil: "networkidle" });
 
 		const loaded = await page.evaluate(async () => {
 			await document.fonts.ready;
+			const h1 = document.querySelector("h1");
 			return {
-				serif: document.fonts.check('400 18px "Source Serif 4"'),
-				mono: document.fonts.check('500 12px "JetBrains Mono"'),
+				serif: document.fonts.check('400 72px "Instrument Serif"'),
+				italic: document.fonts.check('italic 400 72px "Instrument Serif"'),
+				sans: document.fonts.check('300 15px "Hanken Grotesk"'),
+				mono: document.fonts.check('400 11px "JetBrains Mono"'),
 				bodyFamily: getComputedStyle(document.body).fontFamily,
+				bodyWeight: getComputedStyle(document.body).fontWeight,
+				heroFamily: h1 ? getComputedStyle(h1).fontFamily : "",
 			};
 		});
 
 		expect(loaded.serif).toBe(true);
+		expect(loaded.italic).toBe(true);
+		expect(loaded.sans).toBe(true);
 		expect(loaded.mono).toBe(true);
-		expect(loaded.bodyFamily).toContain("Source Serif 4");
+
+		expect(loaded.bodyFamily).toContain("Hanken Grotesk");
+		expect(loaded.bodyFamily).not.toContain("Instrument Serif");
+		// 300 is the page's default weight, set on `html` — not a browser default.
+		expect(loaded.bodyWeight).toBe("300");
+		expect(loaded.heroFamily).toContain("Instrument Serif");
 	});
 });
 
-test.describe("the rail", () => {
-	// The distinctiveness of the whole design is this device, and it is CSS only —
-	// `position: sticky` scoped to the section as containing block, no scroll-spy and no
-	// IntersectionObserver. Asserting it travels and is released is asserting behaviour,
-	// not structure.
-	test("travels with its section and is released at the section's end", async ({
+test.describe("the grain", () => {
+	/**
+	 * THE HIGHEST-CONSEQUENCE STYLE RULE ON THE SITE. The grain overlay is
+	 * `position: fixed; inset: 0` at `z-index: 50`, which is ABOVE the bar's 40 — so it
+	 * covers every interactive element on the page. It is survivable only because of
+	 * `pointer-events: none`.
+	 *
+	 * Lose that one declaration and the page looks completely correct and nothing is
+	 * clickable: no anchor, no pill, no locale switch, no menu button. There is no visual
+	 * symptom to notice in a dev loop, which is exactly why this is asserted in a browser
+	 * rather than trusted to review.
+	 */
+	test("covers the viewport without swallowing clicks", async ({ page }) => {
+		await page.setViewportSize(DESKTOP);
+		await page.goto("/pt");
+
+		const grain = page.locator("div.grain");
+		await expect(grain).toHaveCount(1);
+
+		const style = await grain.evaluate((el) => {
+			const s = getComputedStyle(el);
+			return {
+				pointerEvents: s.pointerEvents,
+				position: s.position,
+				zIndex: s.zIndex,
+			};
+		});
+		expect(style.pointerEvents).toBe("none");
+		expect(style.position).toBe("fixed");
+
+		// The behavioural half: what the browser says is actually at the centre of the
+		// viewport must never be the overlay.
+		const atCentre = await page.evaluate(() => {
+			const el = document.elementFromPoint(
+				window.innerWidth / 2,
+				window.innerHeight / 2,
+			);
+			return el?.className ?? "";
+		});
+		expect(String(atCentre)).not.toContain("grain");
+
+		// And a real click must reach a real anchor. `header > div > nav` is the BAR's nav
+		// specifically: the sheet's nav also ships in the HTML with the same hrefs (hidden
+		// by the breakpoint), so a bare `header nav a[href=…]` matches two elements and
+		// trips strict mode.
+		await page.locator('header > div > nav a[href="#skills"]').click();
+		await page.waitForTimeout(400);
+		expect(page.url()).toContain("#skills");
+	});
+});
+
+/**
+ * REPLACES "the rail". The superseded direction's distinctive device was per-section
+ * sticky marginalia — a label scoped to its section as containing block, travelling with
+ * it and released at its end, on all six sections. ADR-0006 retires that: the mark is a
+ * NUMBERED INDEX ENTRY (`01 / Resumo`) in a 260px column, static on five sections and
+ * sticky on exactly one.
+ *
+ * These tests assert the new arrangement rather than a weakened version of the old one,
+ * because "sticky on one of six" is the kind of asymmetry that gets silently normalised
+ * to none or to all.
+ */
+test.describe("the section mark", () => {
+	test("is sticky on Skills alone, and static on the other five", async ({
 		page,
 	}) => {
 		await page.setViewportSize(DESKTOP);
 		await page.goto("/pt");
 
-		const label = page.locator("#experience p").first();
-		await expect(label).toHaveText("Experiência");
+		const skills = await page
+			.locator("#skills p")
+			.first()
+			.evaluate((el) => {
+				const s = getComputedStyle(el);
+				return { position: s.position, top: s.top };
+			});
+		expect(skills.position).toBe("sticky");
+		expect(skills.top).toBe("90px");
 
-		await page.locator("#experience").scrollIntoViewIfNeeded();
-		await page.waitForTimeout(100);
-		const travelling = await label.evaluate((el) =>
-			Math.round(el.getBoundingClientRect().top),
-		);
-
-		// Sticky at the bar height plus 1.75rem = 84px.
-		expect(travelling).toBe(84);
-
-		// Scrolling past the section releases the label upward rather than pinning it.
-		await page.locator("#skills").scrollIntoViewIfNeeded();
-		await page.waitForTimeout(100);
-		const released = await label.evaluate((el) =>
-			Math.round(el.getBoundingClientRect().top),
-		);
-		expect(released).toBeLessThan(84);
+		for (const id of [
+			"summary",
+			"experience",
+			"work",
+			"education",
+			"contact",
+		]) {
+			const position = await page
+				.locator(`#${id} p`)
+				.first()
+				.evaluate((el) => getComputedStyle(el).position);
+			expect(position, `#${id}'s mark should not be sticky`).toBe("static");
+		}
 	});
 
-	test("is not navigation — no rail label is a link", async ({ page }) => {
+	test("Skills holds its mark as the section scrolls past the bar", async ({
+		page,
+	}) => {
 		await page.setViewportSize(DESKTOP);
 		await page.goto("/pt");
-		for (const id of ["summary", "experience", "work", "skills", "contact"]) {
-			await expect(
-				page.locator(`#${id} > div > div:first-child a`),
-			).toHaveCount(0);
+
+		const mark = page.locator("#skills p").first();
+		await expect(mark).toHaveText(/Competências/);
+
+		// Scroll until the section's own top has gone above the sticky threshold, which is
+		// the only state in which `sticky` is observable at all.
+		await page.evaluate(() => {
+			const el = document.querySelector("#skills");
+			if (el)
+				window.scrollTo({
+					top: window.scrollY + el.getBoundingClientRect().top + 200,
+					behavior: "instant",
+				});
+		});
+		await page.waitForTimeout(150);
+
+		const top = await mark.evaluate((el) =>
+			Math.round(el.getBoundingClientRect().top),
+		);
+		expect(top).toBe(90);
+	});
+
+	test("is not navigation — no mark is a link", async ({ page }) => {
+		await page.setViewportSize(DESKTOP);
+		await page.goto("/pt");
+		for (const id of [
+			"summary",
+			"experience",
+			"work",
+			"skills",
+			"education",
+			"contact",
+		]) {
+			await expect(page.locator(`#${id} p`).first().locator("a")).toHaveCount(
+				0,
+			);
+		}
+	});
+
+	test("carries its number in accent, and all six are present in order", async ({
+		page,
+	}) => {
+		await page.setViewportSize(DESKTOP);
+		await page.goto("/pt");
+
+		const ids = [
+			"summary",
+			"experience",
+			"work",
+			"skills",
+			"education",
+			"contact",
+		];
+		const marks = ["01", "02", "03", "04", "05", "06"];
+
+		for (const [i, id] of ids.entries()) {
+			const span = page.locator(`#${id} p`).first().locator("span").first();
+			await expect(span).toHaveText(marks[i] as string);
+			expect(await span.evaluate((el) => getComputedStyle(el).color)).toBe(
+				ACCENT,
+			);
 		}
 	});
 });

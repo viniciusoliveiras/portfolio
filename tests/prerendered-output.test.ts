@@ -77,7 +77,8 @@ describe("the document itself", () => {
 
 		// TRAP 1. Next injected this automatically and Start does not. Without it every
 		// breakpoint resolves against a ~980px virtual viewport: phones get the desktop
-		// layout, the sheet never appears, the rail renders on a 390px screen.
+		// layout, the sheet never appears, and every `wide:` grid renders on a 390px
+		// screen.
 		it(`/${locale} declares the viewport`, () => {
 			assert.ok(
 				has(doc, 'name="viewport"') &&
@@ -106,8 +107,10 @@ describe("the document itself", () => {
 			const dark = tags.find((t) => t.includes("prefers-color-scheme: dark"));
 			assert.ok(light, "no light-scheme theme-color");
 			assert.ok(dark, "no dark-scheme theme-color");
-			assert.match(light, /content="#FAF9F7"/i);
-			assert.match(dark, /content="#1A1918"/i);
+			// ADR-0006's two `paper` values. Both changed with the palette; the
+			// assertions and the reason for them did not.
+			assert.match(light, /content="#F2EDE4"/i);
+			assert.match(dark, /content="#141312"/i);
 		});
 	}
 });
@@ -306,32 +309,69 @@ describe("content on first paint", () => {
 
 		it(`/${locale} renders the copy of every section, in the right locale`, () => {
 			const expected = [
-				m.hero.roleLine,
+				// Page chrome, all new under ADR-0006.
+				m.chrome.kind,
+				m.chrome.availability,
+				m.chrome.place,
+				m.chrome.builtWith,
+				// The hero's meta grid replaced the single `roleLine`. Each value is an
+				// array of lines, so both the labels and every line are asserted.
+				...Object.values(m.hero.meta).map((f) => f.label),
+				...Object.values(m.hero.meta).flatMap((f) => f.value),
 				m.hero.lede,
 				m.hero.actions.contact.label,
 				m.hero.actions.resume.label,
 				m.summary.lede,
 				...m.experience.groupNote.filter((s) => typeof s === "string"),
+				m.experience.now,
 				m.experience.roles.lead.period,
 				m.experience.roles.lead.title,
 				...m.experience.roles.lead.bullets,
 				...m.experience.roles.analyst.bullets,
 				...m.experience.roles.intern.bullets,
 				m.experience.minorRole.title,
+				m.work.erp.eyebrow,
 				m.work.erp.title,
 				m.work.erp.prose,
 				...Object.values(m.work.erp.figureLabels),
 				m.work.bpo.title,
 				m.work.bpo.prose,
 				m.work.bpo.lockup.label,
+				// The three chip role labels, and the mono footnote under them.
+				...Object.values(m.work.bpo.lockup.roles),
+				m.work.bpo.sameStack,
 				...Object.values(m.skills.rows).map((r) => r.label),
 				m.education.degree.title,
 				m.education.degree.institution,
+				m.education.certifications.label,
+				m.education.languages.label,
 				m.contact.statement,
-				...Object.values(m.contact.links).map((l) => l.label),
+				// THE EMAIL PILL RENDERS ITS `value`, NOT ITS `label` — it is the call to
+				// action, so the address is shown in full while the other three show a
+				// name. Asserting `label` for all four (as this test used to) fails on
+				// email, because "Email" appears nowhere in the output.
+				m.contact.links.email.value,
+				m.contact.links.linkedin.label,
+				m.contact.links.github.label,
+				m.contact.links.resume.label,
+				// Both nav vocabularies. `nav.anchors` feeds the bar, `nav.sections` feeds
+				// the section marks and the sheet, and the two diverge on `work` — which
+				// is the whole reason they are authored separately.
+				...Object.values(m.nav.anchors),
+				...Object.values(m.nav.sections),
 			];
 
-			const text = decode(doc);
+			/**
+			 * The `<em>` wrappers are stripped before matching, because `Emphasise` splits
+			 * the Summary lede and the Contact statement around one — so neither sentence
+			 * is CONTIGUOUS in the emitted HTML, and asserting the whole string against the
+			 * raw document fails on both. (It did, first run.)
+			 *
+			 * This is the "text as a reader receives it" view, which is what this test is
+			 * about. That the wrappers are genuinely present is asserted separately below,
+			 * so stripping them here cannot hide a missing italic.
+			 */
+			const text = decode(doc).replace(/<\/?em[^>]*>/gi, "");
 			for (const line of expected) {
 				assert.ok(
 					text.includes(line),
@@ -346,6 +386,43 @@ describe("content on first paint", () => {
 				!decode(doc).includes(messages[other].summary.lede),
 				`/${locale} leaked the ${other} summary`,
 			);
+		});
+
+		// The six numbered section marks. Written in `Portfolio.tsx` as ordinals over
+		// the section list rather than authored per locale, so `/pt` cannot ship an `04`
+		// where `/en` ships an `05` — this asserts all six reached both.
+		it(`/${locale} renders all six section marks, 01 through 06`, () => {
+			for (const mark of ["01", "02", "03", "04", "05", "06"]) {
+				assert.ok(
+					has(doc, `>${mark}</span>`),
+					`section mark ${mark} is missing from /${locale}`,
+				);
+			}
+		});
+
+		// `Emphasise` FAILS OPEN: a run that is not a substring of its sentence renders
+		// the sentence plain — correct text, missing italic, no error. That degrades
+		// invisibly, so it is asserted rather than trusted, in the copy AND in the
+		// output.
+		it(`/${locale} emphasis runs are substrings of their sentences`, () => {
+			assert.ok(
+				m.summary.lede.includes(m.summary.emphasis),
+				`summary.emphasis is not a substring of summary.lede in ${locale}`,
+			);
+			assert.ok(
+				m.contact.statement.includes(m.contact.emphasis),
+				`contact.emphasis is not a substring of contact.statement in ${locale}`,
+			);
+		});
+
+		it(`/${locale} actually wraps both emphasis runs in an <em>`, () => {
+			const text = decode(doc);
+			for (const run of [m.summary.emphasis, m.contact.emphasis]) {
+				assert.ok(
+					text.includes(`<em class="text-accent">${run}</em>`),
+					`emphasis run was not wrapped in /${locale}: ${JSON.stringify(run)}`,
+				);
+			}
 		});
 	}
 });
@@ -428,8 +505,17 @@ describe("zero third-party requests", () => {
 });
 
 describe("the assets the head promises", () => {
-	it("emits both preloaded font files, with crossorigin on each preload", () => {
-		for (const face of ["roman", "mono"]) {
+	// FOUR faces under ADR-0006, not two. `mono-2` rather than `mono` is deliberate:
+	// `/fonts/(.*)` is cached `immutable` for a year, and this file is a 400-500 range
+	// where the retired `mono.woff2` was a pinned static 500, so it had to take a new
+	// name. A test naming the old file would pass against a stale cached font.
+	it("emits all four preloaded font files, with crossorigin on each preload", () => {
+		for (const face of [
+			"instrument-roman",
+			"instrument-italic",
+			"hanken",
+			"mono-2",
+		]) {
 			const tag = new RegExp(
 				`<link[^>]*rel="preload"[^>]*/fonts/${face}\\.woff2[^>]*>`,
 				"i",
@@ -445,15 +531,31 @@ describe("the assets the head promises", () => {
 		}
 	});
 
+	// The two files the superseded direction shipped must NOT be in the output: leaving
+	// them there would serve 92.8 KB of Source Serif 4 and a pinned mono that nothing
+	// references, and would make the payload figure in ADR-0006 wrong.
+	it("no longer emits the superseded font files", () => {
+		for (const gone of ["roman.woff2", "mono.woff2"]) {
+			assert.throws(
+				() => readFileSync(`${OUT}/fonts/${gone}`),
+				`${gone} is still in the output — it belongs to the superseded direction`,
+			);
+		}
+	});
+
 	it("emits the favicon, unoptimised and with no fill-rule", () => {
 		const svg = read("favicon.svg");
-		// The V is three overlapping contours; under `evenodd` the overlaps punch out
-		// and 8.8% of the ink is lost, entirely on the serifs. Nothing must set it.
+		// ADR-0006's monogram is REAL INSTRUMENT SERIF OUTLINES, extracted from the
+		// shipped woff2 files — a roman `V`, an italic accent `O` and a period. Font
+		// outlines rely on NONZERO winding: the `O`'s counter is a second contour wound
+		// against the first, and its hole exists only because SVG's default fill rule is
+		// nonzero. Set `evenodd` anywhere and the counter fills solid. Nothing must set
+		// it, which is what this asserts — the same guard as before, for a new reason.
 		assert.ok(!svg.includes("fill-rule"), "the favicon gained a fill-rule");
 		assert.ok(!svg.includes("<style"), "the favicon gained CSS");
 		assert.equal(
 			Buffer.byteLength(svg),
-			332,
+			4704,
 			"the favicon changed size — it must never meet an SVG optimiser",
 		);
 	});
