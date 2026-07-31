@@ -8,9 +8,9 @@ import type { Messages } from "~/content/pt";
 // locale supplying fewer labels than there are figures. A missing `users` label in
 // English is TS2741 instead.
 const ERP_FIGURES = [
-	["modules", facts.erpModules],
-	["clients", facts.erpClients],
-	["users", facts.erpUsers],
+	{ key: "modules", value: facts.erpModules },
+	{ key: "clients", value: facts.erpClients },
+	{ key: "users", value: facts.erpUsers },
 ] as const;
 
 /**
@@ -23,9 +23,13 @@ const ERP_FIGURES = [
  * the one thing this card exists to say.
  */
 const BPO_CHIPS = [
-	["framework", terms.bpoArchitecture.framework, true],
-	["serverState", terms.bpoArchitecture.serverState, true],
-	["backend", terms.bpoArchitecture.backend, false],
+	{ key: "framework", value: terms.bpoArchitecture.framework, chosen: true },
+	{
+		key: "serverState",
+		value: terms.bpoArchitecture.serverState,
+		chosen: true,
+	},
+	{ key: "backend", value: terms.bpoArchitecture.backend, chosen: false },
 ] as const;
 
 /**
@@ -112,7 +116,7 @@ export function Work({ copy }: { copy: Messages["work"] }) {
 				stack={copy.erp.stack.join(" · ")}
 			>
 				<div className="grid grid-rows-3">
-					{ERP_FIGURES.map(([key, value], i) => (
+					{ERP_FIGURES.map(({ key, value }, i) => (
 						<div
 							key={key}
 							className={[
@@ -148,7 +152,7 @@ export function Work({ copy }: { copy: Messages["work"] }) {
 				stack={Object.values(terms.bpoArchitecture).join(" · ")}
 			>
 				<div className="flex flex-col justify-center gap-3.5 p-[clamp(22px,4vw,48px)]">
-					{BPO_CHIPS.map(([key, value, chosen]) => (
+					{BPO_CHIPS.map(({ key, value, chosen }) => (
 						<div
 							key={key}
 							className={[

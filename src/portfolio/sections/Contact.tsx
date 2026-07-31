@@ -4,18 +4,25 @@ import type { Messages } from "~/content/pt";
 import { Emphasise } from "../Emphasise";
 
 /**
- * The four links, in the design's order, with the email carrying the filled pill.
+ * The four links, in the design's order. A table rather than a map over `copy.links`,
+ * because the order is a design decision and object insertion order in a content module
+ * is not the place to record one — and because ONE of the four is different.
  *
- * `showValue` is why this is a table rather than a map over `copy.links`: the email pill
- * prints its VALUE (`vinitag190@gmail.com`) while the other three print their LABEL
- * (`LinkedIn`, not `github.com/viniciusoliveiras`). The email address is the call to
- * action, so it is shown in full; the others would only add URL noise.
+ * ONE FLAG, NOT TWO. The email is the CALL TO ACTION, and both of the things that set it
+ * apart follow from that single fact: it takes the filled pill, and it prints its VALUE
+ * (`vinitag190@gmail.com`) where the other three print their LABEL (`LinkedIn`, not
+ * `github.com/viniciusoliveiras`) — the address is what the reader is being asked to use,
+ * where the others would only add URL noise.
+ *
+ * An earlier form carried `solid` and `showValue` as two booleans, positional and
+ * unnamed at the call site, holding the same value in every row with nothing in the type
+ * or the comment saying they had to move together.
  */
 const LINKS = [
-	["email", true, true],
-	["linkedin", false, false],
-	["github", false, false],
-	["resume", false, false],
+	{ key: "email", primary: true },
+	{ key: "linkedin", primary: false },
+	{ key: "github", primary: false },
+	{ key: "resume", primary: false },
 ] as const;
 
 /**
@@ -51,16 +58,16 @@ export function Contact({
 			</p>
 
 			<div className="mt-10 flex flex-wrap gap-3">
-				{LINKS.map(([key, solid, showValue]) => (
+				{LINKS.map(({ key, primary }) => (
 					<a
 						key={key}
 						href={copy.links[key].href}
 						className={[
-							solid ? "pill-solid" : "pill",
+							primary ? "pill-solid" : "pill",
 							"px-[22px] py-3 font-mono text-pill no-underline",
 						].join(" ")}
 					>
-						{showValue ? copy.links[key].value : copy.links[key].label}{" "}
+						{primary ? copy.links[key].value : copy.links[key].label}{" "}
 						{/* Decorative: the link's destination is already in its href and its
 						    text, and a screen reader announcing "north east arrow" four times
 						    adds nothing. */}

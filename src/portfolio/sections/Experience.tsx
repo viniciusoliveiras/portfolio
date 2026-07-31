@@ -11,9 +11,9 @@ import type { Messages } from "~/content/pt";
  * role by coincidence of ordering.
  */
 const ROLES = [
-	["lead", facts.roleDecades.lead, true],
-	["analyst", facts.roleDecades.analyst, false],
-	["intern", facts.roleDecades.intern, false],
+	{ key: "lead", decade: facts.roleDecades.lead, current: true },
+	{ key: "analyst", decade: facts.roleDecades.analyst, current: false },
+	{ key: "intern", decade: facts.roleDecades.intern, current: false },
 ] as const;
 
 /**
@@ -32,7 +32,7 @@ const ROLES = [
 export function Experience({ copy }: { copy: Messages["experience"] }) {
 	return (
 		<div className="flex flex-col">
-			{ROLES.map(([key, decade, current]) => (
+			{ROLES.map(({ key, decade, current }) => (
 				<div key={key} className="mark-grid border-t border-rule py-9">
 					<div>
 						<div
